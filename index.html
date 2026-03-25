@@ -1233,6 +1233,75 @@
         .anim-card:hover .rec-dot { animation: recBlink 1.2s ease-in-out infinite; }
         .anim-card:hover .eff-graph-line { animation: graphDraw 1.8s cubic-bezier(0.4,0,0.2,1) forwards; stroke-dasharray: 400; stroke-dashoffset: 400; }
         .anim-card:hover .eff-graph-fill { animation: graphFill 2s ease forwards; }
+
+        /* ============================================================
+           MOBILE OPTIMIERUNGEN
+        ============================================================ */
+        @media (max-width: 768px) {
+            /* Hero Buttons: kleiner, volle Breite */
+            .hero-buttons { flex-direction: column; align-items: stretch; gap: 10px; }
+            .hero-buttons .btn { font-size: 15px; padding: 14px 20px; width: 100%; }
+
+            /* Dashboard Tabs: horizontal scrollbar */
+            .dash-tabs-outer { overflow-x: auto; flex-wrap: nowrap !important; justify-content: flex-start; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 6px; gap: 24px !important; }
+            .dash-tabs-outer::-webkit-scrollbar { display: none; }
+            .dash-tabs-outer span { white-space: nowrap; font-size: 13px; }
+
+            /* Dashboard Mockup Wrapper kein Overflow */
+            .dashboard-mockup-wrapper { border-radius: 12px; }
+            .mock-dashboard { border-radius: 10px; }
+
+            /* Step Titel: kein Overflow */
+            .step-title { font-size: 20px !important; overflow-wrap: break-word; word-break: break-word; }
+            .step-right { max-width: 100%; overflow: hidden; }
+
+            /* Step Mockup Bilder: volle Breite */
+            .step-mockup { max-width: 100%; overflow: hidden; border-radius: 12px; }
+            .step-mockup img { width: 100% !important; height: auto !important; }
+
+            /* Feature Cards kleiner */
+            .anim-visual { height: 220px !important; }
+            .anim-text h3 { font-size: 17px; }
+            .features-animated-section { padding: 60px 16px !important; }
+            .features-animated-header h2 { font-size: 28px !important; }
+            .features-animated-header p { font-size: 15px !important; }
+
+            /* McKinsey Zitat */
+            #syncScrollText { font-size: clamp(18px, 5vw, 26px) !important; line-height: 1.35; }
+
+            /* Card 6 Voice: Wave immer animieren auf Mobile */
+            .wave-bar-a { animation: waveBar1 0.9s ease-in-out infinite !important; }
+            .wave-bar-b { animation: waveBar2 0.9s ease-in-out infinite !important; }
+            .wave-bar-c { animation: waveBar3 0.9s ease-in-out infinite !important; }
+            .rec-dot { animation: recBlink 1.2s ease-in-out infinite !important; }
+
+            /* Card 1: Hover-State immer sichtbar */
+            .vis-1-hover { opacity: 1 !important; transform: translateY(0) scale(1) !important; pointer-events: auto !important; }
+            .vis-1-default { opacity: 0 !important; }
+
+            /* Card 4: Hover immer sichtbar (counter wird per JS getriggert) */
+            .vis-4-hover { opacity: 1 !important; transform: translateY(0) scale(1) !important; pointer-events: auto !important; }
+            .vis-4-default { opacity: 0 !important; }
+
+            /* Card 3 DSGVO: Hover-State immer sichtbar */
+            .vis-3 .vis-hover { opacity: 1 !important; }
+            .vis-3 .vis-default { opacity: 0 !important; }
+
+            /* Card 6 Speed: Fast-Steps immer sichtbar */
+            .vis-2 .vis-hover { opacity: 1 !important; }
+            .vis-2 .vis-default { opacity: 0 !important; }
+
+            /* Footer */
+            .footer-legal { gap: 12px; flex-wrap: wrap; }
+            .site-footer { padding: 50px 16px 24px; }
+            .pre-footer { padding: 40px 16px 60px; }
+
+            /* FAQ */
+            .faq-section { padding: 50px 16px; }
+
+            /* How-Bereich */
+            .how-inner { padding: 0 16px; }
+        }
     </style>
 </head>
 <body>
@@ -1665,8 +1734,18 @@
             timers = [];
             items.forEach(function(item){ item.classList.remove('checked'); });
         }
-        card3.addEventListener('mouseenter', runChecks);
-        card3.addEventListener('mouseleave', resetChecks);
+        var isMobile3 = window.matchMedia('(max-width: 768px)').matches || ('ontouchstart' in window);
+        if(isMobile3) {
+            var obs3 = new IntersectionObserver(function(entries) {
+                entries.forEach(function(e) {
+                    if(e.isIntersecting) { runChecks(); obs3.disconnect(); }
+                });
+            }, { threshold: 0.4 });
+            obs3.observe(card3);
+        } else {
+            card3.addEventListener('mouseenter', runChecks);
+            card3.addEventListener('mouseleave', resetChecks);
+        }
     })();
     (function(){
         var el = document.getElementById('c4-dots');
@@ -1711,9 +1790,20 @@
             if(counter) counter.textContent = '0';
         }
 
-        if(card) {
-            card.addEventListener('mouseenter', runAnim);
-            card.addEventListener('mouseleave', resetAnim);
+        var isMobile = window.matchMedia('(max-width: 768px)').matches || ('ontouchstart' in window);
+        if(isMobile) {
+            // Auf Mobile: Animation beim Scroll ins Bild
+            var obs = new IntersectionObserver(function(entries) {
+                entries.forEach(function(e) {
+                    if(e.isIntersecting) { runAnim(); obs.disconnect(); }
+                });
+            }, { threshold: 0.4 });
+            if(card) obs.observe(card);
+        } else {
+            if(card) {
+                card.addEventListener('mouseenter', runAnim);
+                card.addEventListener('mouseleave', resetAnim);
+            }
         }
     })();
     </script>
