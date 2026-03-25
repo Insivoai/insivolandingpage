@@ -1,0 +1,2328 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insivo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FFFFFF;
+            --text-dark: #1D1D1F;
+            --text-gray: #86868B;
+            --accent: #5551FF; /* Updated to a purplish blue from the screenshot */
+            --accent-green: #34C759;
+            --accent-red: #FF3B30;
+            --accent-orange: #FF9500;
+            --bg-soft: #F5F5F7;
+            --border-color: #E8E8ED;
+            font-family: 'Inter', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 48px;
+            max-width: 100%;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            background: transparent;
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            transition: max-width 0.3s ease, padding 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, border-radius 0.3s ease, top 0.3s ease;
+        }
+        .navbar.scrolled {
+            max-width: 1000px;
+            box-sizing: border-box;
+            top: 24px;
+            border-radius: 60px;
+            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+            padding: 12px 32px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(12px);
+        }
+        .nav-logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: #000000;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            letter-spacing: -0.04em;
+            flex: 1;
+        }
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+            flex: 2;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-gray);
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+            padding: 8px 16px;
+            border-radius: 20px;
+            position: relative;
+        }
+        .nav-links a:hover {
+            color: var(--text-dark);
+            background: rgba(0,0,0,0.03);
+        }
+        .nav-links a.active {
+            color: var(--text-dark);
+            background: rgba(0,0,0,0.06);
+        }
+        .nav-right {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            justify-content: flex-end;
+            flex: 1;
+        }
+        .nav-right > a.text-link {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-gray);
+            text-decoration: none;
+            margin-right: 8px;
+            transition: color 0.2s;
+        }
+        .nav-right > a.text-link:hover {
+            color: var(--text-dark);
+        }
+        .btn {
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        .btn-outline {
+            background: rgba(26,27,31,0.05); /* very soft grey background */
+            color: var(--text-dark);
+            border: 1px solid rgba(0,0,0,0.2);
+            font-weight: 600;
+        }
+        .btn-outline:hover {
+            background: rgba(26,27,31,0.08); /* slightly darker grey */
+            border-color: rgba(0,0,0,0.4);
+        }
+        .btn-solid {
+            background: #192732; /* dark slate from screenshot */
+            color: #FFFFFF;
+        }
+        .btn-solid:hover {
+            background: #111a22;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 160px 20px 40px;
+            max-width: 100%; /* Changed from 1200px to avoid visual centering issues */
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 75vh;
+        }
+        .top-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-soft);
+            padding: 8px 16px;
+            border-radius: 9999px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 40px;
+        }
+        .hero-title {
+            font-size: 76px;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: var(--text-dark);
+        }
+        .hero-subtitle {
+            font-size: 19px;
+            color: var(--text-gray);
+            margin: 0 auto 56px;
+            max-width: 1000px;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .hero-buttons .btn {
+            padding: 16px 40px; /* Made button slightly larger for better visual weight */
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Dashboard Wrapper overlaying */
+        .dashboard-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            padding: 0 20px;
+        }
+        .dash-tabs-outer {
+            display: flex;
+            justify-content: center;
+            gap: 48px; /* Slightly more gap for better balance */
+            margin-top: 48px;
+            margin-bottom: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+            width: auto;
+            max-width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+        .dash-tabs-outer span {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-gray);
+            cursor: pointer;
+            position: relative;
+        }
+        .dash-tabs-outer span.active {
+            color: var(--text-dark);
+        }
+        .dash-tabs-outer span.active::after {
+            content: '';
+            position: absolute;
+            bottom: -17px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--text-dark);
+        }
+
+        /* Complex Dashboard UI */
+        .dashboard-mockup-wrapper {
+            position: relative;
+            /* Any max-width/margin/animation could go here if they existed */
+        }
+
+        .dashboard-mockup-wrapper::after {
+            content: '';
+            position: absolute;
+            height: 320px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 40%, #FFFFFF 75%, #FFFFFF 100%);
+            bottom: -40px;
+            left: -20px;
+            right: -20px;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .mock-dashboard {
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.10), 0 4px 16px rgba(0,0,0,0.05);
+            width: 100%;
+            margin: 0 auto;
+            pointer-events: none;
+            user-select: none;
+            position: relative;
+        }
+        .mock-dashboard::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 8px;
+            background: #ffffff;
+            z-index: 5;
+            border-radius: 16px 16px 0 0;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: #FAFAFC;
+            border-right: 1px solid var(--border-color);
+            padding: 24px 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .sb-logo-area {
+            padding: 0 24px 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 16px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 24px;
+        }
+        .sb-logo-area .sb-icon { width: 16px; height: 16px; background: var(--accent); border-radius: 4px; }
+        .sb-section-title {
+            font-size: 11px; font-weight: 700; color: var(--text-gray); text-transform: uppercase;
+            letter-spacing: 0.05em; padding: 0 24px; margin-bottom: 12px;
+        }
+        .sb-item {
+            padding: 8px 24px; font-size: 14px; font-weight: 500; color: var(--text-gray);
+            display: flex; align-items: center; gap: 12px; cursor: pointer;
+        }
+        .sb-item.active {
+            color: var(--accent); background: rgba(85, 81, 255, 0.05); border-left: 3px solid var(--accent);
+            padding-left: 21px;
+        }
+        .sb-item::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+        /* Main Dashboard Area */
+        .main-dash {
+            flex-grow: 1;
+            background: #F8F9FA;
+            display: flex;
+            flex-direction: column;
+        }
+        .dash-header {
+            padding: 20px 32px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #FFFFFF;
+        }
+        .dash-header-title { font-size: 14px; font-weight: 500; color: var(--text-gray); }
+        .dash-header-actions { display: flex; gap: 8px; }
+        .d-btn { padding: 6px 12px; font-size: 12px; font-weight: 600; border-radius: 6px; }
+        .d-btn-green { background: #E8F8F0; color: #1E8E3E; }
+        .d-btn-purple { background: #F0EDFF; color: #5551FF; }
+        .d-btn-outline { border: 1px solid var(--border-color); color: var(--text-dark); background: #FFF; }
+        .d-btn-primary { background: var(--accent); color: #FFF; }
+
+        .dash-content {
+            display: block;
+            width: 100%;
+            height: auto;
+            filter: contrast(1.05) brightness(1.01);
+        }
+        .dash-title { font-size: 24px; font-weight: 600; margin-bottom: 4px; }
+        .dash-subtitle { font-size: 13px; color: var(--text-gray); margin-bottom: 24px; }
+        
+        .d-tabs { display: flex; gap: 24px; margin-bottom: 24px; }
+        .d-tab { font-size: 14px; font-weight: 500; color: var(--text-gray); cursor: pointer; padding: 6px 12px; border-radius: 6px; }
+        .d-tab.active { background: #FFFFFF; color: var(--text-dark); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+        .d-stats-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px;
+        }
+        .d-stat-card {
+            background: #FFFFFF; border: 1px solid var(--border-color); border-radius: 12px; padding: 16px;
+        }
+        .d-stat-val { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+        .d-stat-label { font-size: 12px; color: var(--text-gray); font-weight: 500;}
+        .d-stat-sub { font-size: 11px; margin-top: 4px; font-weight: 600; }
+        .color-green { color: var(--accent-green); }
+        .color-red { color: var(--accent-red); }
+        .color-dark { color: var(--text-dark); }
+        .color-orange { color: var(--accent-orange); }
+
+        .d-two-col {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+        }
+        .d-box { background: #FFFFFF; border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; display: flex; flex-direction: column; }
+        .d-box-title { font-size: 16px; font-weight: 600; }
+        .d-box-desc { font-size: 12px; color: var(--text-gray); margin-bottom: 20px; }
+        
+        /* Findings List */
+        .finding-item { display: flex; gap: 16px; margin-bottom: 24px; }
+        .finding-num { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+        .finding-num.red { background: #FFEBE9; color: var(--accent-red); }
+        .finding-num.yellow { background: #FFF4E5; color: var(--accent-orange); }
+        .finding-content h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+        .finding-content p { font-size: 12px; color: var(--text-gray); margin-bottom: 6px; }
+        .finding-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; }
+        .finding-tag.bg-red { background: #FFEBE9; color: var(--accent-red); }
+        .finding-tag.bg-yellow { background: #FFF4E5; color: var(--accent-orange); }
+
+        /* Donut Chart Mock */
+        .donut-container { display: flex; justify-content: center; align-items: center; margin: 24px 0; }
+        .donut-chart {
+            width: 160px; height: 160px; border-radius: 50%;
+            background: conic-gradient(var(--accent-red) 0% 34%, var(--accent-orange) 34% 75%, var(--accent-green) 75% 100%);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .donut-inner { width: 100px; height: 100px; background: #FFFFFF; border-radius: 50%; }
+        .legend { display: flex; justify-content: center; gap: 16px; font-size: 12px; color: var(--text-gray); margin-bottom: 24px; }
+        .legend span::before { content: ''; display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 2px; }
+        .legend .l-red::before { background: var(--accent-red); }
+        .legend .l-orange::before { background: var(--accent-orange); }
+        .legend .l-green::before { background: var(--accent-green); }
+
+        .positive-signal { background: #F0FFF4; border: 1px solid #C6F6D5; border-radius: 8px; padding: 16px; }
+        .positive-signal h5 { font-size: 12px; color: #22543D; margin-bottom: 4px; }
+        .positive-signal p { font-size: 12px; color: #276749; }
+
+        /* KI Input */
+        .ki-section { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border-color); }
+        .ki-title { font-size: 12px; font-weight: 600; color: var(--accent); display: flex; align-items: center; gap: 4px; margin-bottom: 8px; }
+        .ki-chips { display: flex; gap: 8px; margin-bottom: 12px; }
+        .ki-chip { padding: 4px 12px; border: 1px solid var(--border-color); border-radius: 9999px; font-size: 11px; color: var(--text-gray); background: #FFFFFF; }
+        .ki-input-box { display: flex; gap: 8px; }
+        .ki-input { flex-grow: 1; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 16px; font-size: 13px; outline: none; }
+        .ki-btn { background: var(--accent); color: white; border: none; border-radius: 8px; padding: 0 16px; font-size: 13px; font-weight: 600; cursor: pointer; }
+
+        /* Trusted Section */
+        .trusted-section { text-align: center; padding: 120px 20px 60px; }
+        .trusted-text { font-size: 24px; font-weight: 600; color: var(--text-gray); }
+        .trusted-text span { color: var(--text-dark); display: block; }
+        .logos { display: flex; justify-content: center; gap: 48px; margin-top: 40px; opacity: 0.6; filter: grayscale(100%); }
+        .logo-placeholder { font-size: 20px; font-weight: 700; color: var(--text-gray); }
+
+        /* Problem Section */
+        .problem-section { text-align: center; padding: 80px 20px; }
+        .problem-title { font-size: 40px; font-weight: 700; line-height: 1.2; margin-bottom: 16px; }
+        .problem-sub { font-size: 18px; color: var(--text-gray); }
+
+        /* How it Works — New Layout */
+        .how-section {
+            background: #ffffff;
+            padding: 100px 0;
+        }
+        .how-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 60px;
+        }
+        .how-title {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-align: center;
+            color: var(--text-dark);
+            letter-spacing: -0.03em;
+        }
+        .how-subtitle {
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 18px;
+            margin-bottom: 80px;
+            margin-top: -10px;
+        }
+
+        /* Steps container with the single continuous line */
+        .steps-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        /* The grey background line */
+        .steps-container::before {
+            content: '';
+            position: absolute;
+            left: 120px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e0e0f0;
+            z-index: 0;
+        }
+        /* The animated fill line (real element) */
+        .steps-line-fill {
+            position: absolute;
+            left: 120px;
+            top: 0;
+            width: 2px;
+            height: 0%;
+            background: #3b82f6; /* More distinct blue to match typical design expectations */
+            z-index: 1;
+            transition: height 0.05s linear;
+        }
+
+        /* Individual step row */
+        .step-row {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 60px;
+            padding: 60px 0;
+            position: relative;
+        }
+
+        /* Left column */
+        .step-left {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-left: 0;
+            height: 100%; /* Ensure the container spans the full grid row height */
+        }
+        /* Dot on the line */
+        .step-dot {
+            position: absolute;
+            left: calc(120px - 14px); /* centered on 2px line, dot width 28px */
+            top: -9px;
+            width: 28px;
+            height: 28px;
+            background: #e6e6e6;
+            border: 4px solid #f2f2f2;
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        /* Small step label below the dot */
+        .step-label {
+            position: sticky;
+            top: 100px; /* Adjust this to control where the label "sticks" vertically */
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+            padding-left: 136px;
+            z-index: 3;
+        }
+
+        /* Right column */
+        .step-right {
+            display: flex;
+            flex-direction: column;
+        }
+        .step-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: #000000;
+            margin: 0 0 16px 0;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+        .step-desc {
+            font-size: 15px;
+            color: #555555;
+            line-height: 1.6;
+            max-width: 640px;
+            margin: 0 0 28px 0;
+        }
+        /* Mockup container */
+        .step-mockup {
+            background: transparent;
+            border-radius: 16px;
+            overflow: hidden;
+            padding: 0;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 20px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.10), 0 4px 16px rgba(0,0,0,0.05);
+        }
+        .step-mockup::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 8px;
+            background: #ffffff;
+            z-index: 5;
+            border-radius: 16px 16px 0 0;
+        }
+        .step-mockup.with-fade::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), #ffffff);
+            pointer-events: none;
+            z-index: 10;
+            border-radius: 0 0 16px 16px;
+        }
+        .step-mockup img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            border-radius: 16px;
+            filter: contrast(1.05) brightness(1.01);
+        }
+
+        @keyframes float-mockup {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Scroll Text Section */
+        .scroll-text-section { padding: 80px 20px; text-align: center; background: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .scroll-text-container { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
+        #syncScrollText { 
+            font-size: clamp(24px, 3.5vw, 42px); 
+            font-style: italic;
+            font-weight: 800; 
+            line-height: 1.3; 
+            letter-spacing: -0.01em; 
+            margin: 0; 
+            color: #d1d1d6;
+            display: inline-block;
+            text-align: center;
+        }
+        .word {
+            display: inline-block;
+        }
+        .reveal-char {
+            color: #d1d1d6;
+            transition: color 0.1s ease;
+        }
+        .scroll-author {
+            margin-top: 16px;
+            font-size: 18px;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+        .scroll-btn-wrapper {
+            margin-top: 72px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+        /* Make button bigger */
+        .scroll-btn-wrapper .btn {
+            padding: 16px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            min-height: auto;
+        }
+
+        /* Savings Section Redesign */
+        .savings-section { padding: 120px 20px; text-align: center; position: relative; }
+        /* Optional subtle background pattern mimicking the screenshot */
+        .savings-section::before {
+            content: ''; position: absolute; inset: 0; z-index: -1;
+            background-image: radial-gradient(#e3e2e7 1px, transparent 1px);
+            background-size: 20px 20px; opacity: 0.5;
+        }
+        .savings-container { 
+            max-width: 1200px; margin: 0 auto; 
+            padding: 20px;
+        }
+        .savings-pill {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            border: 1px solid #e3e2e7; border-radius: 40px; padding: 6px 16px;
+            font-size: 13px; font-weight: 500; color: var(--text-gray);
+            margin-bottom: 24px;
+        }
+        .savings-pill svg { width: 14px; height: 14px; stroke: var(--text-gray); }
+        .savings-title { font-size: 44px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px; letter-spacing: -0.04em; }
+        .savings-subtitle { font-size: 18px; color: var(--text-gray); margin-bottom: 64px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+        
+        .savings-grid { 
+            display: grid; grid-template-columns: repeat(3, 1fr); 
+            text-align: left; background: transparent;
+            border-top: 1px solid #e3e2e7;
+        }
+        
+        /* Blur un-hovered cards */
+        .savings-grid:has(.savings-card:hover) .savings-card:not(:hover) {
+            filter: blur(0.8px) opacity(0.85);
+        }
+
+        .savings-card { 
+            padding: 48px; background: transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .savings-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            background: #ffffff;
+            box-shadow: 0 16px 32px rgba(26,27,31,0.06);
+            border-radius: 24px;
+            z-index: 10;
+            border-color: transparent !important;
+        }
+
+        /* Grid internal borders 
+           using nth-child logic to build the exact grid from the image */
+        .savings-grid > .savings-card:nth-child(1),
+        .savings-grid > .savings-card:nth-child(2),
+        .savings-grid > .savings-card:nth-child(3) { border-bottom: 1px solid #e3e2e7; }
+        
+        .savings-grid > .savings-card:nth-child(1),
+        .savings-grid > .savings-card:nth-child(2),
+        .savings-grid > .savings-card:nth-child(4),
+        .savings-grid > .savings-card:nth-child(5) { border-right: 1px solid #e3e2e7; }
+
+        .savings-icon-wrapper { 
+            width: 24px; height: 24px; display: flex; align-items: center; justify-content: flex-start; margin-bottom: 16px; 
+        }
+        .savings-icon-wrapper svg { width: 20px; height: 20px; stroke: var(--text-dark); stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        .savings-card-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--text-dark); }
+        .savings-card-desc { font-size: 14px; color: var(--text-gray); line-height: 1.5; }
+
+        /* FAQ Section */
+        .faq-section { padding: 60px 20px 80px; background-color: var(--surface); text-align: center; }
+        .faq-container { max-width: 800px; margin: 0 auto; text-align: left; }
+        .faq-title { font-size: 40px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px; letter-spacing: -0.03em; text-align: center; }
+        .faq-subtitle { font-size: 18px; color: var(--text-gray); margin-bottom: 64px; text-align: center; }
+        .faq-list { display: flex; flex-direction: column; gap: 12px; }
+        .faq-item { background: #ffffff; border: 1px solid #e3e2e7; border-radius: 12px; padding: 24px 32px; display: flex; flex-direction: column; cursor: pointer; transition: all 0.2s ease; overflow: hidden; }
+        .faq-item:hover { box-shadow: 0 4px 12px rgba(26, 27, 31, 0.04); }
+        .faq-header { display: flex; align-items: center; justify-content: space-between; }
+        .faq-question { font-size: 16px; font-weight: 600; color: var(--text-dark); margin: 0; }
+        .faq-icon { width: 20px; height: 20px; stroke: var(--text-gray); transition: transform 0.3s ease; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        .faq-item.open .faq-icon { transform: rotate(180deg); }
+        .faq-answer { max-height: 0; opacity: 0; transition: all 0.3s ease; font-size: 15px; color: var(--text-gray); line-height: 1.6; margin-top: 0; }
+        .faq-item.open .faq-answer { max-height: 600px; opacity: 1; margin-top: 16px; }
+
+        /* Pre Footer CTA */
+        .pre-footer {
+            padding: 40px 20px 120px;
+            background-color: var(--surface);
+            text-align: center;
+        }
+        .pre-footer-btn {
+            background-color: #0f1115;
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-flex;
+            transition: opacity 0.2s;
+        }
+        .pre-footer-btn:hover { opacity: 0.9; }
+
+        /* Footer */
+        .site-footer {
+            background-color: #0f1115;
+            color: #8c8f96;
+            padding: 60px 20px 30px;
+            font-size: 14px;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        .footer-col {
+            flex: 1;
+            min-width: 200px;
+        }
+        .footer-heading {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+        .footer-text {
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+        .footer-subscribe {
+            display: flex;
+            align-items: center;
+            background: #1a1b20;
+            border-radius: 8px;
+            padding: 6px;
+            border: 1px solid #282a30;
+        }
+        .footer-subscribe input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            padding: 10px 14px;
+            width: 100%;
+            outline: none;
+            font-family: inherit;
+        }
+        .footer-subscribe input::placeholder { color: #5a5d66; }
+        .footer-subscribe button {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            color: #8c8f96;
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
+        }
+        .footer-subscribe button:hover { color: #fff; }
+        .footer-subscribe svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        
+        .footer-link {
+            display: block;
+            color: #8c8f96;
+            text-decoration: none;
+            margin-bottom: 12px;
+            transition: color 0.2s;
+        }
+        .footer-link:hover { color: #ffffff; }
+
+        .footer-socials {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .footer-socials a {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: #1a1b20;
+            display: flex; align-items: center; justify-content: center;
+            color: #8c8f96; border: 1px solid #282a30;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        .footer-socials a:hover { color: #ffffff; border-color: #ffffff; }
+        .footer-socials svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 32px;
+            border-top: 1px solid #282a30;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .footer-legal {
+            display: flex;
+            gap: 24px;
+        }
+        .footer-legal a {
+            color: #8c8f96;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-legal a:hover { color: #ffffff; }
+
+        @media (max-width: 900px) {
+            .savings-grid { grid-template-columns: 1fr; border-top: none; }
+            .savings-grid > .savings-card { border-right: none !important; border-bottom: 1px solid #e3e2e7; }
+            .savings-grid > .savings-card:last-child { border-bottom: none; }
+            .faq-item { padding: 20px 24px; }
+        }
+
+        @media (max-width: 768px) {
+            /* Layout & Spacing */
+            .hero { padding: 120px 20px 40px; }
+            .how-section { padding: 60px 0; }
+            .features-animated-section { padding: 60px 20px; }
+            .faq-section { padding: 60px 20px; }
+            .pre-footer { padding: 40px 20px 60px; }
+            .benefits-section-new { padding: 60px 20px; }
+            
+            /* Typography */
+            .hero-title { font-size: clamp(32px, 8vw, 44px); margin-bottom: 32px; }
+            .hero-subtitle { font-size: 16px; margin-bottom: 32px; }
+            .how-title, .faq-title { font-size: 32px; }
+            .how-subtitle, .faq-subtitle { font-size: 16px; margin-bottom: 40px; }
+            .t-step { font-size: 32px; margin-top: 0; }
+            
+            /* Navigation */
+            .mobile-menu-header { display: flex !important; width: 100%; justify-content: space-between; align-items: center; }
+            .mobile-menu-btn { display: flex !important; align-items: center; justify-content: center; width: 44px; height: 44px; background: transparent; border: none; cursor: pointer; color: var(--text-dark); margin-left: auto; }
+            .nav-links, .nav-right { display: none; width: 100%; text-align: left; }
+            .nav-links { flex-direction: column; padding: 20px 0 10px; border-top: 1px solid var(--border-color); margin-top: 10px; }
+            .nav-right { padding-bottom: 20px; justify-content: flex-start; }
+            .navbar.nav-open { flex-direction: column; align-items: flex-start; background: #fff; bottom: auto; padding-bottom: 0; }
+            .navbar.nav-open .nav-links { display: flex; }
+            .navbar.nav-open .nav-right { display: flex; }
+            .nav-logo { flex: unset; }
+            .nav-links a { padding: 12px 16px; min-height: 44px; display: flex; align-items: center; }
+            .nav-link { font-size: 16px; }
+
+            /* Tap Targets */
+            .btn, .footer-link, .faq-header { min-height: 44px; display: flex; align-items: center; justify-content: flex-start; }
+            .btn { justify-content: center; }
+            
+            /* Components */
+            .dash-tabs-outer { flex-wrap: wrap; gap: 20px; }
+            .d-stats-grid, .d-two-col { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+            
+            /* How It Works Stack */
+            .step-row { grid-template-columns: 1fr; gap: 24px; padding: 40px 0; }
+            .steps-container::before, .steps-line-fill { display: none; }
+            .step-left { display: none; }
+            .step-right { padding-left: 0; }
+            .step-title { display: flex; align-items: flex-start; gap: 16px; font-size: 24px; }
+            .step-title::before { content: attr(data-step); display: flex; align-items: center; justify-content: center; min-width: 32px; width: 32px; height: 32px; background: #e6e6e6; border-radius: 50%; font-size: 14px; color: #000; font-weight: 700; margin-top: 2px; }
+            
+            /* Animated Features Grid */
+            .animated-cards-grid { grid-template-columns: 1fr; gap: 32px; }
+            .anim-visual { height: 260px; }
+            
+            /* Footer */
+            .footer-grid { flex-direction: column; gap: 40px; }
+            .footer-bottom { flex-direction: column; align-items: flex-start; }
+            .footer-col { flex: none; width: 100%; }
+            .footer-subscribe input, .footer-subscribe button { min-height: 44px; }
+            
+            /* Disabled Hover Arrays (Always Show Content) */
+            .vis-1-hover { opacity: 1 !important; transform: translateY(0) scale(1) !important; pointer-events: auto !important; }
+            .vis-1-default { opacity: 0 !important; }
+            .c2-n1 { transform: translateY(0); }
+            .c2-n2 { opacity: 1; transform: translateY(80px) scale(1); }
+            .c2-n3 { opacity: 1; transform: translateY(134px) scale(1); }
+            .c2-grid { opacity: 0.1; }
+            .c3-folder { opacity: 0 !important; }
+            .c3-f-label { opacity: 0 !important; }
+            .c3-w-header { color: var(--text-dark) !important; }
+            .c3-t-card { opacity: 1 !important; transform: translate(0, 0) scale(1) !important; position: relative !important; top: auto !important; left: auto !important; width: 100% !important; margin-bottom: 8px; }
+            .c3-tasks-grid { top: auto; position: static; display: flex; flex-direction: column; }
+        }
+
+        /* Zielgruppen Section Redesign */
+        .benefits-section-new { max-width: 1000px; margin: 0 auto; padding: 60px 20px 80px; }
+        .b-headline { text-align: center; margin-bottom: 40px; }
+        .b-headline h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; color: var(--text-dark); margin: 0; }
+
+        .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .benefit-card {
+            background: #ffffff; padding: 32px; border: 1px solid rgba(0,0,0,0.07); border-radius: 20px;
+            display: flex; flex-direction: column;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 0 0 0 rgba(93,95,239,0);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            cursor: default;
+        }
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.08), 0 0 0 1.5px rgba(93,95,239,0.15);
+            border-color: rgba(93,95,239,0.2);
+        }
+        .benefit-icon-wrap {
+            width: 48px; height: 48px; border-radius: 14px; background: #f0f0fe;
+            display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+            transition: background 0.25s ease;
+        }
+        .benefit-card:hover .benefit-icon-wrap { background: #e4e4fd; }
+        .benefit-card h3 { font-size: 18px; font-weight: 700; margin: 0; color: var(--text-dark); letter-spacing: -0.02em; line-height: 1.4; }
+        .benefit-card p { font-size: 14px; color: var(--text-gray); line-height: 1.6; margin: 10px 0 0; }
+        .benefit-label { font-size: 12px; font-weight: 600; color: var(--accent); margin-bottom: 10px; letter-spacing: 0.04em; text-transform: uppercase; }
+
+        @media (max-width: 900px) {
+            .benefits-grid { grid-template-columns: 1fr; gap: 16px; }
+        }
+
+        /* Animated Features Section */
+        #features-animated { background: transparent; }
+        .features-animated-section { max-width: 1100px; margin: 0 auto; padding: 120px 20px; text-align: center; }
+        .features-animated-header { margin-bottom: 60px; }
+        .features-animated-pill { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #d1d1d6; border-radius: 999px; padding: 8px 18px; font-size: 14px; font-weight: 500; color: var(--text-gray); background: transparent; margin-bottom: 32px; }
+        .features-animated-header h2 { font-size: clamp(32px, 4vw, 56px); font-weight: 800; margin-bottom: 16px; letter-spacing:-0.03em;}
+        .features-animated-header p { font-size: 18px; color: var(--text-gray); max-width: 540px; margin: 0 auto; line-height: 1.5;}
+        .animated-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; text-align: left; }
+        .anim-card { background: #FFFFFF; border-radius: 24px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 24px; transition: transform 0.3s ease; cursor: pointer; font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+        .anim-card:hover { transform: translateY(-4px); }
+        .anim-visual { height: 340px; border-radius: 16px; background: #ffffff; position: relative; overflow: hidden; }
+        .anim-visual-overlay { display: none; }
+        .anim-text { padding: 0 8px 16px; }
+        .anim-text h3 { font-size: 20px; font-weight: 700; margin: 0 0 8px; color: var(--text-dark); letter-spacing: -0.02em;}
+        .anim-text p { font-size: 14px; color: var(--text-gray); margin: 0; line-height: 1.5; }
+
+        /* Card 1 */
+        .anim-visual.vis-1 { background: #f7fbff; }
+        .vis-1-default, .vis-1-hover { position: absolute; inset: 0; transition: all 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+        .vis-1-default { z-index: 2; padding: 24px 24px 20px; opacity: 1; transform: translateY(0) scale(1); display: flex; flex-direction: column; }
+        .vis-1-hover { z-index: 3; opacity: 0; transform: translateY(28px) scale(0.97); pointer-events: none; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 28px; }
+        .anim-card:hover .vis-1-default { opacity: 0; transform: translateY(-28px) scale(0.97); }
+        .anim-card:hover .vis-1-hover { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+        .c1-header { margin-bottom: 4px; }
+        .c1-title { font-size: 13px; font-weight: 600; color: var(--text-dark); line-height: 1.2; }
+        .c1-sub { font-size: 11px; color: var(--text-gray); margin-top: 2px; }
+        .c1-chart-wrap { flex: 1; display: flex; flex-direction: column; padding-top: 36px; }
+        .c1-chart { flex: 1; display: flex; align-items: flex-end; gap: 28px; padding: 0 20px; position: relative; }
+        .c1-baseline { height: 1.5px; background: #d1d5db; margin: 0 20px; }
+        .c1-bar-col { display: flex; flex-direction: column; align-items: center; flex: 1; }
+        .c1-bar { width: 48px; border-radius: 8px 8px 0 0; position: relative; }
+        .c1-bar-tag { position: absolute; top: -24px; left: 50%; transform: translateX(-50%); font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 5px; white-space: nowrap; }
+        .c1-labels-row { display: flex; gap: 28px; padding: 8px 20px 0; }
+        .c1-bar-name { flex: 1; font-size: 11px; color: var(--text-gray); text-align: center; line-height: 1.4; }
+        .c1-h-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #aaa; margin-bottom: 10px; }
+        .c1-h-headline { font-size: 22px; font-weight: 700; color: var(--text-dark); text-align: center; line-height: 1.25; margin-bottom: 6px; letter-spacing: -0.02em; }
+        .c1-h-sub { font-size: 13px; color: var(--text-gray); text-align: center; margin-bottom: 28px; }
+        .c1-h-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-bottom: 24px; }
+        .c1-h-stat { background: #f8f8fb; border: 1px solid #ebebf0; border-radius: 12px; padding: 14px 12px; display: flex; flex-direction: column; gap: 4px; }
+        .c1-h-stat-val { font-size: 26px; font-weight: 700; line-height: 1; }
+        .c1-h-stat-label { font-size: 11px; color: var(--text-gray); line-height: 1.4; }
+        .c1-h-bar-wrap { width: 100%; }
+        .c1-h-bar-row { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 7px; }
+        .c1-h-bar-bg { height: 6px; background: #f0f0f5; border-radius: 3px; overflow: hidden; }
+        .c1-h-bar-fill { height: 6px; border-radius: 3px; background: linear-gradient(90deg, #5551FF, #4547d0); width: 0; }
+        .c1-bar { width: 24px; background: #E5E5EA; border-radius: 4px; transition: height 0.3s; }
+        .c1-bar.active { background: var(--accent); }
+        .c1-line { position: absolute; top: 50%; left: 0; right: 0; height: 2px; background: #34C759; z-index: 2;}
+        .c1-stat { margin-top: 10px; font-size: 24px; font-weight: 700; color: #19191B;}
+        .c1-stat span { font-size: 14px; font-weight: 500; color: var(--text-gray);}
+        .c1-orb { width: 60px; height: 60px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #ff7ece, #5D5FEF, #00f0ff); filter: blur(4px); margin-bottom: 20px; animation: orbFloat 3s ease-in-out infinite alternate; }
+        @keyframes orbFloat { from { transform: translateY(-5px) scale(1); } to { transform: translateY(5px) scale(1.05); } }
+        .c1-h-title { font-size: 14px; font-weight: 600; color: #fff; text-align: center; margin-bottom: 20px; line-height: 1.4;}
+        .c1-h-boxes { display: flex; gap: 8px; margin-bottom: 16px; width: 100%;}
+        .c1-h-box { background: rgba(255,255,255,0.8); border-radius: 8px; padding: 10px; flex: 1; font-size: 10px; font-weight: 600; color: #19191B; line-height: 1.4;}
+        .c1-h-box small { display: block; font-weight: 400; color: var(--text-gray); margin-top: 2px;}
+        .c1-h-input { background: #fff; border-radius: 20px; padding: 10px 16px; width: 100%; display: flex; align-items: center; justify-content: flex-start; gap: 8px; font-size: 12px; color: var(--text-gray); box-sizing: border-box;}
+
+        /* Card 2 */
+        .anim-visual.vis-2 { background: #f5f7fc; height: 340px; padding: 28px 24px; display: flex; flex-direction: column; justify-content: center; }
+        .vis-2 .c-row { display: flex; flex-direction: column; gap: 7px; margin-bottom: 6px; }
+        .vis-2 .c-row-header { display: flex; align-items: baseline; justify-content: space-between; }
+        .vis-2 .c-row-name { font-size: 13px; font-weight: 700; color: #374151; }
+        .vis-2 .c-bar-bg { height: 10px; background: rgba(0,0,0,0.07); border-radius: 5px; overflow: hidden; }
+        .vis-2 .c-bar-fill { height: 10px; border-radius: 5px; width: 0; }
+        .vis-2 .classic-fill { background: linear-gradient(90deg, #fbbf24, #f59e0b); transition: width 3.6s cubic-bezier(0.25,0.1,0.25,1) 0.3s; }
+        .anim-card:hover .vis-2 .classic-fill { width: 100%; }
+        .vis-2 .insivo-fill { background: #5D5FEF; transition: width 0.65s cubic-bezier(0.4,0,0.15,1) 0.2s; }
+        .anim-card:hover .vis-2 .insivo-fill { width: 11%; }
+        .vis-2 .ticks { display: flex; justify-content: space-between; }
+        .vis-2 .tick { font-size: 9px; color: #c4c8d0; font-weight: 500; }
+        .vis-2 .vs-row { display: flex; align-items: center; justify-content: center; margin: 10px 0; }
+        .vis-2 .vs-badge { background: #fff; border: 1px solid #e5e7eb; border-radius: 20px; padding: 4px 14px; font-size: 10px; font-weight: 700; color: #9ca3af; }
+        .vis-2 .d-stat { margin-top: 16px; background: #fff; border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; opacity: 0; transform: translateY(6px); transition: opacity 0.4s ease 1.8s, transform 0.4s ease 1.8s; }
+        .anim-card:hover .vis-2 .d-stat { opacity: 1; transform: translateY(0); }
+        .vis-2 .d-stat-label { font-size: 13px; color: #6b7280; line-height: 1.4; }
+        .vis-2 .d-stat-num { font-size: 32px; font-weight: 700; color: #5D5FEF; line-height: 1; }
+        .vis-2 .d-stat-unit { font-size: 11px; color: #9ca3af; margin-top: 2px; text-align: right; }
+
+        /* Card 3 */
+        .anim-visual.vis-3 { background: #f0fdf4; }
+        .vis-3 .anim-visual-overlay { display: none; }
+        .vis-3 .vis-default, .vis-3 .vis-hover { position: absolute; inset: 0; transition: all 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+        .vis-3 .vis-default { z-index: 2; padding: 24px; opacity: 1; transform: translateY(0) scale(1); display: flex; flex-direction: column; }
+        .vis-3 .vis-hover { z-index: 3; opacity: 0; transform: translateY(28px) scale(0.97); pointer-events: none; background: #fff; display: flex; flex-direction: column; padding: 28px 24px; }
+        .anim-card:hover .vis-3 .vis-default { opacity: 0; transform: translateY(-28px) scale(0.97); }
+        .anim-card:hover .vis-3 .vis-hover { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+        .c3-inner { background: #fff; border-radius: 16px; padding: 20px; flex: 1; display: flex; flex-direction: column; }
+        .c3-title { font-size: 11px; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 16px; }
+        .c3-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f4f4f5; }
+        .c3-row:last-child { border-bottom: none; }
+        .c3-row-label { font-size: 13px; font-weight: 500; color: var(--text-dark); }
+        .c3-badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+        .badge-green { background: #dcfce7; color: #15803d; }
+        .badge-blue { background: #dbeafe; color: #1d4ed8; }
+        .badge-purple { background: #ede9fe; color: #6d28d9; }
+        .c3-h-title { font-size: 13px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; }
+        .c3-h-sub { font-size: 11px; color: var(--text-gray); margin-bottom: 22px; }
+        .c3-checklist { display: flex; flex-direction: column; gap: 14px; }
+        .c3-item { display: flex; align-items: center; gap: 14px; }
+        .c3-tick-wrap { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #e5e7eb; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #fff; position: relative; transition: border-color 0.2s ease, background 0.2s ease; }
+        .c3-tick-wrap svg { opacity: 0; transform: scale(0.5); transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .c3-item.checked .c3-tick-wrap { border-color: #15803d; background: #dcfce7; }
+        .c3-item.checked .c3-tick-wrap svg { opacity: 1; transform: scale(1); }
+        .c3-item.checked .c3-item-text { color: var(--text-dark); }
+        .c3-item.checked .c3-item-sub { color: var(--text-gray); }
+        .c3-item-text { font-size: 13px; font-weight: 500; color: #c4c8d0; transition: color 0.3s ease; line-height: 1.3; }
+        .c3-item-sub { font-size: 11px; color: #dde0e6; transition: color 0.3s ease; margin-top: 1px; }
+
+        /* Card 4 */
+        .anim-visual.vis-4 { background: #f7f7fb; }
+        .vis-4-default, .vis-4-hover { position: absolute; inset: 0; transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .vis-4-default { z-index: 2; padding: 24px 20px; opacity: 1; transform: translateY(0); }
+        .vis-4-hover { z-index: 3; opacity: 0; transform: translateY(20px) scale(0.95); pointer-events: none; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 20px; background: #f7f7fb; }
+        .anim-card:hover .vis-4-default { opacity: 0; transform: translateY(-20px) scale(0.95); }
+        .anim-card:hover .vis-4-hover { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+        .c4-window { background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); padding: 20px; height: 100%; box-sizing: border-box; }
+        .c4-win-title { font-size: 12px; font-weight: 600; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+        .c4-win-sub { font-size: 11px; color: var(--text-gray); margin-bottom: 20px; }
+        .c4-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+        .c4-avatar { width: 28px; height: 28px; border-radius: 50%; background: #e5e5ea; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #888; }
+        .c4-slots { display: flex; gap: 4px; flex-wrap: wrap; }
+        .c4-slot { width: 18px; height: 18px; border-radius: 4px; border: 1.5px solid #e5e5ea; }
+        .c4-slot.filled { background: var(--accent); border-color: var(--accent); }
+        .c4-limit-tag { font-size: 11px; color: var(--accent-red); font-weight: 600; margin-top: 8px; background: #fef2f2; padding: 6px 10px; border-radius: 6px; }
+        .c4-h-title { font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; text-align: center; letter-spacing: -0.01em; }
+        .c4-h-sub { font-size: 11px; color: var(--text-gray); margin-bottom: 18px; text-align: center; }
+        .c4-dots-grid { display: grid; grid-template-columns: repeat(20, 1fr); gap: 3px; width: 100%; }
+        .c4-dot { width: 100%; aspect-ratio: 1; border-radius: 50%; background: #dde0ea; transition: background 0.15s ease, transform 0.15s ease; }
+        .c4-dot.active { background: var(--accent); transform: scale(1.1); }
+        .c4-num { font-size: 38px; font-weight: 800; color: var(--text-dark); text-align: center; margin-top: 16px; letter-spacing: -0.03em; line-height: 1; }
+        .c4-num-label { font-size: 11px; color: var(--text-gray); text-align: center; margin-top: 4px; }
+
+        /* Card 5 */
+        /* Card 5: Root Cause */
+        /* Card 5 — Speech bubble animation */
+        .anim-visual.vis-5 { background: #f4f4f9; height: 340px; }
+        .vis-5 .bubble-stage { position: absolute; inset: 0; z-index: 1; }
+        .sb { position: absolute; padding: 8px 13px; border-radius: 14px; font-size: 11px; font-weight: 500; white-space: nowrap; line-height: 1; opacity: 0; will-change: left, top, transform, opacity, filter; backface-visibility: hidden; }
+        .sb::after { content: ''; position: absolute; bottom: -6px; left: 14px; width: 0; height: 0; border-left: 6px solid transparent; border-right: 3px solid transparent; border-top-width: 6px; border-top-style: solid; }
+        .sb.r::after { left: auto; right: 14px; }
+        .sb.t::after { bottom: auto; top: -6px; border-top: none; border-bottom-width: 6px; border-bottom-style: solid; border-left: 6px solid transparent; border-right: 3px solid transparent; }
+        .sb.purple { background: #ede9fe; border: 1px solid #c4b5fd; color: #4338ca; }
+        .sb.purple::after { border-top-color: #ede9fe; }
+        .sb.purple.t::after { border-bottom-color: #ede9fe; border-top-color: transparent; }
+        .sb.red { background: #fee2e2; border: 1px solid #fca5a5; color: #dc2626; }
+        .sb.red::after { border-top-color: #fee2e2; }
+        .sb.red.t::after { border-bottom-color: #fee2e2; border-top-color: transparent; }
+        .sb.amber { background: #fef3c7; border: 1px solid #fcd34d; color: #b45309; }
+        .sb.amber::after { border-top-color: #fef3c7; }
+        .sb.amber.t::after { border-bottom-color: #fef3c7; border-top-color: transparent; }
+        .sb.gray { background: #f1f0f5; border: 1px solid #dddde8; color: #4b4b6a; }
+        .sb.gray::after { border-top-color: #f1f0f5; }
+        .sb.gray.t::after { border-bottom-color: #f1f0f5; border-top-color: transparent; }
+        @keyframes c5pop { 0%{opacity:0;transform:scale(0.4) translateY(8px)} 65%{opacity:1;transform:scale(1.08) translateY(-2px)} 100%{opacity:1;transform:scale(1) translateY(0)} }
+        @keyframes c5floatY { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-5px)} }
+        .vis-5 .c5-ai-swirl { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #fff; opacity: 0; pointer-events: none; transition: opacity 0.45s cubic-bezier(0.23,1,0.32,1); will-change: opacity; }
+        .vis-5 .c5-ai-swirl.show { opacity: 1; }
+        .c5-orb-wrap { position: relative; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+        .c5-ai-ring { position: absolute; border-radius: 50%; border: 1.5px solid rgba(93,95,239,0.2); width: 80px; height: 80px; animation: c5ringExpand 2s ease-out infinite; }
+        .c5-ai-ring:nth-child(2) { animation-delay: 0.6s; }
+        .c5-ai-ring:nth-child(3) { animation-delay: 1.2s; }
+        @keyframes c5ringExpand { 0%{transform:scale(0.6);opacity:0.6} 100%{transform:scale(2.2);opacity:0} }
+        .c5-ai-orb { width: 52px; height: 52px; border-radius: 50%; background: var(--accent); z-index: 1; display: flex; align-items: center; justify-content: center; animation: c5orbBreath 1.2s ease-in-out infinite alternate; box-shadow: 0 0 30px rgba(93,95,239,0.35), 0 0 60px rgba(93,95,239,0.15); }
+        @keyframes c5orbBreath { from{transform:scale(0.93)} to{transform:scale(1.06)} }
+        .c5-ai-label { font-size: 12px; font-weight: 600; color: var(--accent); opacity: 0; transform: translateY(6px); transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s; }
+        .vis-5 .c5-ai-swirl.show .c5-ai-label { opacity: 1; transform: translateY(0); }
+        .c5-ai-dots { display: flex; gap: 5px; margin-top: 7px; opacity: 0; transition: opacity 0.3s ease 0.25s; }
+        .vis-5 .c5-ai-swirl.show .c5-ai-dots { opacity: 1; }
+        .c5-ai-dots span { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); animation: c5dotBlink 1s ease-in-out infinite; }
+        .c5-ai-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .c5-ai-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes c5dotBlink { 0%,100%{opacity:0.25} 50%{opacity:1} }
+        .vis-5 .c5-findings-layer { position: absolute; inset: 0; z-index: 3; background: #fff; display: flex; flex-direction: column; padding: 18px; opacity: 0; pointer-events: none; transition: opacity 0.45s cubic-bezier(0.23,1,0.32,1); will-change: opacity; }
+        .vis-5 .c5-findings-layer.show { opacity: 1; pointer-events: auto; }
+        .c5-h-label { font-size: 11px; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 10px; }
+        .c5-finding { background: #f8f8fb; border: 1px solid #ebebf0; border-radius: 12px; padding: 10px 12px; margin-bottom: 7px; opacity: 0; transform: translateY(14px) scale(0.98); transition: opacity 0.32s cubic-bezier(0.23,1,0.32,1), transform 0.32s cubic-bezier(0.34,1.2,0.64,1); }
+        .c5-finding.pop { opacity: 1; transform: translateY(0) scale(1); }
+        .c5-f-top { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 7px; }
+        .c5-f-num { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+        .c5-f-title { font-size: 12px; font-weight: 600; color: var(--text-dark); margin-bottom: 2px; line-height: 1.3; }
+        .c5-f-sub { font-size: 11px; color: var(--text-gray); line-height: 1.4; }
+        .c5-f-bottom { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f0f0f5; padding-top: 6px; }
+        .c5-f-tag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+        .c5-f-owner { display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 600; color: var(--accent); }
+        .c5-f-owner-dot { width: 18px; height: 18px; border-radius: 50%; background: #ede9fe; color: var(--accent); font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .c5-ai-bar { margin-top: 6px; border-top: 1px solid #f0f0f5; padding-top: 10px; opacity: 0; transform: translateY(10px); transition: opacity 0.5s cubic-bezier(0.23,1,0.32,1), transform 0.5s cubic-bezier(0.23,1,0.32,1); }
+        .c5-ai-bar.pop { opacity: 1; transform: translateY(0); }
+        .c5-ai-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 9px; }
+        .c5-ai-chip { font-size: 10px; font-weight: 500; color: var(--accent); background: #ede9fe; border: 1px solid #c4b5fd; padding: 4px 10px; border-radius: 20px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 4px; }
+        .c5-ai-chip:hover { background: #ddd8fc; transform: translateY(-1px); }
+        .c5-ai-answer { font-size: 11px; color: #4338ca; background: #ede9fe; border: 1px solid #c4b5fd; border-radius: 8px; padding: 8px 10px; margin-bottom: 8px; line-height: 1.5; display: none; }
+        .c5-ai-answer.show { display: block; animation: c5fadeUp 0.35s cubic-bezier(0.23,1,0.32,1); }
+        @keyframes c5fadeUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+        .c5-ai-row { display: flex; gap: 7px; }
+        .c5-ai-input { flex: 1; font-size: 12px; padding: 10px 14px; border: 1px solid #e5e7eb; border-radius: 20px; color: var(--text-dark); background: #fff; outline: none; font-family: inherit; transition: border-color 0.2s ease; }
+        .c5-ai-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(93,95,239,0.08); }
+        .c5-ai-btn { padding: 10px 16px; background: var(--accent); color: #fff; border: none; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; white-space: nowrap; transition: transform 0.15s ease; }
+        .c5-ai-btn:hover { transform: scale(1.03); }
+        .anim-visual.vis-5::after { content: ''; position: absolute; inset: 0; z-index: 0; background: radial-gradient(circle at 50% 50%, rgba(93,95,239,0.06) 0%, transparent 70%); opacity: 0; transition: opacity 0.6s ease; pointer-events: none; }
+        .anim-visual.vis-5.glowing::after { opacity: 1; }
+
+        /* Card 6 */
+        /* Card 6: Voice */
+        .vis-6 { background: #f7f7fb; }
+        .vis-6 .vis-default, .vis-6 .vis-hover { position: absolute; inset: 0; transition: all 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+        .vis-6 .vis-default { z-index: 2; padding: 24px; opacity: 1; transform: translateY(0) scale(1); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .vis-6 .vis-hover { z-index: 3; opacity: 0; transform: translateY(28px) scale(0.97); pointer-events: none; background: #fff; display: flex; flex-direction: column; padding: 24px; }
+        .anim-card:hover .vis-6 .vis-default { opacity: 0; transform: translateY(-28px) scale(0.97); }
+        .anim-card:hover .vis-6 .vis-hover { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+        .vis-6 .mic-wrap { position: relative; display: flex; align-items: center; justify-content: center; width: 120px; height: 120px; margin-bottom: 24px; }
+        .vis-6 .mic-ring { position: absolute; border-radius: 50%; border: 1.5px solid rgba(93,95,239,0.25); animation: ringPulse 2s ease-out infinite; }
+        .vis-6 .mic-ring:nth-child(1) { width: 80px; height: 80px; animation-delay: 0s; }
+        .vis-6 .mic-ring:nth-child(2) { width: 100px; height: 100px; animation-delay: 0.4s; }
+        .vis-6 .mic-ring:nth-child(3) { width: 120px; height: 120px; animation-delay: 0.8s; }
+        @keyframes ringPulse { 0% { transform: scale(0.85); opacity: 0.6; } 100% { transform: scale(1.1); opacity: 0; } }
+        .vis-6 .mic-btn { width: 60px; height: 60px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; position: relative; z-index: 2; box-shadow: 0 8px 24px rgba(93,95,239,0.35); }
+        .vis-6 .waveform { display: flex; align-items: center; gap: 3px; height: 32px; margin-bottom: 16px; }
+        .vis-6 .wave-bar { width: 3px; border-radius: 2px; background: var(--accent); animation: waveDance 0.8s ease-in-out infinite alternate; transform-origin: center; }
+        .vis-6 .wave-bar:nth-child(1)  { animation-delay: 0.0s; } .vis-6 .wave-bar:nth-child(2)  { animation-delay: 0.1s; }
+        .vis-6 .wave-bar:nth-child(3)  { animation-delay: 0.2s; } .vis-6 .wave-bar:nth-child(4)  { animation-delay: 0.05s; }
+        .vis-6 .wave-bar:nth-child(5)  { animation-delay: 0.15s; } .vis-6 .wave-bar:nth-child(6)  { animation-delay: 0.25s; }
+        .vis-6 .wave-bar:nth-child(7)  { animation-delay: 0.1s; } .vis-6 .wave-bar:nth-child(8)  { animation-delay: 0.2s; }
+        .vis-6 .wave-bar:nth-child(9)  { animation-delay: 0.0s; } .vis-6 .wave-bar:nth-child(10) { animation-delay: 0.15s; }
+        .vis-6 .wave-bar:nth-child(11) { animation-delay: 0.05s; } .vis-6 .wave-bar:nth-child(12) { animation-delay: 0.25s; }
+        @keyframes waveDance { from { height: 4px; opacity: 0.4; } to { height: 28px; opacity: 1; } }
+        .vis-6 .d-label { font-size: 13px; font-weight: 600; color: var(--text-dark); margin-bottom: 4px; }
+        .vis-6 .d-sub { font-size: 11px; color: var(--text-gray); text-align: center; }
+        .vis-6 .rec-row { display: flex; align-items: center; gap: 6px; margin-bottom: 20px; }
+        .vis-6 .rec-dot { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; animation: recBlink 1.2s ease-in-out infinite; }
+        .vis-6 .rec-text { font-size: 11px; font-weight: 600; color: #ef4444; letter-spacing: 0.06em; }
+        .c6-h-title { font-size: 13px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; }
+        .c6-h-sub { font-size: 11px; color: var(--text-gray); margin-bottom: 18px; }
+        .c6-chat { display: flex; flex-direction: column; gap: 10px; flex: 1; justify-content: center; position: relative; }
+        .c6-msg { display: flex; gap: 10px; align-items: flex-start; opacity: 0; transform: translateY(10px); transition: none; }
+        .c6-msg.visible { opacity: 1; transform: translateY(0); transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.2, 0.64, 1); }
+        .c6-msg.ai { flex-direction: row; }
+        .c6-msg.user { flex-direction: row-reverse; }
+        .c6-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+        .c6-msg .c6-bubble { max-width: 78%; padding: 9px 12px; border-radius: 12px; font-size: 12px; line-height: 1.5; }
+        .c6-msg.ai .c6-bubble { background: #f4f4f8; color: var(--text-dark); border-radius: 4px 12px 12px 12px; }
+        .c6-msg.user .c6-bubble { background: #ede9fe; color: #3730a3; border-radius: 12px 4px 12px 12px; }
+        .c6-typing-wrap { display: flex; gap: 10px; align-items: center; opacity: 0; transition: opacity 0.3s ease; height: 0; overflow: hidden; }
+        .c6-typing-wrap.visible { opacity: 1; height: auto; overflow: visible; }
+        .c6-typing-dots { display: flex; gap: 4px; padding: 10px 14px; background: #f4f4f8; border-radius: 4px 12px 12px 12px; }
+        .c6-typing-dots span { width: 6px; height: 6px; border-radius: 50%; background: #9ca3af; animation: typingBounce 1s ease-in-out infinite; }
+        .c6-typing-dots span:nth-child(2) { animation-delay: 0.15s; }
+        .c6-typing-dots span:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes typingBounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-5px); } }
+        .c6-adapt-tag { display: inline-block; font-size: 10px; font-weight: 600; background: #ede9fe; color: var(--accent); padding: 2px 8px; border-radius: 20px; margin-top: 6px; }
+
+        @media (max-width: 900px) {
+            .animated-cards-grid { grid-template-columns: 1fr; }
+            .anim-visual { height: 280px; }
+        }
+
+        /* Card 1 waveform & graph animations */
+        @keyframes waveBar1 { 0%,100%{transform:scaleY(1)} 50%{transform:scaleY(0.25)} }
+        @keyframes waveBar2 { 0%,100%{transform:scaleY(0.6)} 50%{transform:scaleY(1)} }
+        @keyframes waveBar3 { 0%,100%{transform:scaleY(0.4)} 50%{transform:scaleY(0.9)} }
+        @keyframes recBlink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+        @keyframes graphDraw {
+            0% { stroke-dashoffset: 400; opacity: 0.4; }
+            100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes graphFill {
+            0% { opacity: 0; }
+            40% { opacity: 0; }
+            100% { opacity: 0.3; }
+        }
+        .wave-bar { transform-origin: bottom; }
+        .anim-card:hover .wave-bar-a { animation: waveBar1 0.9s ease-in-out infinite; }
+        .anim-card:hover .wave-bar-b { animation: waveBar2 0.9s ease-in-out infinite; }
+        .anim-card:hover .wave-bar-c { animation: waveBar3 0.9s ease-in-out infinite; }
+        .anim-card:hover .rec-dot { animation: recBlink 1.2s ease-in-out infinite; }
+        .anim-card:hover .eff-graph-line { animation: graphDraw 1.8s cubic-bezier(0.4,0,0.2,1) forwards; stroke-dasharray: 400; stroke-dashoffset: 400; }
+        .anim-card:hover .eff-graph-fill { animation: graphFill 2s ease forwards; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="mobile-menu-header" style="display: contents;">
+            <a href="#home" class="nav-logo">insivo</a>
+            <button class="mobile-menu-btn" aria-label="Menu" style="display:none;">
+                <svg viewBox="0 0 24 24" style="width:24px; height:24px; stroke:currentColor; stroke-width:2; stroke-linecap:round; fill:none;"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </div>
+        <div class="nav-links">
+            <a href="#home" class="nav-link active">Home</a>
+            <a href="#how" class="nav-link">Wie es funktioniert</a>
+            <a href="#features-animated" class="nav-link">Vorteile</a>
+            <a href="#faq" class="nav-link">FAQ</a>
+        </div>
+        <div class="nav-right">
+            <a href="https://calendar.app.google/ZYRiNELGw14YEtHV9" target="_blank" class="btn btn-solid" style="background:var(--text-dark);">Gespräch buchen</a>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <h1 class="hero-title">Verstehe deine<br>Mitarbeitenden <span style="color: var(--accent);">wirklich.</span></h1>
+        <p class="hero-subtitle">Hunderte qualitative KI-Interviews in wenigen Tagen. Anonyme Gespräche, adaptive Nachfragen und ein priorisierter Report mit klaren Handlungsempfehlungen und Verantwortlichkeiten. Keine oberflächlichen Zahlen, sondern echte tiefe Erkenntnisse.</p>
+        <div class="hero-buttons">
+            <a href="https://calendar.app.google/ZYRiNELGw14YEtHV9" target="_blank" class="btn btn-solid" style="background:var(--text-dark);">Gespräch buchen</a>
+            <a href="#" class="btn btn-solid" style="background:#e5e7eb; color:#6b7280; cursor:default; pointer-events:none;">Demo kommt bald</a>
+        </div>
+
+        <div class="dash-tabs-outer" id="dash-tabs">
+            <span class="active" data-tab="dashboard">Überblick</span>
+            <span data-tab="heatmap">Ursachen</span>
+            <span data-tab="reports">Handlungsempfehlungen</span>
+        </div>
+    </section>
+
+    <!-- Dashboard Concept -->
+    <div class="dashboard-wrapper" style="margin-top: -1px;">
+
+        <div class="dashboard-mockup-wrapper">
+            <div class="mock-dashboard">
+                <img id="content-dashboard" class="dash-content" src="Insivo%20Mockups/Main%20Dashboard.png" style="display: block; width: 100%; height: auto; object-fit: contain; padding: 0;">
+                <img id="content-heatmap" class="dash-content" src="Insivo%20Mockups/Ursachenanalyse.png" style="display: none; width: 100%; height: auto; object-fit: contain; padding: 0;">
+                <img id="content-reports" class="dash-content" src="Insivo%20Mockups/Handlungsemepfhelungen.png" style="display: none; width: 100%; height: auto; object-fit: contain; padding: 0;">
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- How it Works — Rebuilt Layout -->
+    <section id="how" class="how-section">
+        <div class="how-inner">
+            <h2 class="how-title">Wie es funktioniert</h2>
+            <p class="how-subtitle">In 4 Schritten wissen, was Mitarbeitende wirklich bewegt und was zu tun ist.</p>
+
+            <div class="steps-container" id="stepsContainer">
+                <!-- Animated fill line -->
+                <div class="steps-line-fill" id="stepsLineFill"></div>
+
+                <!-- Step 1 -->
+                <div class="step-row fade-in-up">
+                    <div class="step-left">
+                        <div class="step-dot" id="dot-1"></div>
+                        <div class="step-label">Step 1</div>
+                    </div>
+                    <div class="step-right">
+                        <h3 class="step-title" data-step="1">Kampagne erstellen</h3>
+                        <p class="step-desc">Ziel, Zielgruppe und Interview-Typ definieren. Insivo erstellt automatisch einen strukturierten Fragebogen, anpassbar und sofort betriebsratsbereit.</p>
+                        <div class="step-mockup">
+                            <img src="Insivo%20Mockups/Campaigns.png" alt="Kampagne erstellen Mockup" loading="lazy">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step-row fade-in-up">
+                    <div class="step-left">
+                        <div class="step-dot" id="dot-2"></div>
+                        <div class="step-label">Step 2</div>
+                    </div>
+                    <div class="step-right">
+                        <h3 class="step-title" data-step="2">Betriebsrat einbinden</h3>
+                        <p class="step-desc">Ein Klick generiert das vollständige BR-Freigabe-Dokument. Die Kampagne startet technisch erst nach BR-Freigabe. Der Status ist live im Dashboard sichtbar.</p>
+                        <div class="step-mockup">
+                            <img src="Insivo%20Mockups/Betriebsrat.png" alt="Betriebsrat Freigabe Mockup" loading="lazy">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step-row fade-in-up">
+                    <div class="step-left">
+                        <div class="step-dot" id="dot-3"></div>
+                        <div class="step-label">Step 3</div>
+                    </div>
+                    <div class="step-right">
+                        <h3 class="step-title" data-step="3">KI führt die Interviews</h3>
+                        <p class="step-desc">Mitarbeitende erhalten einen persönlichen, anonymen Link und sprechen per Voice oder Text mit der KI. Adaptive Nachfragen dort, wo Tiefe gebraucht wird. Bei psychischer Belastung greift automatisch das Stopp-Protokoll.</p>
+                        <div class="step-mockup">
+                            <img src="Insivo%20Mockups/ai%20talk.png" alt="KI Interview Mockup" loading="lazy">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="step-row fade-in-up">
+                    <div class="step-left">
+                        <div class="step-dot" id="dot-4"></div>
+                        <div class="step-label">Step 4</div>
+                    </div>
+                    <div class="step-right">
+                        <h3 class="step-title" data-step="4">Report &amp; Handlungsempfehlungen</h3>
+                        <p class="step-desc">Alle Antworten werden transkribiert, geclustert und analysiert. Ergebnis: ein Management-Report mit Top-Handlungsfeldern, Root-Cause-Mustern und Maßnahmenvorschlägen. Mit Rollenansichten für HR, Führungskräfte und C-Level.</p>
+                        <div class="step-mockup with-fade">
+                            <img src="Insivo%20Mockups/reports.png" alt="Reports Mockup" loading="lazy">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Scroll Text Section -->
+    <section class="scroll-text-section">
+        <div class="scroll-text-container fade-in-up">
+            <h2 id="syncScrollText">„Unternehmen, die ihren<br>Mitarbeitenden zuhören und auf das<br>Gehörte reagieren, sind <span style="color:#5551FF;">2,2x</span> häufiger<br>Spitzenperformer."</h2>
+            <div class="scroll-author">— McKinsey &amp; Company</div>
+            <div id="scrollTextBtn" class="scroll-btn-wrapper">
+                <a href="https://calendar.app.google/ZYRiNELGw14YEtHV9" target="_blank" class="btn btn-solid" style="background:var(--text-dark);">Gespräch buchen</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Animated Features Section -->
+    <section id="features-animated" class="features-animated-section">
+        <div class="features-animated-header">
+            <div class="features-animated-pill">Warum Insivo</div>
+            <h2>Der Unterschied liegt im Detail</h2>
+            <p>Qualitative Unternehmensdiagnostik. So wie sie wirklich funktionieren sollte.</p>
+        </div>
+
+        <div class="animated-cards-grid">
+            <!-- CARD 1 -->
+            <div class="anim-card fade-in-up" id="card1">
+                <div class="anim-visual vis-1">
+                    <div class="vis-1-default">
+                        <div class="c1-chart-wrap">
+                            <div class="c1-chart">
+                                <div class="c1-bar-col">
+                                    <div class="c1-bar" style="height:155px; background:linear-gradient(180deg,#e0e0e8,#c8c8d4);">
+                                        <div class="c1-bar-tag" style="background:#ebebf0;color:#666;">Teuer</div>
+                                    </div>
+                                </div>
+                                <div class="c1-bar-col">
+                                    <div class="c1-bar" style="height:26px; background:linear-gradient(180deg,#7879f1,#5551FF);"></div>
+                                </div>
+                            </div>
+                            <div class="c1-baseline"></div>
+                            <div class="c1-labels-row">
+                                <div class="c1-bar-name">Externe<br>Beratung</div>
+                                <div class="c1-bar-name">Insivo</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="vis-1-hover">
+                        <div class="c1-h-headline">10× günstiger.<br>7× mehr Reichweite.</div>
+                        <div class="c1-h-sub">Kein Tagessatz. Kein Warten.</div>
+                        <div class="c1-h-stats">
+                            <div class="c1-h-stat">
+                                <div class="c1-h-stat-val" style="color:#5551FF;">10×</div>
+                                <div class="c1-h-stat-label">günstiger als externe Beratung</div>
+                            </div>
+                            <div class="c1-h-stat">
+                                <div class="c1-h-stat-val" style="color:#5551FF;">&gt;7×</div>
+                                <div class="c1-h-stat-label">mehr Reichweite im selben Budget</div>
+                            </div>
+                        </div>
+                        <div class="c1-h-bar-wrap">
+                            <div class="c1-h-bar-row">
+                                <span style="font-weight:600;color:var(--text-dark);">Kosteneffizienz</span>
+                                <span id="pct-label" style="font-weight:600;color:#5551FF;">0%</span>
+                            </div>
+                            <div class="c1-h-bar-bg">
+                                <div class="c1-h-bar-fill" id="bar-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="anim-text">
+                    <h3>90% günstiger als externe Berater.</h3>
+                    <p>Externe Anbieter kosten bis zu 30.000 € pro Projekt. Insivo liefert dieselbe Tiefe. Zum Bruchteil der Kosten.</p>
+                </div>
+            </div>
+
+            <!-- CARD 2: VOICE -->
+            <div class="anim-card fade-in-up" id="card6" style="transition-delay: 0.1s;">
+                <div class="anim-visual vis-6">
+                    <div class="vis-default">
+                        <div class="rec-row"><div class="rec-dot"></div><div class="rec-text">REC</div></div>
+                        <div class="mic-wrap">
+                            <div class="mic-ring"></div><div class="mic-ring"></div><div class="mic-ring"></div>
+                            <div class="mic-btn">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <rect x="9" y="2" width="6" height="12" rx="3" fill="white"/>
+                                    <path d="M5 10a7 7 0 0014 0" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="12" y1="17" x2="12" y2="21" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="9" y1="21" x2="15" y2="21" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="waveform">
+                            <div class="wave-bar" style="height:8px;"></div><div class="wave-bar" style="height:16px;"></div>
+                            <div class="wave-bar" style="height:22px;"></div><div class="wave-bar" style="height:12px;"></div>
+                            <div class="wave-bar" style="height:26px;"></div><div class="wave-bar" style="height:18px;"></div>
+                            <div class="wave-bar" style="height:28px;"></div><div class="wave-bar" style="height:14px;"></div>
+                            <div class="wave-bar" style="height:24px;"></div><div class="wave-bar" style="height:10px;"></div>
+                            <div class="wave-bar" style="height:20px;"></div><div class="wave-bar" style="height:16px;"></div>
+                        </div>
+                    </div>
+                    <div class="vis-hover">
+                        <div class="c6-chat">
+                            <div class="c6-msg ai" id="c6msg1">
+                                <div class="c6-avatar" style="background:#f4f4f8; color:#555;">KI</div>
+                                <div><div class="c6-bubble">Wie läuft der Rollout aus deiner Sicht bisher?</div></div>
+                            </div>
+                            <div class="c6-msg user" id="c6msg2">
+                                <div class="c6-avatar" style="background:#ede9fe; color:#5D5FEF;">MA</div>
+                                <div><div class="c6-bubble">Ehrlich gesagt fühle ich mich etwas überfordert...</div></div>
+                            </div>
+                            <div class="c6-typing-wrap" id="c6typing">
+                                <div class="c6-avatar" style="background:#f4f4f8; color:#555;">KI</div>
+                                <div class="c6-typing-dots"><span></span><span></span><span></span></div>
+                            </div>
+                            <div class="c6-msg ai" id="c6msg3">
+                                <div class="c6-avatar" style="background:#f4f4f8; color:#555;">KI</div>
+                                <div>
+                                    <div class="c6-bubble">Das klingt belastend. Was macht dir dabei am meisten zu schaffen?</div>
+                                    <div class="c6-adapt-tag">↳ Adaptiv auf Emotion reagiert</div>
+                                </div>
+                            </div>
+                            <div class="c6-msg user" id="c6msg4">
+                                <div class="c6-avatar" style="background:#ede9fe; color:#5D5FEF;">MA</div>
+                                <div><div class="c6-bubble">Die Schulung war viel zu kurz für das System.</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="anim-text">
+                    <h3>KI-Stimme die zuhört und nachfragt.</h3>
+                    <p>Keine starren Fragen. Die KI passt sich in Echtzeit an Tonalität, Emotion und Antwort des Mitarbeitenden an. Wie ein erfahrener Interviewer.</p>
+                </div>
+            </div>
+
+            <!-- CARD 3: DSGVO & BR -->
+            <div class="anim-card fade-in-up" id="card3" style="transition-delay: 0.2s;">
+                <div class="anim-visual vis-3">
+                    <div class="vis-default">
+                        <div class="c3-inner">
+                            <div class="c3-row"><div class="c3-row-label">BR-Freigabe</div><div class="c3-badge badge-green">✓ Erteilt</div></div>
+                            <div class="c3-row"><div class="c3-row-label">DSGVO-konform</div><div class="c3-badge badge-green">✓ Bestätigt</div></div>
+                            <div class="c3-row"><div class="c3-row-label">EU-Server</div><div class="c3-badge badge-blue">Frankfurt</div></div>
+                            <div class="c3-row"><div class="c3-row-label">AVV unterzeichnet</div><div class="c3-badge badge-green">✓ Aktiv</div></div>
+                            <div class="c3-row"><div class="c3-row-label">Anonymitätsschwelle</div><div class="c3-badge badge-purple">Min. 5 MA</div></div>
+                            <div class="c3-row"><div class="c3-row-label">Datenlöschung</div><div class="c3-badge badge-green">90 Tage</div></div>
+                        </div>
+                    </div>
+                    <div class="vis-hover">
+                        <div class="c3-checklist" id="c3-checklist">
+                            <div class="c3-item" data-idx="0">
+                                <div class="c3-tick-wrap"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#15803d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                                <div><div class="c3-item-text">BR-Freigabe technisch erzwungen</div><div class="c3-item-sub">Kampagne startet nicht ohne Genehmigung</div></div>
+                            </div>
+                            <div class="c3-item" data-idx="1">
+                                <div class="c3-tick-wrap"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#15803d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                                <div><div class="c3-item-text">EU-Server Frankfurt</div><div class="c3-item-sub">Kein US-Tool, kein Datentransfer</div></div>
+                            </div>
+                            <div class="c3-item" data-idx="2">
+                                <div class="c3-tick-wrap"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#15803d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                                <div><div class="c3-item-text">UUID-Token statt Klarnamen</div><div class="c3-item-sub">Keine Rückverfolgung auf Personen</div></div>
+                            </div>
+                            <div class="c3-item" data-idx="3">
+                                <div class="c3-tick-wrap"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#15803d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                                <div><div class="c3-item-text">Automatische Datenlöschung</div><div class="c3-item-sub">Nach 90 Tagen oder sofort auf Anfrage</div></div>
+                            </div>
+                            <div class="c3-item" data-idx="4">
+                                <div class="c3-tick-wrap"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#15803d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                                <div><div class="c3-item-text">Privacy by Design nach DSGVO Art. 25</div><div class="c3-item-sub">Datenschutz von Anfang an eingebaut</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="anim-text">
+                    <h3>BR-konform &amp; DSGVO by Design.</h3>
+                    <p>Betriebsrat-Freigabe ist technisch erzwungen. Kein US-Tool, kein Datentransfer, kein Risiko.</p>
+                </div>
+            </div>
+
+            <!-- CARD 4: SKALIERBARKEIT -->
+            <div class="anim-card fade-in-up" style="transition-delay: 0.3s;">
+                <div class="anim-visual vis-4">
+                    <div class="anim-visual-overlay"></div>
+                    <div class="vis-4-hover" style="opacity:1; transform:none; pointer-events:auto;">
+                        <div class="c4-dots-grid" id="c4-dots"></div>
+                        <div class="c4-num" id="c4-counter">0</div>
+                        <div class="c4-num-label">Interviews gleichzeitig</div>
+                    </div>
+                </div>
+                <div class="anim-text">
+                    <h3>250 Interviews parallel, nicht sequenziell.</h3>
+                    <p>Kein Berater der Welt kann das. Insivo skaliert in Tagen, egal ob 10 oder 500 Teilnehmende.</p>
+                </div>
+            </div>
+
+            <!-- CARD 5: SPEECH BUBBLES -->
+            <div class="anim-card fade-in-up" id="card5" style="transition-delay: 0.4s;">
+                <div class="anim-visual vis-5" id="c5-visualArea">
+                    <div class="bubble-stage" id="c5-stage"></div>
+                    <div class="c5-ai-swirl" id="c5-aiSwirl">
+                        <div class="c5-orb-wrap">
+                            <div class="c5-ai-ring"></div>
+                            <div class="c5-ai-ring"></div>
+                            <div class="c5-ai-ring"></div>
+                            <div class="c5-ai-orb">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v14M3 10h14" stroke="white" stroke-width="1.8" stroke-linecap="round"/><path d="M5.5 5.5l9 9M14.5 5.5l-9 9" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
+                            </div>
+                        </div>
+                        <div class="c5-ai-label">Insivo analysiert...</div>
+                        <div class="c5-ai-dots"><span></span><span></span><span></span></div>
+                    </div>
+                    <div class="c5-findings-layer" id="c5-findingsLayer">
+                        <div class="c5-finding" id="c5-f1">
+                            <div class="c5-f-top">
+                                <div class="c5-f-num" style="background:#fee2e2;color:#dc2626;">1</div>
+                                <div><div class="c5-f-title">Schulungslücke ist Root Cause</div><div class="c5-f-sub">67% nennen fehlende Praxisschulung</div></div>
+                            </div>
+                            <div class="c5-f-bottom">
+                                <div class="c5-f-tag" style="background:#fee2e2;color:#dc2626;">Kritisch · sofort</div>
+                                <div class="c5-f-owner"><div class="c5-f-owner-dot">HR</div>HR-Leitung</div>
+                            </div>
+                        </div>
+                        <div class="c5-finding" id="c5-f2">
+                            <div class="c5-f-top">
+                                <div class="c5-f-num" style="background:#fef3c7;color:#b45309;">2</div>
+                                <div><div class="c5-f-title">Kommunikations-Flaschenhals</div><div class="c5-f-sub">MA erhält widersprüchliche Infos</div></div>
+                            </div>
+                            <div class="c5-f-bottom">
+                                <div class="c5-f-tag" style="background:#fef3c7;color:#b45309;">Hoch · diese Woche</div>
+                                <div class="c5-f-owner"><div class="c5-f-owner-dot">GF</div>Geschäftsführung</div>
+                            </div>
+                        </div>
+                        <div class="c5-ai-bar" id="c5-aibar">
+                            <div class="c5-ai-chips">
+                                <div class="c5-ai-chip" onclick="c5AskChip('Wie viele haben Schulung als Problem genannt?')">→ Wie viele bei Schulung?</div>
+                                <div class="c5-ai-chip" onclick="c5AskChip('Was kostet uns das pro Woche?')">→ Kosten pro Woche?</div>
+                            </div>
+                            <div class="c5-ai-answer" id="c5-aiAnswer"></div>
+                            <div class="c5-ai-row">
+                                <input class="c5-ai-input" id="c5-aiInput" placeholder="Eigene Frage stellen..." onkeydown="if(event.key==='Enter')c5AskInput()" />
+                                <button class="c5-ai-btn" onclick="c5AskInput()">Fragen</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="anim-text">
+                    <h3>Keine Rohdaten. Nur Entscheidungen.</h3>
+                    <p>Insivo verarbeitet hunderte Gespräche und destilliert sie zu klaren Findings. Direkt für Verantwortliche.</p>
+                </div>
+            </div>
+
+            <!-- CARD 6: GESCHWINDIGKEIT -->
+            <div class="anim-card fade-in-up" style="transition-delay: 0.5s;">
+                <div class="anim-visual vis-2">
+                    <div class="c-row">
+                        <div class="c-row-header">
+                            <div class="c-row-name">Externe Beratung</div>
+                            <div style="font-size:13px;font-weight:700;color:#b45309;">4–8 Wochen</div>
+                        </div>
+                        <div class="c-bar-bg"><div class="c-bar-fill classic-fill"></div></div>
+                        <div class="ticks">
+                            <span class="tick">Wo 1</span><span class="tick">Wo 2</span><span class="tick">Wo 3</span>
+                            <span class="tick">Wo 4</span><span class="tick">Wo 5</span><span class="tick">Wo 6+</span>
+                        </div>
+                    </div>
+                    <div class="vs-row"><div class="vs-badge">vs</div></div>
+                    <div class="c-row">
+                        <div class="c-row-header">
+                            <div class="c-row-name" style="color:#5D5FEF;">Insivo</div>
+                            <div style="font-size:13px;font-weight:700;color:#5D5FEF;">unter 7 Tage</div>
+                        </div>
+                        <div class="c-bar-bg"><div class="c-bar-fill insivo-fill"></div></div>
+                        <div class="ticks">
+                            <span class="tick">Wo 1</span><span class="tick">Wo 2</span><span class="tick">Wo 3</span>
+                            <span class="tick">Wo 4</span><span class="tick">Wo 5</span><span class="tick">Wo 6+</span>
+                        </div>
+                    </div>
+                    <div class="d-stat">
+                        <div class="d-stat-label">Insivo ist bis zu<br>8× schneller</div>
+                        <div style="text-align:right;">
+                            <div class="d-stat-num">8×</div>
+                            <div class="d-stat-unit">schneller</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="anim-text">
+                    <h3>Report in unter 7 Tagen, nicht 6 Wochen.</h3>
+                    <p>MA nehmen im eigenen Tempo teil. Insivo sammelt automatisch und generiert den Report sobald genug Antworten vorliegen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+    // Card 3 checklist animation
+    (function(){
+        var card3 = document.getElementById('card3');
+        if(!card3) return;
+        var items = card3.querySelectorAll('.c3-item');
+        var timers = [];
+        function runChecks() {
+            resetChecks();
+            items.forEach(function(item, i) {
+                var t = setTimeout(function(){ item.classList.add('checked'); }, 300 + i * 350);
+                timers.push(t);
+            });
+        }
+        function resetChecks() {
+            timers.forEach(function(t){ clearTimeout(t); });
+            timers = [];
+            items.forEach(function(item){ item.classList.remove('checked'); });
+        }
+        card3.addEventListener('mouseenter', runChecks);
+        card3.addEventListener('mouseleave', resetChecks);
+    })();
+    (function(){
+        var el = document.getElementById('c4-dots');
+        if(!el) return;
+        var TOTAL = 200;
+        var TARGET = 250;
+        var s = '';
+        for(var i = 0; i < TOTAL; i++) { s += '<div class="c4-dot"></div>'; }
+        el.innerHTML = s;
+        var dots = el.querySelectorAll('.c4-dot');
+        var counter = document.getElementById('c4-counter');
+        var card = el.closest('.anim-card');
+        var animFrame, running = false;
+
+        function runAnim() {
+            if(running) return;
+            running = true;
+            var startTime = null;
+            var DURATION = 1800;
+
+            function step(ts) {
+                if(!startTime) startTime = ts;
+                var progress = Math.min((ts - startTime) / DURATION, 1);
+                var eased = 1 - Math.pow(1 - progress, 3);
+                var activeDots = Math.round(eased * TOTAL);
+                var countVal = Math.round(eased * TARGET);
+                for(var i = 0; i < TOTAL; i++) {
+                    if(i < activeDots) dots[i].classList.add('active');
+                    else dots[i].classList.remove('active');
+                }
+                if(counter) counter.textContent = progress >= 1 ? '250+' : countVal;
+                if(progress < 1) { animFrame = requestAnimationFrame(step); }
+                else { running = false; }
+            }
+            animFrame = requestAnimationFrame(step);
+        }
+
+        function resetAnim() {
+            running = false;
+            cancelAnimationFrame(animFrame);
+            for(var i = 0; i < TOTAL; i++) dots[i].classList.remove('active');
+            if(counter) counter.textContent = '0';
+        }
+
+        if(card) {
+            card.addEventListener('mouseenter', runAnim);
+            card.addEventListener('mouseleave', resetAnim);
+        }
+    })();
+    </script>
+
+    <script>
+    // Card 5 — Speech bubble animation
+    (function(){
+        var card = document.getElementById('card5');
+        var stage = document.getElementById('c5-stage');
+        var aiSwirl = document.getElementById('c5-aiSwirl');
+        var findingsLayer = document.getElementById('c5-findingsLayer');
+        var visualArea = document.getElementById('c5-visualArea');
+        if(!card) return;
+
+        var bubbleData = [
+            { txt: '"Schulung zu kurz"',         cls: 'red',    tail: '',  l: 6,  t: 6  },
+            { txt: '"Keiner zuständig"',          cls: 'amber',  tail: 'r', l: 52, t: 4  },
+            { txt: '"20x täglich gefragt"',       cls: 'purple', tail: '',  l: 12, t: 22 },
+            { txt: '"Infos gefiltert"',           cls: 'gray',   tail: 'r', l: 48, t: 19 },
+            { txt: '"Key User überlastet"',       cls: 'red',    tail: '',  l: 4,  t: 40 },
+            { txt: '"Keine Praxisbeispiele"',     cls: 'amber',  tail: 'r', l: 50, t: 37 },
+            { txt: '"Widersprüchliche Mails"',    cls: 'purple', tail: '',  l: 8,  t: 57 },
+            { txt: '"Wer ist verantwortlich?"',   cls: 'gray',   tail: 'r', l: 44, t: 54 },
+            { txt: '"System zu komplex"',         cls: 'amber',  tail: 't', l: 16, t: 74 },
+            { txt: '"Fühle mich überfordert"',    cls: 'red',    tail: 't', l: 50, t: 71 },
+        ];
+        var answers = {
+            'Wie viele haben Schulung als Problem genannt?': '232 von 347 MA (67%). Häufigster Einzelbefund im gesamten Interview-Set.',
+            'Was kostet uns das pro Woche?': '~56.000 € Produktivitätsverlust/Woche. Ein Praxisworkshop ist in 5 Tagen umsetzbar.',
+        };
+        var fallback = 'Schulungslücke ist der kritischste Hebel. 67% betroffen, sofortiger Handlungsbedarf.';
+        var els = [], timers = [], alive = false, isAnimating = false;
+
+        function buildBubbles() {
+            stage.innerHTML = ''; els = [];
+            bubbleData.forEach(function(d) {
+                var el = document.createElement('div');
+                el.className = ['sb', d.cls, d.tail].filter(Boolean).join(' ');
+                el.textContent = d.txt;
+                el.style.left = d.l + '%';
+                el.style.top  = d.t + '%';
+                stage.appendChild(el);
+                els.push(el);
+            });
+        }
+        // Pre-generate scatter directions so they're consistent per bubble
+        var scatterDirs = bubbleData.map(function() {
+            var angle = Math.random() * Math.PI * 2;
+            var dist = 55 + Math.random() * 35;
+            return { x: Math.cos(angle) * dist, y: Math.sin(angle) * dist };
+        });
+
+        function popBubbles() {
+            alive = true;
+            els.forEach(function(el, i) {
+                timers.push(setTimeout(function() {
+                    el.style.animation = 'c5pop 0.38s cubic-bezier(0.34,1.4,0.64,1) forwards, c5floatY ' + (2.2+(i%3)*0.35) + 's ' + (i*0.06) + 's ease-in-out infinite';
+                }, i * 60));
+            });
+        }
+        function flyToCenter() {
+            if (!alive || isAnimating) return;
+            isAnimating = true; alive = false;
+
+            // Blur & dissolve all bubbles in place
+            els.forEach(function(el, i) {
+                el.style.animation = 'none';
+                timers.push(setTimeout(function() {
+                    el.style.transition = 'opacity 0.5s ease, filter 0.5s ease, transform 0.5s ease';
+                    el.style.opacity = '0';
+                    el.style.filter = 'blur(12px)';
+                    el.style.transform = 'scale(1.08)';
+                }, i * 18));
+            });
+
+            // Loading orb appears while bubbles are dissolving
+            timers.push(setTimeout(function() {
+                visualArea.classList.add('glowing');
+                aiSwirl.classList.add('show');
+            }, 280));
+
+            // Findings slide in after loading orb
+            timers.push(setTimeout(function() {
+                findingsLayer.classList.add('show');
+                timers.push(setTimeout(function() { document.getElementById('c5-f1').classList.add('pop'); }, 40));
+                timers.push(setTimeout(function() { document.getElementById('c5-f2').classList.add('pop'); }, 200));
+                timers.push(setTimeout(function() { document.getElementById('c5-aibar').classList.add('pop'); }, 360));
+            }, 900));
+
+            // Orb fades as findings settle
+            timers.push(setTimeout(function() {
+                aiSwirl.classList.remove('show');
+                visualArea.classList.remove('glowing');
+                isAnimating = false;
+            }, 1050));
+        }
+        function reset() {
+            timers.forEach(function(t){ clearTimeout(t); }); timers = [];
+            alive = false; isAnimating = false;
+
+            // Regenerate scatter directions for next hover
+            scatterDirs = bubbleData.map(function() {
+                var angle = Math.random() * Math.PI * 2;
+                var dist = 55 + Math.random() * 35;
+                return { x: Math.cos(angle) * dist, y: Math.sin(angle) * dist };
+            });
+
+            findingsLayer.style.transition = 'opacity 0.25s ease';
+            findingsLayer.style.opacity = '0';
+            aiSwirl.classList.remove('show');
+            visualArea.classList.remove('glowing');
+
+            timers.push(setTimeout(function() {
+                findingsLayer.classList.remove('show');
+                findingsLayer.style.opacity = '';
+                findingsLayer.style.transition = '';
+                ['c5-f1','c5-f2','c5-aibar'].forEach(function(id){ var el = document.getElementById(id); if(el) el.classList.remove('pop'); });
+                document.getElementById('c5-aiAnswer').classList.remove('show');
+                buildBubbles();
+                popBubbles();
+            }, 200));
+        }
+        window.c5AskChip = function(q) {
+            var answer = document.getElementById('c5-aiAnswer');
+            document.getElementById('c5-aiInput').value = '';
+            answer.classList.remove('show');
+            setTimeout(function() { answer.textContent = answers[q] || fallback; answer.classList.add('show'); }, 200);
+        };
+        window.c5AskInput = function() {
+            var inp = document.getElementById('c5-aiInput');
+            var answer = document.getElementById('c5-aiAnswer');
+            if (!inp.value.trim()) return;
+            answer.classList.remove('show');
+            setTimeout(function() { answer.textContent = fallback; answer.classList.add('show'); inp.value = ''; }, 200);
+        };
+        buildBubbles(); popBubbles();
+        card.addEventListener('mouseenter', flyToCenter);
+        card.addEventListener('mouseleave', reset);
+    })();
+    </script>
+
+    <script>
+    (function(){
+        var card6 = document.getElementById('card6');
+        var typing = document.getElementById('c6typing');
+        if(!card6 || !typing) return;
+        var timers = [];
+        function resetChat() {
+            timers.forEach(function(t){ clearTimeout(t); });
+            timers = [];
+            ['c6msg1','c6msg2','c6msg3','c6msg4'].forEach(function(id){
+                var el = document.getElementById(id);
+                if(el) el.classList.remove('visible');
+            });
+            typing.classList.remove('visible');
+        }
+        function runChat() {
+            resetChat();
+            timers.push(setTimeout(function(){ document.getElementById('c6msg1').classList.add('visible'); }, 200));
+            timers.push(setTimeout(function(){ document.getElementById('c6msg2').classList.add('visible'); }, 900));
+            timers.push(setTimeout(function(){ typing.classList.add('visible'); }, 1500));
+            timers.push(setTimeout(function(){
+                typing.classList.remove('visible');
+                document.getElementById('c6msg3').classList.add('visible');
+            }, 2400));
+            timers.push(setTimeout(function(){ document.getElementById('c6msg4').classList.add('visible'); }, 3200));
+        }
+        card6.addEventListener('mouseenter', runChat);
+        card6.addEventListener('mouseleave', resetChat);
+    })();
+    </script>
+
+    <!-- New Zielgruppen Section -->
+    <section class="benefits-section-new zielgruppen-section fade-in-up">
+        <div class="b-headline">
+            <h2>Gebaut für die, die Verantwortung tragen.</h2>
+        </div>
+        <div class="benefits-grid">
+            
+            <div class="benefit-card">
+                <div class="benefit-icon-wrap">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="8.5" cy="6.5" r="2.5" stroke="#5D5FEF" stroke-width="1.6"/>
+                        <circle cx="14.5" cy="6.5" r="2.5" stroke="#5D5FEF" stroke-width="1.6"/>
+                        <path d="M3 17c0-2.761 2.462-5 5.5-5s5.5 2.239 5.5 5" stroke="#5D5FEF" stroke-width="1.6" stroke-linecap="round"/>
+                        <path d="M16 12c1.657 0 3 1.343 3 3" stroke="#5D5FEF" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="benefit-label">HR &amp; People</div>
+                <h3>Warum steigt die Fluktuation wirklich?</h3>
+                <p>Verstehe Ursachen hinter Engagement-Daten, ohne externes Beratungsbudget.</p>
+            </div>
+
+            <div class="benefit-card">
+                <div class="benefit-icon-wrap">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 11a7 7 0 0 1 12.95-3.65" stroke="#5D5FEF" stroke-width="1.6" stroke-linecap="round"/>
+                        <path d="M18 11a7 7 0 0 1-12.95 3.65" stroke="#5D5FEF" stroke-width="1.6" stroke-linecap="round"/>
+                        <path d="M17 4.5l.95 2.85-2.85.95" stroke="#5D5FEF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M5 17.5l-.95-2.85 2.85-.95" stroke="#5D5FEF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="benefit-label">Change &amp; Transformation</div>
+                <h3>Wo sitzt der Widerstand gegen den Rollout?</h3>
+                <p>Erkenne Widerstände bevor sie eskalieren.</p>
+            </div>
+
+            <div class="benefit-card">
+                <div class="benefit-icon-wrap">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="12" width="4" height="7" rx="1" stroke="#5D5FEF" stroke-width="1.6"/>
+                        <rect x="9" y="8" width="4" height="11" rx="1" stroke="#5D5FEF" stroke-width="1.6"/>
+                        <rect x="15" y="4" width="4" height="15" rx="1" stroke="#5D5FEF" stroke-width="1.6"/>
+                    </svg>
+                </div>
+                <div class="benefit-label">C-Level &amp; Geschäftsführung</div>
+                <h3>Was hören meine Mitarbeitenden wirklich?</h3>
+                <p>Organisations-Realität ohne den Filter der mittleren Führungsebene.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq-section">
+        <div class="faq-container">
+            <h2 class="faq-title">FAQ</h2>
+            <p class="faq-subtitle">Alles, was Sie wissen müssen, bevor Sie starten.</p>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-header">
+                        <h4 class="faq-question">Was ist der Unterschied zu einer klassischen Mitarbeiterbefragung?</h4>
+                        <svg class="faq-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="faq-answer">Klassische Surveys messen Stimmung. Insivo versteht Ursachen. Statt Multiple-Choice-Antworten führt unsere KI echte adaptive Gespräche: Sie hört zu, stellt Nachfragen und erkennt Muster über hunderte Interviews gleichzeitig. Das Ergebnis ist kein Stimmungsbarometer, sondern eine strukturierte Root-Cause-Analyse. Direkt präsentierbar für die Geschäftsführung.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-header">
+                        <h4 class="faq-question">Was sieht der Betriebsrat?</h4>
+                        <svg class="faq-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="faq-answer">Vor dem Start einer Kampagne erhält der Betriebsrat ein vollständiges Paket: alle Kernfragen, die methodische Beschreibung der KI-Logik, das Anonymitätskonzept und den DSGVO-Nachweis als exportierbares PDF. Die Kampagne startet technisch erst nach dokumentierter BR-Freigabe. Das ist kein UI-Hinweis, sondern ein hartes technisches Lock. Änderungen am Fragebogen nach BR-Ablehnung sind möglich. Das System generiert automatisch ein aktualisiertes Paket.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-header">
+                        <h4 class="faq-question">Wie wird Anonymität sichergestellt?</h4>
+                        <svg class="faq-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="faq-answer">Mitarbeitende erhalten einen anonymen Link. Kein Login, kein Name. Das System speichert ausschließlich einen verschlüsselten Token, niemals die E-Mail-Adresse im Klartext. Auswertungen erscheinen erst ab mindestens 7 Antworten pro Segment. Alle Zitate werden automatisch pseudonymisiert und paraphrasiert. Eine Rückverfolgung auf einzelne Personen ist technisch ausgeschlossen, nicht nur organisatorisch versprochen.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-header">
+                        <h4 class="faq-question">Wie lange dauert ein Projekt?</h4>
+                        <svg class="faq-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="faq-answer">Von Setup bis fertigem Management-Report: 3 bis 7 Tage. Klassische qualitative Analysen mit externen Beratern benötigen 4 bis 8 Wochen, für einen Bruchteil der Interviews. Mit Insivo sind 250 Interviews in 72 Stunden möglich, vollständig automatisiert ausgewertet, ohne Qualitätsverlust durch Interviewer-Bias.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-header">
+                        <h4 class="faq-question">Welche Interview-Typen gibt es?</h4>
+                        <svg class="faq-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="faq-answer">Insivo bietet vier methodisch unterschiedliche Interview-Typen. Kein Einheitsfragebogen. Diagnostisch für Ursachenanalyse bei Transformationen und ERP-Rollouts. Systemisch für Kulturwandel und Post-M&A-Integration. Lösungsfokussiert nach SFBT-Methodik für Engagement und Ressourcenaktivierung. Custom für Enterprise-Kunden mit eigener Framing-Logik. Jeder Typ hat eine eigene KI-Gesprächslogik. Die Fragen passen sich in Echtzeit an die Antworten an.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-header">
+                        <h4 class="faq-question">Ist Insivo DSGVO-konform?</h4>
+                        <svg class="faq-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="faq-answer">Ja, by Design, nicht by Policy. Alle Daten werden ausschließlich auf EU-Servern in Frankfurt verarbeitet und pseudonymisiert gespeichert. Kein US-Datentransfer ohne explizite Vereinbarung. Enterprise-Pläne beinhalten einen individuellen Auftragsverarbeitungsvertrag. Subprozessoren wie Anthropic und Stripe sind vertraglich gebunden und in der Subprozessoren-Liste dokumentiert. Auf Anfrage sofortige Datenlöschung nach DSGVO Art. 17.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-header">
+                        <h4 class="faq-question">Welche Kampagnentypen bietet Insivo an?</h4>
+                        <svg class="faq-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="faq-answer">Insivo bietet fünf Kampagnentypen je nach Situation und Ziel.<br><br><strong>Mitarbeiterbefragung:</strong> Der klassische Einstieg. Die gesamte Belegschaft oder eine Abteilung wird befragt, z.B. zu Engagement, Kultur oder einer konkreten Veränderung wie einem ERP-Rollout.<br><br><strong>Führungskräfte-Feedback:</strong> Anonym von unten nach oben. Mitarbeitende geben ihrer Führungskraft strukturiertes Feedback, ohne dass einzelne Aussagen einer Person zugeordnet werden können.<br><br><strong>360° Feedback:</strong> Kombiniert beide Richtungen. MA bewertet FK, FK bewertet MA, Peers bewerten sich gegenseitig. Besonders stark in Post-M&amp;A-Situationen.<br><br><strong>Pulse:</strong> Eine kurze, wiederholbare Befragung, z.B. alle zwei Wochen. Ideal um Veränderungen über Zeit zu messen, etwa während einer laufenden Transformation.<br><br><strong>Exit Interview:</strong> Ersetzt das klassische Abschlussgespräch. Die KI führt ein strukturiertes Gespräch wenn jemand das Unternehmen verlässt. Ehrlicher als ein Gespräch mit dem direkten Vorgesetzten, weil vollständig anonym.<br><br>Alle fünf Typen lassen sich mit verschiedenen Interview-Methoden kombinieren: diagnostisch, systemisch, lösungsfokussiert oder als 360° Führungsfeedback.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pre-Footer CTA -->
+    <section class="pre-footer">
+        <a href="https://calendar.app.google/ZYRiNELGw14YEtHV9" target="_blank" class="pre-footer-btn">Gespräch buchen</a>
+    </section>
+
+    <!-- Site Footer -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <!-- Col 1 -->
+                <div class="footer-col" style="flex: 1;">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <a href="#how" class="footer-link">Wie es funktioniert</a>
+                    <a href="#features-animated" class="footer-link">Vorteile</a>
+                    <a href="#faq" class="footer-link">FAQ</a>
+                </div>
+                <!-- Col 2 -->
+                <div class="footer-col" style="flex: 1;">
+                    <h4 class="footer-heading">Kontakt</h4>
+                    <p class="footer-text">HR & People Ops<br>Email: hallo@insivo.de<br>Antwortzeit: unter 24h</p>
+                </div>
+                <!-- Col 3 -->
+                <div class="footer-col" style="flex: 1;">
+                    <h4 class="footer-heading">Folgen Sie uns</h4>
+                    <div class="footer-socials">
+                        <!-- LinkedIn icon -->
+                        <a href="#"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+                        <!-- Instagram icon -->
+                        <a href="#"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+                    </div>
+                    <p class="footer-text">Neue KI-Features kommen schnell. Folgen Sie Insivo, um nichts zu verpassen.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Insivo. Alle Rechte vorbehalten.</p>
+                <div class="footer-legal">
+                    <a href="impressum.html">Impressum</a>
+                    <a href="datenschutz.html">Datenschutz</a>
+                    <a href="#">Cookie-Einstellungen</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // Steps scroll-fill animation
+            const stepsContainer = document.getElementById('stepsContainer');
+            const stepsLineFill = document.getElementById('stepsLineFill');
+            const stepDots = document.querySelectorAll('.step-dot');
+
+            function updateStepsLine() {
+                if (!stepsContainer || !stepsLineFill) return;
+                const rect = stepsContainer.getBoundingClientRect();
+                const windowMid = window.innerHeight * 0.6;
+                // progress: 0 when container top is at windowMid, 1 when container bottom is at windowMid
+                let progress = (windowMid - rect.top) / rect.height;
+                progress = Math.max(0, Math.min(1, progress));
+                stepsLineFill.style.height = (progress * 100) + '%';
+
+                // Animate dots: subtle visual feedback when active
+                stepDots.forEach(dot => {
+                    const dotRect = dot.getBoundingClientRect();
+                    if (dotRect.top < windowMid) {
+                        dot.style.background = '#ffffff';
+                        dot.style.boxShadow = '0 6px 16px rgba(0,0,0,0.12)';
+                        dot.style.transform = 'scale(1.1)';
+                    } else {
+                        dot.style.background = '#e6e6e6';
+                        dot.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+                        dot.style.transform = 'scale(1)';
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', updateStepsLine, { passive: true });
+            updateStepsLine();
+
+            // Scroll Sync Text Logic
+            const scrollTextContainer = document.getElementById('syncScrollText');
+            const scrollBtn = document.getElementById('scrollTextBtn');
+            let revealChars = [];
+
+            if (scrollTextContainer) {
+                const htmlContent = scrollTextContainer.innerHTML.trim();
+                scrollTextContainer.innerHTML = '';
+                // Split by <br> to preserve line breaks
+                const lines = htmlContent.split(/<br\s*\/?>/i);
+
+                lines.forEach((line, lineIdx) => {
+                    // Check for accent span (2,2-mal)
+                    const parts = line.split(/(<span[^>]*color:#5551FF[^>]*>.*?<\/span>)/i);
+
+                    parts.forEach(part => {
+                        const isAccent = /<span[^>]*color:#5551FF/i.test(part);
+                        // Strip any remaining HTML to get pure text
+                        const text = part.replace(/<[^>]+>/g, '').trim();
+                        if (!text) return;
+
+                        const words = text.split(' ');
+                        words.forEach((word, wIdx) => {
+                            const wordSpan = document.createElement('span');
+                            wordSpan.className = 'word';
+
+                            for (let i = 0; i < word.length; i++) {
+                                const charSpan = document.createElement('span');
+                                charSpan.className = 'reveal-char';
+                                if (isAccent) charSpan.dataset.accent = 'true';
+                                charSpan.textContent = word[i];
+                                wordSpan.appendChild(charSpan);
+                            }
+
+                            scrollTextContainer.appendChild(wordSpan);
+                            const spaceNode = document.createTextNode(' ');
+                            scrollTextContainer.appendChild(spaceNode);
+                        });
+                    });
+
+                    // Add <br> between lines (not after the last)
+                    if (lineIdx < lines.length - 1) {
+                        scrollTextContainer.appendChild(document.createElement('br'));
+                    }
+                });
+
+                revealChars = document.querySelectorAll('.reveal-char');
+            }
+
+            function updateScrollText() {
+                if (!scrollTextContainer || revealChars.length === 0) return;
+                const rect = scrollTextContainer.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                
+                // Animation bounds
+                const startPos = windowHeight * 0.85; 
+                const endPos = windowHeight * 0.35;
+                
+                let progress = (startPos - rect.top) / (startPos - endPos);
+                progress = Math.max(0, Math.min(1, progress));
+                
+                // Active chars based on progress
+                const totalChars = revealChars.length;
+                const activeChars = Math.floor(progress * totalChars);
+                
+                revealChars.forEach((char, index) => {
+                    if (index < activeChars) {
+                        char.style.color = char.dataset.accent ? '#5551FF' : '#000000';
+                    } else {
+                        char.style.color = '#d1d1d6';
+                    }
+                });
+                
+                if (scrollBtn) {
+                    if (progress >= 0.8) {
+                        scrollBtn.style.opacity = '1';
+                        scrollBtn.style.pointerEvents = 'auto'; // allow clicks when visible
+                    } else {
+                        scrollBtn.style.opacity = '0';
+                        scrollBtn.style.pointerEvents = 'none'; // prevent clicks when hidden
+                    }
+                }
+            }
+            window.addEventListener('scroll', updateScrollText, { passive: true });
+            updateScrollText();
+
+            // Trigger immediately to set initial state
+            window.dispatchEvent(new Event('scroll'));
+
+            // Navbar Scroll Animation
+            const navbar = document.querySelector('.navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Section Scroll Spy Navigation
+            const sections = document.querySelectorAll("section[id]");
+            const navLinks = document.querySelectorAll(".nav-link");
+
+            const observerOptions = {
+                root: null,
+                rootMargin: "-20% 0px -70% 0px", // triggers when section is in the upper part of the screen
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => link.classList.remove("active"));
+                        const activeLink = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add("active");
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => observer.observe(section));
+
+            // Smooth scrolling behavior
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Fade In Elements Observer
+            const fadeElements = document.querySelectorAll('.fade-in-up');
+            const fadeObserverOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+            const fadeObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, fadeObserverOptions);
+            
+            fadeElements.forEach(el => fadeObserver.observe(el));
+
+            // FAQ Accordion Interaction
+            const faqItems = document.querySelectorAll(".faq-item");
+            faqItems.forEach(item => {
+                item.addEventListener("click", () => {
+                    const isOpen = item.classList.contains("open");
+                    // close all
+                    faqItems.forEach(i => i.classList.remove("open"));
+                    // toggle current
+                    if (!isOpen) {
+                        item.classList.add("open");
+                    }
+                });
+            });
+
+            // Dashboard Tabs Logic
+            const dashTabs = document.querySelectorAll('#dash-tabs span');
+            const dashTitle = document.querySelector('.dash-title');
+            const dashSubtitle = document.querySelector('.dash-subtitle');
+            const dTabs = document.querySelectorAll('.d-tab');
+            const sbItems = document.querySelectorAll('.sb-item');
+
+            const dashContent = {
+                dashboard: {
+                    title: "ERP-Rollout: Analyse-Dashboard",
+                    subtitle: "Diagnostisches Interview · 347 von 500 Mitarbeitenden · 01.–14. März 2026",
+                    innerTab: 0,
+                    sidebarTab: 0
+                },
+                heatmap: {
+                    title: "ERP-Rollout: Themen Heatmap",
+                    subtitle: "Häufigkeit und Sentiment der diskutierten Themenbereiche",
+                    innerTab: 1,
+                    sidebarTab: 0
+                },
+                reports: {
+                    title: "ERP-Rollout: Management Reports",
+                    subtitle: "Zusammenfassung, Root-Cause und Priorisierte Maßnahmen",
+                    innerTab: 4,
+                    sidebarTab: 2
+                }
+            };
+
+            dashTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    dashTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    const key = tab.getAttribute('data-tab');
+                    const data = dashContent[key];
+                    
+                    if (data) {
+                        document.querySelectorAll('.dash-content').forEach(c => c.style.display = 'none');
+                        const activeDash = document.getElementById(`content-${key}`);
+                        if (activeDash) activeDash.style.display = 'block';
+                        
+                        sbItems.forEach(t => t.classList.remove('active'));
+                        if(sbItems[data.sidebarTab]) sbItems[data.sidebarTab].classList.add('active');
+                    }
+                });
+            });
+
+            // Mobile Menu
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navbarEl = document.querySelector('.navbar');
+            if (mobileMenuBtn && navbarEl) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    navbarEl.classList.toggle('nav-open');
+                });
+            }
+        });
+    </script>
+    <script>
+        // Card 1 – bar animation on hover
+        const card1 = document.getElementById('card1');
+        const barFill = document.getElementById('bar-fill');
+        const pctLabel = document.getElementById('pct-label');
+        let raf1 = null;
+        function runBar() {
+            if (raf1) cancelAnimationFrame(raf1);
+            barFill.style.width = '0%';
+            pctLabel.textContent = '0%';
+            let start = null;
+            const duration = 1400, target = 90;
+            function step(ts) {
+                if (!start) start = ts;
+                const p = Math.min((ts - start) / duration, 1);
+                const ease = 1 - Math.pow(1 - p, 3);
+                const val = Math.round(ease * target);
+                barFill.style.width = val + '%';
+                pctLabel.textContent = val + '%';
+                if (p < 1) { raf1 = requestAnimationFrame(step); } else { raf1 = null; }
+            }
+            raf1 = requestAnimationFrame(step);
+        }
+        function resetBar() {
+            if (raf1) { cancelAnimationFrame(raf1); raf1 = null; }
+            barFill.style.width = '0%';
+            pctLabel.textContent = '0%';
+        }
+        if (card1) {
+            card1.addEventListener('mouseenter', runBar);
+            card1.addEventListener('mouseleave', resetBar);
+        }
+    </script>
+</body>
+</html>
