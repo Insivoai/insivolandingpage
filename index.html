@@ -249,8 +249,16 @@
             height: 320px;
             background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 40%, #FFFFFF 75%, #FFFFFF 100%);
             bottom: -40px;
-            left: -20px;
-            right: -20px;
+            left: -40px;
+            right: -40px;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .dashboard-mockup-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 50%; bottom: -40px; left: -2px; right: -2px;
+            background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.5) 30%, #ffffff 70%);
             pointer-events: none;
             z-index: 10;
         }
@@ -493,16 +501,16 @@
         }
         /* Dot on the line */
         .step-dot {
-            position: absolute;
-            left: calc(120px - 14px); /* centered on 2px line, dot width 28px */
-            top: -9px;
-            width: 28px;
-            height: 28px;
-            background: #e6e6e6;
-            border: 4px solid #f2f2f2;
+            position: sticky;
+            top: 107px;
+            margin-left: 115px;
+            margin-bottom: -12px;
+            width: 12px;
+            height: 12px;
+            background: #e0e0f0;
+            border: 2px solid #e0e0f0;
             border-radius: 50%;
-            z-index: 2;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            z-index: 3;
             transition: all 0.3s ease;
         }
         /* Small step label below the dot */
@@ -553,11 +561,11 @@
         .step-mockup::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 8px;
-            background: #ffffff;
+            inset: 0;
+            border: 3px solid #ffffff;
             z-index: 5;
-            border-radius: 16px 16px 0 0;
+            border-radius: 16px;
+            pointer-events: none;
         }
         .step-mockup.with-fade::after {
             content: '';
@@ -939,16 +947,12 @@
             cursor: default;
         }
         .benefit-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 16px 40px rgba(0,0,0,0.08), 0 0 0 1.5px rgba(93,95,239,0.15);
-            border-color: rgba(93,95,239,0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.05);
         }
         .benefit-icon-wrap {
-            width: 48px; height: 48px; border-radius: 14px; background: #f0f0fe;
-            display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
-            transition: background 0.25s ease;
+            display: flex; align-items: center; margin-bottom: 20px;
         }
-        .benefit-card:hover .benefit-icon-wrap { background: #e4e4fd; }
         .benefit-card h3 { font-size: 18px; font-weight: 700; margin: 0; color: var(--text-dark); letter-spacing: -0.02em; line-height: 1.4; }
         .benefit-card p { font-size: 14px; color: var(--text-gray); line-height: 1.6; margin: 10px 0 0; }
         .benefit-label { font-size: 12px; font-weight: 600; color: var(--accent); margin-bottom: 10px; letter-spacing: 0.04em; text-transform: uppercase; }
@@ -1354,9 +1358,9 @@
 
         <div class="dashboard-mockup-wrapper">
             <div class="mock-dashboard">
-                <img id="content-dashboard" class="dash-content" src="Insivo%20Mockups/Main%20Dashboard.png" style="display: block; width: 100%; height: auto; object-fit: contain; padding: 0;">
+                <img id="content-dashboard" class="dash-content" src="Insivo%20Mockups/Dashboard%20Main.png" style="display: block; width: 100%; height: auto; object-fit: contain; padding: 0;">
                 <img id="content-heatmap" class="dash-content" src="Insivo%20Mockups/Ursachenanalyse.png" style="display: none; width: 100%; height: auto; object-fit: contain; padding: 0;">
-                <img id="content-reports" class="dash-content" src="Insivo%20Mockups/Handlungsemepfhelungen.png" style="display: none; width: 100%; height: auto; object-fit: contain; padding: 0;">
+                <img id="content-reports" class="dash-content" src="Insivo%20Mockups/Handlungsempfehlungen.png" style="display: none; width: 100%; height: auto; object-fit: contain; padding: 0;">
             </div>
         </div>
     </div>
@@ -1383,7 +1387,7 @@
                         <h3 class="step-title" data-step="1">Kampagne erstellen</h3>
                         <p class="step-desc">Ziel, Zielgruppe und Interview-Typ definieren. Insivo erstellt automatisch einen strukturierten Fragebogen, anpassbar und sofort betriebsratsbereit.</p>
                         <div class="step-mockup">
-                            <img src="Insivo%20Mockups/Campaigns.png" alt="Kampagne erstellen Mockup" loading="lazy">
+                            <img src="Insivo%20Mockups/Kampagnen.png" alt="Kampagne erstellen Mockup" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -1413,7 +1417,7 @@
                         <h3 class="step-title" data-step="3">KI führt die Interviews</h3>
                         <p class="step-desc">Mitarbeitende erhalten einen persönlichen, anonymen Link und sprechen per Voice oder Text mit der KI. Adaptive Nachfragen dort, wo Tiefe gebraucht wird. Bei psychischer Belastung greift automatisch das Stopp-Protokoll.</p>
                         <div class="step-mockup">
-                            <img src="Insivo%20Mockups/ai%20talk.png" alt="KI Interview Mockup" loading="lazy">
+                            <img src="Insivo%20Mockups/Interview.png" alt="KI Interview Mockup" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -1428,7 +1432,7 @@
                         <h3 class="step-title" data-step="4">Report &amp; Handlungsempfehlungen</h3>
                         <p class="step-desc">Alle Antworten werden transkribiert, geclustert und analysiert. Ergebnis: ein Management-Report mit Top-Handlungsfeldern, Root-Cause-Mustern und Maßnahmenvorschlägen. Mit Rollenansichten für HR, Führungskräfte und C-Level.</p>
                         <div class="step-mockup with-fade">
-                            <img src="Insivo%20Mockups/reports.png" alt="Reports Mockup" loading="lazy">
+                            <img src="Insivo%20Mockups/Reports.png" alt="Reports Mockup" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -1870,8 +1874,8 @@
             alive = true;
             els.forEach(function(el, i) {
                 timers.push(setTimeout(function() {
-                    el.style.animation = 'c5pop 0.38s cubic-bezier(0.34,1.4,0.64,1) forwards, c5floatY ' + (2.2+(i%3)*0.35) + 's ' + (i*0.06) + 's ease-in-out infinite';
-                }, i * 60));
+                    el.style.animation = 'c5pop 0.7s cubic-bezier(0.34,1.4,0.64,1) forwards, c5floatY ' + (3.5+(i%3)*0.5) + 's ' + (i*0.1) + 's ease-in-out infinite';
+                }, i * 140));
             });
         }
         function flyToCenter() {
@@ -1901,14 +1905,14 @@
                 timers.push(setTimeout(function() { document.getElementById('c5-f1').classList.add('pop'); }, 40));
                 timers.push(setTimeout(function() { document.getElementById('c5-f2').classList.add('pop'); }, 200));
                 timers.push(setTimeout(function() { document.getElementById('c5-aibar').classList.add('pop'); }, 360));
-            }, 900));
+            }, 1550));
 
             // Orb fades as findings settle
             timers.push(setTimeout(function() {
                 aiSwirl.classList.remove('show');
                 visualArea.classList.remove('glowing');
                 isAnimating = false;
-            }, 1050));
+            }, 1700));
         }
         function reset() {
             timers.forEach(function(t){ clearTimeout(t); }); timers = [];
@@ -2161,13 +2165,15 @@
                 stepDots.forEach(dot => {
                     const dotRect = dot.getBoundingClientRect();
                     if (dotRect.top < windowMid) {
-                        dot.style.background = '#ffffff';
-                        dot.style.boxShadow = '0 6px 16px rgba(0,0,0,0.12)';
-                        dot.style.transform = 'scale(1.1)';
+                        dot.style.background = '#3b82f6';
+                        dot.style.borderColor = '#3b82f6';
+                        dot.style.boxShadow = '';
+                        dot.style.transform = '';
                     } else {
-                        dot.style.background = '#e6e6e6';
-                        dot.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
-                        dot.style.transform = 'scale(1)';
+                        dot.style.background = '#e0e0f0';
+                        dot.style.borderColor = '#e0e0f0';
+                        dot.style.boxShadow = '';
+                        dot.style.transform = '';
                     }
                 });
             }
