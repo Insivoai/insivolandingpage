@@ -1243,13 +1243,17 @@
             .hero-buttons { flex-direction: column; align-items: stretch; gap: 10px; }
             .hero-buttons .btn { font-size: 15px; padding: 14px 20px; width: 100%; }
 
-            /* Dashboard Tabs: horizontal scrollbar */
-            .dash-tabs-outer { overflow-x: auto; flex-wrap: nowrap !important; justify-content: flex-start; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 6px; gap: 24px !important; }
-            .dash-tabs-outer::-webkit-scrollbar { display: none; }
-            .dash-tabs-outer span { white-space: nowrap; font-size: 13px; }
+            /* Hero: min-height entfernen damit kein Abstand entsteht */
+            .hero { min-height: unset !important; padding: 100px 20px 32px !important; }
 
-            /* Dashboard Mockup Wrapper kein Overflow */
-            .dashboard-mockup-wrapper { border-radius: 12px; }
+            /* Dashboard Tabs: kleiner, scrollbar */
+            .dash-tabs-outer { overflow-x: auto; flex-wrap: nowrap !important; justify-content: flex-start; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 6px; gap: 20px !important; margin-bottom: 0 !important; }
+            .dash-tabs-outer::-webkit-scrollbar { display: none; }
+            .dash-tabs-outer span { white-space: nowrap; font-size: 13px !important; font-weight: 600; }
+
+            /* Dashboard direkt anschließen */
+            .dashboard-wrapper { margin-top: 0 !important; padding: 0 12px !important; }
+            .dashboard-mockup-wrapper { border-radius: 12px; margin-top: 16px; }
             .mock-dashboard { border-radius: 10px; }
 
             /* Step Titel: kein Overflow */
