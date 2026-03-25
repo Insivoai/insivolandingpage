@@ -1266,30 +1266,34 @@
             .features-animated-header h2 { font-size: 28px !important; }
             .features-animated-header p { font-size: 15px !important; }
 
-            /* McKinsey Zitat */
-            #syncScrollText { font-size: clamp(18px, 5vw, 26px) !important; line-height: 1.35; }
+            /* McKinsey Zitat: 5 Zeilen auf Mobile */
+            #syncScrollText { font-size: 16px !important; line-height: 1.55; }
+            #syncScrollText br { display: none; }
 
-            /* Card 6 Voice: Wave immer animieren auf Mobile */
+            /* Dashboard Mockup: weniger Fade auf Mobile */
+            .dashboard-mockup-wrapper::after {
+                height: 100px;
+                background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 60%, #fff 100%);
+                bottom: -10px;
+            }
+
+            /* Card Voice: Wave immer animieren */
             .wave-bar-a { animation: waveBar1 0.9s ease-in-out infinite !important; }
             .wave-bar-b { animation: waveBar2 0.9s ease-in-out infinite !important; }
             .wave-bar-c { animation: waveBar3 0.9s ease-in-out infinite !important; }
             .rec-dot { animation: recBlink 1.2s ease-in-out infinite !important; }
 
-            /* Card 1: Hover-State immer sichtbar */
-            .vis-1-hover { opacity: 1 !important; transform: translateY(0) scale(1) !important; pointer-events: auto !important; }
-            .vis-1-default { opacity: 0 !important; }
+            /* Press-to-animate: Card 1 */
+            .anim-card.pressed .vis-1-default { opacity: 0 !important; transform: translateY(-28px) scale(0.97) !important; }
+            .anim-card.pressed .vis-1-hover { opacity: 1 !important; transform: translateY(0) scale(1) !important; pointer-events: auto !important; }
 
-            /* Card 4: Hover immer sichtbar (counter wird per JS getriggert) */
-            .vis-4-hover { opacity: 1 !important; transform: translateY(0) scale(1) !important; pointer-events: auto !important; }
-            .vis-4-default { opacity: 0 !important; }
+            /* Press-to-animate: Card 4 */
+            .anim-card.pressed .vis-4-default { opacity: 0 !important; transform: translateY(-20px) scale(0.95) !important; }
+            .anim-card.pressed .vis-4-hover { opacity: 1 !important; transform: translateY(0) scale(1) !important; pointer-events: auto !important; }
 
-            /* Card 3 DSGVO: Hover-State immer sichtbar */
-            .vis-3 .vis-hover { opacity: 1 !important; }
-            .vis-3 .vis-default { opacity: 0 !important; }
-
-            /* Card 6 Speed: Fast-Steps immer sichtbar */
-            .vis-2 .vis-hover { opacity: 1 !important; }
-            .vis-2 .vis-default { opacity: 0 !important; }
+            /* Press-to-animate: Card 3 + 6 (vis-default / vis-hover) */
+            .anim-card.pressed .vis-default { opacity: 0 !important; }
+            .anim-card.pressed .vis-hover { opacity: 1 !important; }
 
             /* Footer */
             .footer-legal { gap: 12px; flex-wrap: wrap; }
@@ -2413,6 +2417,36 @@
             card1.addEventListener('mouseenter', runBar);
             card1.addEventListener('mouseleave', resetBar);
         }
+    </script>
+
+    <!-- Mobile: Press/Touch to trigger card animations -->
+    <script>
+    (function() {
+        if(!('ontouchstart' in window) && !window.matchMedia('(max-width: 768px)').matches) return;
+        var resetTimers = new WeakMap();
+        document.querySelectorAll('.anim-card').forEach(function(card) {
+            card.addEventListener('touchstart', function() {
+                // Remove pressed from all other cards
+                document.querySelectorAll('.anim-card.pressed').forEach(function(c) {
+                    if(c !== card) {
+                        c.classList.remove('pressed');
+                        clearTimeout(resetTimers.get(c));
+                        c.dispatchEvent(new MouseEvent('mouseleave', {bubbles: true}));
+                    }
+                });
+                card.classList.add('pressed');
+                card.dispatchEvent(new MouseEvent('mouseenter', {bubbles: true}));
+            }, {passive: true});
+
+            card.addEventListener('touchend', function() {
+                var t = setTimeout(function() {
+                    card.classList.remove('pressed');
+                    card.dispatchEvent(new MouseEvent('mouseleave', {bubbles: true}));
+                }, 2200);
+                resetTimers.set(card, t);
+            });
+        });
+    })();
     </script>
 </body>
 </html>
