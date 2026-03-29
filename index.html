@@ -68,9 +68,56 @@
             text-decoration: none;
             display: flex;
             align-items: center;
+            gap: 10px;
             letter-spacing: -0.04em;
             flex: 1;
         }
+        .nav-logo-img {
+            height: 24px;
+            width: auto;
+            object-fit: contain;
+        }
+        /* ── Spiral Logo Icon ── */
+        .spiral-icon {
+            position: relative;
+            width: 28px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+        .spiral-icon .sl {
+            position: absolute;
+            border-radius: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .spiral-icon .sl:nth-child(1) { width: 28px; height: 7px; background: #C8BFF8; top: 0; }
+        .spiral-icon .sl:nth-child(2) { width: 22px; height: 6px; background: #B3A6F7; top: 5px; }
+        .spiral-icon .sl:nth-child(3) { width: 16px; height: 5.5px; background: #9485F0; top: 9px; }
+        .spiral-icon .sl:nth-child(4) { width: 11px; height: 4.5px; background: #7B6CE8; top: 13px; }
+        .spiral-icon .sl:nth-child(5) { width: 7px; height: 3.5px; background: #695AEE; top: 16px; }
+        .nav-logo:hover .spiral-icon .sl:nth-child(1) { transform: translateX(-50%) translateY(-2px); }
+        .nav-logo:hover .spiral-icon .sl:nth-child(2) { transform: translateX(-50%) translateY(-1px); }
+        .nav-logo:hover .spiral-icon .sl:nth-child(4) { transform: translateX(-50%) translateY(1px); }
+        .nav-logo:hover .spiral-icon .sl:nth-child(5) { transform: translateX(-50%) translateY(2px); }
+        /* Footer spiral */
+        .footer-spiral {
+            position: relative;
+            width: 40px;
+            height: 34px;
+            flex-shrink: 0;
+        }
+        .footer-spiral .sl {
+            position: absolute;
+            border-radius: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .footer-spiral .sl:nth-child(1) { width: 40px; height: 10px; background: rgba(200,191,248,0.5); top: 0; }
+        .footer-spiral .sl:nth-child(2) { width: 31px; height: 9px; background: rgba(179,166,247,0.5); top: 7px; }
+        .footer-spiral .sl:nth-child(3) { width: 23px; height: 8px; background: rgba(148,133,240,0.5); top: 13px; }
+        .footer-spiral .sl:nth-child(4) { width: 16px; height: 6px; background: rgba(123,108,232,0.5); top: 18px; }
+        .footer-spiral .sl:nth-child(5) { width: 10px; height: 5px; background: rgba(105,90,238,0.5); top: 22px; }
         .nav-links {
             display: flex;
             gap: 8px;
@@ -872,7 +919,8 @@
             .benefits-section-new { padding: 60px 20px; }
             
             /* Typography */
-            .hero-title { font-size: 52px; line-height: 1.04; letter-spacing: -0.04em; margin-bottom: 24px; }
+            .hero-title { font-size: 44px; line-height: 1.04; letter-spacing: -0.04em; margin-bottom: 24px; }
+            .hide-mobile { display: none; }
             .hero-subtitle { font-size: 15px; margin-bottom: 28px; line-height: 1.6; }
             .hero { padding: 100px 24px 40px; }
             .how-title, .faq-title { font-size: 32px; }
@@ -902,12 +950,16 @@
             .sidebar { display: none; }
             
             /* How It Works Stack */
-            .step-row { grid-template-columns: 1fr; gap: 24px; padding: 40px 0; }
-            .steps-container::before, .steps-line-fill { display: none; }
-            .step-left { display: none; }
+            .steps-container { position: relative; padding-left: 0; }
+            .steps-container::before { left: 13px; width: 2px; }
+            .steps-line-fill { left: 13px; width: 2px; }
+            .step-row { grid-template-columns: 48px 1fr; gap: 16px; padding: 40px 0; position: relative; }
+            .step-left { display: flex; flex-direction: column; align-items: center; }
+            .step-dot { position: relative; left: auto; top: auto; margin-left: 0; margin-bottom: 4px; width: 28px; height: 28px; }
+            .step-label { position: relative; top: auto; font-size: 14px; }
             .step-right { padding-left: 0; }
-            .step-title { display: flex; align-items: flex-start; gap: 16px; font-size: 24px; }
-            .step-title::before { content: attr(data-step); display: flex; align-items: center; justify-content: center; min-width: 32px; width: 32px; height: 32px; background: #e6e6e6; border-radius: 50%; font-size: 14px; color: #000; font-weight: 700; margin-top: 2px; }
+            .step-title { font-size: 24px; }
+            .step-title::before { display: none; }
             
             /* Animated Features Grid */
             .animated-cards-grid { grid-template-columns: 1fr; gap: 32px; }
@@ -1262,7 +1314,20 @@
 
             /* Step Titel: kein Overflow */
             .step-title { font-size: 20px !important; overflow-wrap: break-word; word-break: break-word; }
+            .step-title::before { display: none !important; }
             .step-right { max-width: 100%; overflow: hidden; }
+
+            /* Steps: Desktop-Look auf Mobile */
+            .steps-container { padding-left: 0 !important; }
+            .steps-container::before { left: 13px !important; }
+            .steps-line-fill { left: 13px !important; }
+            .step-row { grid-template-columns: 1fr !important; gap: 8px !important; padding-left: 44px !important; position: relative !important; }
+            .step-left { display: contents !important; }
+            .step-dot { position: absolute !important; left: 0 !important; top: 4px !important; margin-left: 0 !important; margin-bottom: 0 !important; width: 28px !important; height: 28px !important; min-width: 28px !important; background: #e0e0f0 !important; border: 2px solid #e0e0f0 !important; box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important; transition: all 0.3s ease !important; z-index: 2 !important; }
+            .step-label { position: relative !important; top: auto !important; font-size: 11px !important; font-weight: 700 !important; letter-spacing: 0.02em !important; white-space: nowrap; padding-left: 0 !important; transition: color 0.3s ease, opacity 0.3s ease; opacity: 0.5; margin-bottom: -4px !important; }
+            .step-label.active { opacity: 1; color: #3b82f6 !important; }
+            .step-row.step-active .step-title { color: #000 !important; }
+            .step-row.step-active .step-desc { color: #444 !important; }
 
             /* Step Mockup Bilder: volle Breite */
             .step-mockup { max-width: 100%; overflow: hidden; border-radius: 12px; }
@@ -1322,7 +1387,7 @@
 
     <nav class="navbar">
         <div class="mobile-menu-header" style="display: contents;">
-            <a href="#home" class="nav-logo">insivo</a>
+            <a href="#home" class="nav-logo"><img src="assets/logos/insivo-logo-black-cropped.png" alt="insivo" class="nav-logo-img"></a>
             <button class="mobile-menu-btn" aria-label="Menu" style="display:none;">
                 <svg viewBox="0 0 24 24" style="width:24px; height:24px; stroke:currentColor; stroke-width:2; stroke-linecap:round; fill:none;"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
             </button>
@@ -1340,7 +1405,7 @@
 
     <section id="home" class="hero">
         <h1 class="hero-title">Verstehe deine<br>Mitarbeitenden <span style="color: var(--accent);">wirklich.</span></h1>
-        <p class="hero-subtitle">Hunderte qualitative KI-Interviews in wenigen Tagen. Anonyme Gespräche, adaptive Nachfragen und ein priorisierter Report mit klaren Handlungsempfehlungen und Verantwortlichkeiten. Keine oberflächlichen Zahlen, sondern echte tiefe Erkenntnisse.</p>
+        <p class="hero-subtitle">Hunderte qualitative KI-Interviews in wenigen Tagen. Anonyme Gespräche, adaptive Nachfragen und ein priorisierter Report mit klaren Handlungsempfehlungen und Verantwortlichkeiten. <span class="hide-mobile">Keine oberflächlichen Zahlen, sondern echte tiefe Erkenntnisse.</span></p>
         <div class="hero-buttons">
             <a href="https://calendar.app.google/ZYRiNELGw14YEtHV9" target="_blank" class="btn btn-solid" style="background:var(--text-dark);">Gespräch buchen</a>
             <a href="#" class="btn btn-solid" style="background:#e5e7eb; color:#6b7280; cursor:default; pointer-events:none;">Demo kommt bald</a>
@@ -2134,7 +2199,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Insivo. Alle Rechte vorbehalten.</p>
+                <p style="display:flex;align-items:center;gap:10px;justify-content:center;"><img src="assets/logos/Insivo logo black.png" alt="insivo" style="height:22px;width:auto;opacity:0.5;">&copy; 2026 Insivo. Alle Rechte vorbehalten.</p>
                 <div class="footer-legal">
                     <a href="impressum.html">Impressum</a>
                     <a href="datenschutz.html">Datenschutz</a>
@@ -2161,17 +2226,23 @@
                 progress = Math.max(0, Math.min(1, progress));
                 stepsLineFill.style.height = (progress * 100) + '%';
 
-                // Animate dots: subtle visual feedback when active
+                // Animate dots + labels: visual feedback when active
                 stepDots.forEach(dot => {
                     const dotRect = dot.getBoundingClientRect();
+                    const label = dot.parentElement.querySelector('.step-label');
+                    const row = dot.closest('.step-row');
                     if (dotRect.top < windowMid) {
                         dot.style.background = '#3b82f6';
                         dot.style.borderColor = '#3b82f6';
                         dot.style.boxShadow = '';
                         dot.style.transform = '';
+                        if (label) label.classList.add('active');
+                        if (row) row.classList.add('step-active');
                     } else {
                         dot.style.background = '#e0e0f0';
                         dot.style.borderColor = '#e0e0f0';
+                        if (label) label.classList.remove('active');
+                        if (row) row.classList.remove('step-active');
                         dot.style.boxShadow = '';
                         dot.style.transform = '';
                     }
