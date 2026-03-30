@@ -881,6 +881,7 @@
         }
         .footer-socials a:hover { color: #ffffff; border-color: #ffffff; }
         .footer-socials svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        .footer-li-btn { display: none; }
 
         .footer-bottom {
             display: flex;
@@ -928,8 +929,11 @@
             .t-step { font-size: 32px; margin-top: 0; }
             
             /* Navigation */
+            .navbar { padding: 10px 16px !important; }
+            .navbar.scrolled { top: 10px !important; padding: 10px 16px !important; border-radius: 20px !important; left: 12px !important; right: 12px !important; max-width: none !important; }
             .mobile-menu-header { display: flex !important; width: 100%; justify-content: space-between; align-items: center; }
             .mobile-menu-btn { display: flex !important; align-items: center; justify-content: center; width: 44px; height: 44px; background: transparent; border: none; cursor: pointer; color: var(--text-dark); margin-left: auto; }
+            .nav-logo-img { height: 20px !important; }
             .nav-links, .nav-right { display: none; width: 100%; text-align: left; }
             .nav-links { flex-direction: column; padding: 20px 0 10px; border-top: 1px solid var(--border-color); margin-top: 10px; }
             .nav-right { padding-bottom: 20px; justify-content: flex-start; }
@@ -1296,8 +1300,8 @@
         ============================================================ */
         @media (max-width: 768px) {
             /* Hero Buttons: kleiner, volle Breite */
-            .hero-buttons { flex-direction: column; align-items: stretch; gap: 10px; }
-            .hero-buttons .btn { font-size: 15px; padding: 14px 20px; width: 100%; }
+            .hero-buttons { flex-direction: column; align-items: center; gap: 10px; }
+            .hero-buttons .btn { font-size: 15px; padding: 14px 20px; width: 80%; }
 
             /* Hero: min-height entfernen damit kein Abstand entsteht */
             .hero { min-height: unset !important; padding: 100px 20px 32px !important; }
@@ -1333,10 +1337,46 @@
             .step-mockup { max-width: 100%; overflow: hidden; border-radius: 12px; }
             .step-mockup img { width: 100% !important; height: auto !important; }
 
-            /* Feature Cards größer auf Mobile */
-            .anim-visual { height: 300px !important; }
-            .anim-text h3 { font-size: 18px; }
-            .anim-text p { font-size: 14px; }
+            /* Feature Cards kleiner auf Mobile */
+            .anim-visual { height: 220px !important; position: relative !important; }
+            .anim-card { padding: 12px !important; gap: 16px !important; border-radius: 18px !important; max-width: 92% !important; margin: 0 auto !important; }
+            .anim-text h3 { font-size: 16px; }
+            .anim-text p { font-size: 13px; }
+            .animated-cards-grid { gap: 20px !important; }
+
+            /* Card 1 hover-Inhalt braucht mehr Platz */
+            .vis-1 { height: auto !important; min-height: 220px !important; }
+            .vis-1-default, .vis-1-hover { position: relative !important; inset: auto !important; }
+            .vis-1-default { display: none !important; }
+            .vis-1-hover { opacity: 1 !important; transform: none !important; pointer-events: auto !important; padding: 20px 16px !important; }
+            .c1-h-headline { font-size: 18px !important; }
+            .c1-h-sub { margin-bottom: 16px !important; }
+            .c1-h-stats { margin-bottom: 16px !important; }
+            .c1-h-stat { padding: 10px !important; }
+            .c1-h-stat-val { font-size: 22px !important; }
+
+            /* Card 5 (Speech Bubbles) braucht mehr Platz */
+            .vis-5 { height: auto !important; min-height: 260px !important; }
+
+            /* Card 2 (Timeline) braucht mehr Platz */
+            .vis-2 { height: auto !important; min-height: 220px !important; padding: 20px 16px !important; }
+            .vis-2 .d-stat { opacity: 1 !important; transform: translateY(0) !important; }
+
+            /* Card 3 (DSGVO) hover-Inhalt braucht mehr Platz */
+            .vis-3 { height: auto !important; min-height: 220px !important; }
+            .vis-3 .vis-default, .vis-3 .vis-hover { position: relative !important; inset: auto !important; }
+            .vis-3 .vis-default { display: none !important; }
+            .vis-3 .vis-hover { opacity: 1 !important; transform: none !important; pointer-events: auto !important; padding: 20px 16px !important; background: #f0fdf4 !important; border-radius: 16px !important; }
+
+            /* Card 6 (Voice/Chat): Mic bleibt sichtbar, Chat überlagert */
+            .vis-6 { height: auto !important; min-height: 240px !important; }
+            .vis-6 .vis-default { position: relative !important; inset: auto !important; opacity: 1 !important; transform: none !important; }
+            .vis-6 .vis-hover { position: absolute !important; inset: 0 !important; opacity: 0 !important; background: #fff !important; transition: opacity 0.4s ease !important; z-index: 5 !important; }
+            .anim-card.pressed .vis-6 .vis-hover { opacity: 1 !important; transform: translateY(0) scale(1) !important; pointer-events: auto !important; }
+
+            /* Scroll-triggered: .pressed = sichtbar (Cards 4) */
+            .anim-card.pressed .vis-4-default { opacity: 0 !important; transform: translateY(-28px) scale(0.97) !important; }
+            .anim-card.pressed .vis-4-hover { opacity: 1 !important; transform: translateY(0) scale(1) !important; pointer-events: auto !important; }
             .features-animated-section { padding: 60px 16px !important; }
             .features-animated-header h2 { font-size: 28px !important; }
             .features-animated-header p { font-size: 15px !important; }
@@ -1358,22 +1398,13 @@
             .wave-bar-c { animation: waveBar3 0.9s ease-in-out infinite !important; }
             .rec-dot { animation: recBlink 1.2s ease-in-out infinite !important; }
 
-            /* Press-to-animate: Card 1 */
-            .anim-card.pressed .vis-1-default { opacity: 0 !important; transform: translateY(-28px) scale(0.97) !important; }
-            .anim-card.pressed .vis-1-hover { opacity: 1 !important; transform: translateY(0) scale(1) !important; pointer-events: auto !important; }
-
-            /* Press-to-animate: Card 4 */
-            .anim-card.pressed .vis-4-default { opacity: 0 !important; transform: translateY(-20px) scale(0.95) !important; }
-            .anim-card.pressed .vis-4-hover { opacity: 1 !important; transform: translateY(0) scale(1) !important; pointer-events: auto !important; }
-
-            /* Press-to-animate: Card 3 + 6 (vis-default / vis-hover) */
-            .anim-card.pressed .vis-default { opacity: 0 !important; }
-            .anim-card.pressed .vis-hover { opacity: 1 !important; }
-
             /* Footer */
             .footer-legal { gap: 12px; flex-wrap: wrap; }
             .site-footer { padding: 50px 16px 24px; }
             .pre-footer { padding: 40px 16px 60px; }
+            .footer-li-icon { display: none !important; }
+            .footer-li-btn { display: flex !important; align-items: center; gap: 8px; width: auto !important; height: auto !important; border-radius: 10px !important; padding: 12px 20px !important; font-size: 14px; font-weight: 600; color: #fff !important; background: #0A66C2 !important; border-color: #0A66C2 !important; text-decoration: none; }
+            .footer-li-btn svg { width: 18px !important; height: 18px !important; stroke: #fff; }
 
             /* FAQ */
             .faq-section { padding: 50px 16px; }
@@ -1817,7 +1848,8 @@
         if(isMobile3) {
             var obs3 = new IntersectionObserver(function(entries) {
                 entries.forEach(function(e) {
-                    if(e.isIntersecting) { runChecks(); obs3.disconnect(); }
+                    if(e.isIntersecting) { runChecks(); }
+                    else { resetChecks(); }
                 });
             }, { threshold: 0.4 });
             obs3.observe(card3);
@@ -1839,48 +1871,49 @@
         var card = el.closest('.anim-card');
         var animFrame, running = false;
 
-        function runAnim() {
-            if(running) return;
+        var currentFrac = 0; // tracks current fill 0-1
+
+        function animateTo(targetFrac) {
             running = true;
+            var startFrac = currentFrac;
             var startTime = null;
-            var DURATION = 1800;
+            var DURATION = Math.abs(targetFrac - startFrac) * 2400;
+            if(DURATION < 200) DURATION = 200;
 
             function step(ts) {
                 if(!startTime) startTime = ts;
                 var progress = Math.min((ts - startTime) / DURATION, 1);
                 var eased = 1 - Math.pow(1 - progress, 3);
-                var activeDots = Math.round(eased * TOTAL);
-                var countVal = Math.round(eased * TARGET);
+                currentFrac = startFrac + (targetFrac - startFrac) * eased;
+                var activeDots = Math.round(currentFrac * TOTAL);
+                var countVal = Math.round(currentFrac * TARGET);
                 for(var i = 0; i < TOTAL; i++) {
                     if(i < activeDots) dots[i].classList.add('active');
                     else dots[i].classList.remove('active');
                 }
-                if(counter) counter.textContent = progress >= 1 ? '250+' : countVal;
+                if(counter) counter.textContent = currentFrac >= 0.99 ? '250+' : countVal;
                 if(progress < 1) { animFrame = requestAnimationFrame(step); }
-                else { running = false; }
+                else { running = false; currentFrac = targetFrac; }
             }
+            cancelAnimationFrame(animFrame);
             animFrame = requestAnimationFrame(step);
         }
 
-        function resetAnim() {
-            running = false;
-            cancelAnimationFrame(animFrame);
-            for(var i = 0; i < TOTAL; i++) dots[i].classList.remove('active');
-            if(counter) counter.textContent = '0';
-        }
+        function startAnim() { animateTo(1); }
+        function resetAnim() { animateTo(0); }
 
         var isMobile = window.matchMedia('(max-width: 768px)').matches || ('ontouchstart' in window);
         if(isMobile) {
-            // Auf Mobile: Animation beim Scroll ins Bild
             var obs = new IntersectionObserver(function(entries) {
                 entries.forEach(function(e) {
-                    if(e.isIntersecting) { runAnim(); obs.disconnect(); }
+                    if(e.isIntersecting) { startAnim(); }
+                    else { resetAnim(); }
                 });
             }, { threshold: 0.4 });
             if(card) obs.observe(card);
         } else {
             if(card) {
-                card.addEventListener('mouseenter', runAnim);
+                card.addEventListener('mouseenter', function() { startAnim(); });
                 card.addEventListener('mouseleave', resetAnim);
             }
         }
@@ -2190,8 +2223,10 @@
                 <div class="footer-col" style="flex: 1;">
                     <h4 class="footer-heading">Folgen Sie uns</h4>
                     <div class="footer-socials">
-                        <!-- LinkedIn icon -->
-                        <a href="https://www.linkedin.com/company/insivo-ai/posts/?feedView=all" target="_blank"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+                        <!-- LinkedIn icon (desktop) -->
+                        <a href="https://www.linkedin.com/company/insivo-ai/posts/?feedView=all" target="_blank" class="footer-li-icon"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+                        <!-- LinkedIn button (mobile) -->
+                        <a href="https://www.linkedin.com/company/insivo-ai/posts/?feedView=all" target="_blank" class="footer-li-btn"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg> Auf LinkedIn folgen</a>
                     </div>
                     <p class="footer-text">Neue KI-Features kommen schnell. Folgen Sie Insivo, um nichts zu verpassen.</p>
                 </div>
@@ -2500,32 +2535,24 @@
         }
     </script>
 
-    <!-- Mobile: Press/Touch to trigger card animations -->
+    <!-- Mobile: Scroll-triggered card animations -->
     <script>
     (function() {
         if(!('ontouchstart' in window) && !window.matchMedia('(max-width: 768px)').matches) return;
-        var resetTimers = new WeakMap();
-        document.querySelectorAll('.anim-card').forEach(function(card) {
-            card.addEventListener('touchstart', function() {
-                // Remove pressed from all other cards
-                document.querySelectorAll('.anim-card.pressed').forEach(function(c) {
-                    if(c !== card) {
-                        c.classList.remove('pressed');
-                        clearTimeout(resetTimers.get(c));
-                        c.dispatchEvent(new MouseEvent('mouseleave', {bubbles: true}));
-                    }
-                });
-                card.classList.add('pressed');
-                card.dispatchEvent(new MouseEvent('mouseenter', {bubbles: true}));
-            }, {passive: true});
-
-            card.addEventListener('touchend', function() {
-                var t = setTimeout(function() {
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                var card = entry.target;
+                if (entry.isIntersecting) {
+                    card.classList.add('pressed');
+                    card.dispatchEvent(new MouseEvent('mouseenter', {bubbles: true}));
+                } else {
                     card.classList.remove('pressed');
                     card.dispatchEvent(new MouseEvent('mouseleave', {bubbles: true}));
-                }, 2200);
-                resetTimers.set(card, t);
+                }
             });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.anim-card').forEach(function(card) {
+            observer.observe(card);
         });
     })();
     </script>
