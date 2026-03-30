@@ -27,6 +27,9 @@
             padding: 0;
         }
 
+        html, body {
+            overflow-x: hidden;
+        }
         body {
             background-color: var(--bg-color);
             color: var(--text-dark);
@@ -48,7 +51,7 @@
             position: fixed;
             top: 0;
             z-index: 100;
-            transition: max-width 0.3s ease, padding 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, border-radius 0.3s ease, top 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         .navbar.scrolled {
             max-width: 1000px;
@@ -772,7 +775,7 @@
         .faq-icon { width: 20px; height: 20px; stroke: var(--text-gray); transition: transform 0.3s ease; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
         .faq-item.open .faq-icon { transform: rotate(180deg); }
         .faq-answer { max-height: 0; opacity: 0; transition: all 0.3s ease; font-size: 15px; color: var(--text-gray); line-height: 1.6; margin-top: 0; }
-        .faq-item.open .faq-answer { max-height: 600px; opacity: 1; margin-top: 16px; }
+        .faq-item.open .faq-answer { max-height: 3000px; opacity: 1; margin-top: 16px; }
 
         /* Pre Footer CTA */
         .pre-footer {
@@ -920,9 +923,9 @@
             .benefits-section-new { padding: 60px 20px; }
             
             /* Typography */
-            .hero-title { font-size: 44px; line-height: 1.04; letter-spacing: -0.04em; margin-bottom: 24px; }
+            .hero-title { font-size: 44px; line-height: 1.04; letter-spacing: -0.04em; margin-bottom: 12px; }
             .hide-mobile { display: none; }
-            .hero-subtitle { font-size: 15px; margin-bottom: 28px; line-height: 1.6; }
+            .hero-subtitle { font-size: 15px; margin-bottom: 16px; line-height: 1.6; }
             .hero { padding: 100px 24px 40px; }
             .how-title, .faq-title { font-size: 32px; }
             .how-subtitle, .faq-subtitle { font-size: 16px; margin-bottom: 40px; }
@@ -930,7 +933,7 @@
             
             /* Navigation */
             .navbar { padding: 10px 16px !important; }
-            .navbar.scrolled { top: 10px !important; padding: 10px 16px !important; border-radius: 20px !important; left: 12px !important; right: 12px !important; max-width: none !important; }
+            .navbar.scrolled { top: 10px !important; padding: 10px 16px !important; border-radius: 20px !important; left: 24px !important; right: 24px !important; max-width: none !important; }
             .mobile-menu-header { display: flex !important; width: 100%; justify-content: space-between; align-items: center; }
             .mobile-menu-btn { display: flex !important; align-items: center; justify-content: center; width: 44px; height: 44px; background: transparent; border: none; cursor: pointer; color: var(--text-dark); margin-left: auto; }
             .nav-logo-img { height: 20px !important; }
@@ -1315,6 +1318,7 @@
             .dashboard-wrapper { margin-top: 0 !important; padding: 0 12px !important; }
             .dashboard-mockup-wrapper { border-radius: 12px; margin-top: 16px; }
             .mock-dashboard { border-radius: 10px; }
+            .mock-dashboard::before { display: none !important; }
 
             /* Step Titel: kein Overflow */
             .step-title { font-size: 20px !important; overflow-wrap: break-word; word-break: break-word; }
@@ -1339,7 +1343,7 @@
 
             /* Feature Cards kleiner auf Mobile */
             .anim-visual { height: 220px !important; position: relative !important; }
-            .anim-card { padding: 12px !important; gap: 16px !important; border-radius: 18px !important; max-width: 92% !important; margin: 0 auto !important; }
+            .anim-card { padding: 12px !important; gap: 16px !important; border-radius: 18px !important; }
             .anim-text h3 { font-size: 16px; }
             .anim-text p { font-size: 13px; }
             .animated-cards-grid { gap: 20px !important; }
@@ -1358,9 +1362,11 @@
             /* Card 5 (Speech Bubbles) braucht mehr Platz */
             .vis-5 { height: auto !important; min-height: 260px !important; }
 
-            /* Card 2 (Timeline) braucht mehr Platz */
+            /* Card 2 (Timeline) braucht mehr Platz + Bar-Animation bei .pressed */
             .vis-2 { height: auto !important; min-height: 220px !important; padding: 20px 16px !important; }
             .vis-2 .d-stat { opacity: 1 !important; transform: translateY(0) !important; }
+            .anim-card.pressed .vis-2 .classic-fill { width: 100% !important; }
+            .anim-card.pressed .vis-2 .insivo-fill { width: 11% !important; }
 
             /* Card 3 (DSGVO) hover-Inhalt braucht mehr Platz */
             .vis-3 { height: auto !important; min-height: 220px !important; }
@@ -1374,14 +1380,16 @@
             .vis-6 .vis-hover { position: absolute !important; inset: 0 !important; opacity: 0 !important; background: #fff !important; transition: opacity 0.4s ease !important; z-index: 5 !important; }
             .anim-card.pressed .vis-6 .vis-hover { opacity: 1 !important; transform: translateY(0) scale(1) !important; pointer-events: auto !important; }
 
-            /* Scroll-triggered: .pressed = sichtbar (Cards 4) */
-            .anim-card.pressed .vis-4-default { opacity: 0 !important; transform: translateY(-28px) scale(0.97) !important; }
-            .anim-card.pressed .vis-4-hover { opacity: 1 !important; transform: translateY(0) scale(1) !important; pointer-events: auto !important; }
-            .features-animated-section { padding: 60px 16px !important; }
+            /* Card 4 (250 Interviews): auto-height, hover always visible */
+            .vis-4 { height: auto !important; min-height: 220px !important; overflow: visible !important; }
+            .vis-4-default { display: none !important; }
+            .vis-4-hover { position: relative !important; inset: auto !important; opacity: 1 !important; transform: none !important; pointer-events: auto !important; padding: 20px 16px !important; }
+            .features-animated-section { padding: 60px 20px !important; }
             .features-animated-header h2 { font-size: 28px !important; }
             .features-animated-header p { font-size: 15px !important; }
 
-            /* McKinsey Zitat: 5 Zeilen auf Mobile */
+            /* McKinsey Zitat: kompakter auf Mobile */
+            .scroll-text-section { padding: 40px 20px !important; }
             #syncScrollText { font-size: 22px !important; line-height: 1.5; }
             #syncScrollText br { display: none; }
 
@@ -1400,17 +1408,17 @@
 
             /* Footer */
             .footer-legal { gap: 12px; flex-wrap: wrap; }
-            .site-footer { padding: 50px 16px 24px; }
-            .pre-footer { padding: 40px 16px 60px; }
+            .site-footer { padding: 50px 20px 24px; }
+            .pre-footer { padding: 40px 20px 60px; }
             .footer-li-icon { display: none !important; }
             .footer-li-btn { display: flex !important; align-items: center; gap: 8px; width: auto !important; height: auto !important; border-radius: 10px !important; padding: 12px 20px !important; font-size: 14px; font-weight: 600; color: #fff !important; background: #0A66C2 !important; border-color: #0A66C2 !important; text-decoration: none; }
             .footer-li-btn svg { width: 18px !important; height: 18px !important; stroke: #fff; }
 
             /* FAQ */
-            .faq-section { padding: 50px 16px; }
+            .faq-section { padding: 50px 20px; }
 
             /* How-Bereich */
-            .how-inner { padding: 0 16px; }
+            .how-inner { padding: 0 20px; }
         }
     </style>
 </head>
@@ -1454,9 +1462,9 @@
 
         <div class="dashboard-mockup-wrapper">
             <div class="mock-dashboard">
-                <img id="content-dashboard" class="dash-content" src="Insivo%20Mockups/Dashboard%20Main.png" style="display: block; width: 100%; height: auto; object-fit: contain; padding: 0;">
-                <img id="content-heatmap" class="dash-content" src="Insivo%20Mockups/Ursachenanalyse.png" style="display: none; width: 100%; height: auto; object-fit: contain; padding: 0;">
-                <img id="content-reports" class="dash-content" src="Insivo%20Mockups/Handlungsempfehlungen.png" style="display: none; width: 100%; height: auto; object-fit: contain; padding: 0;">
+                <img id="content-dashboard" class="dash-content" src="assets/mockups/Dashboard%20Main.png" style="display: block; width: 100%; height: auto; object-fit: contain; padding: 0;">
+                <img id="content-heatmap" class="dash-content" src="assets/mockups/Ursachenanalyse.png" style="display: none; width: 100%; height: auto; object-fit: contain; padding: 0;">
+                <img id="content-reports" class="dash-content" src="assets/mockups/Handlungsempfehlungen.png" style="display: none; width: 100%; height: auto; object-fit: contain; padding: 0;">
             </div>
         </div>
     </div>
@@ -1483,7 +1491,7 @@
                         <h3 class="step-title" data-step="1">Kampagne erstellen</h3>
                         <p class="step-desc">Ziel, Zielgruppe und Interview-Typ definieren. Insivo erstellt automatisch einen strukturierten Fragebogen, anpassbar und sofort betriebsratsbereit.</p>
                         <div class="step-mockup">
-                            <img src="Insivo%20Mockups/Kampagnen.png" alt="Kampagne erstellen Mockup" loading="lazy">
+                            <img src="assets/mockups/Kampagnen.png" alt="Kampagne erstellen Mockup" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -1498,7 +1506,7 @@
                         <h3 class="step-title" data-step="2">Betriebsrat einbinden</h3>
                         <p class="step-desc">Ein Klick generiert das vollständige BR-Freigabe-Dokument. Die Kampagne startet technisch erst nach BR-Freigabe. Der Status ist live im Dashboard sichtbar.</p>
                         <div class="step-mockup">
-                            <img src="Insivo%20Mockups/Betriebsrat.png" alt="Betriebsrat Freigabe Mockup" loading="lazy">
+                            <img src="assets/mockups/Betriebsrat.png" alt="Betriebsrat Freigabe Mockup" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -1513,7 +1521,7 @@
                         <h3 class="step-title" data-step="3">KI führt die Interviews</h3>
                         <p class="step-desc">Mitarbeitende erhalten einen persönlichen, anonymen Link und sprechen per Voice oder Text mit der KI. Adaptive Nachfragen dort, wo Tiefe gebraucht wird. Bei psychischer Belastung greift automatisch das Stopp-Protokoll.</p>
                         <div class="step-mockup">
-                            <img src="Insivo%20Mockups/Interview.png" alt="KI Interview Mockup" loading="lazy">
+                            <img src="assets/mockups/Interview.png" alt="KI Interview Mockup" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -1528,7 +1536,7 @@
                         <h3 class="step-title" data-step="4">Report &amp; Handlungsempfehlungen</h3>
                         <p class="step-desc">Alle Antworten werden transkribiert, geclustert und analysiert. Ergebnis: ein Management-Report mit Top-Handlungsfeldern, Root-Cause-Mustern und Maßnahmenvorschlägen. Mit Rollenansichten für HR, Führungskräfte und C-Level.</p>
                         <div class="step-mockup with-fade">
-                            <img src="Insivo%20Mockups/reports.png" alt="Reports Mockup" loading="lazy">
+                            <img src="assets/mockups/reports.png" alt="Reports Mockup" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -2192,7 +2200,7 @@
                         <h4 class="faq-question">Welche Kampagnentypen bietet Insivo an?</h4>
                         <svg class="faq-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </div>
-                    <div class="faq-answer">Insivo bietet fünf Kampagnentypen je nach Situation und Ziel.<br><br><strong>Mitarbeiterbefragung:</strong> Der klassische Einstieg. Die gesamte Belegschaft oder eine Abteilung wird befragt, z.B. zu Engagement, Kultur oder einer konkreten Veränderung wie einem ERP-Rollout.<br><br><strong>Führungskräfte-Feedback:</strong> Anonym von unten nach oben. Mitarbeitende geben ihrer Führungskraft strukturiertes Feedback, ohne dass einzelne Aussagen einer Person zugeordnet werden können.<br><br><strong>360° Feedback:</strong> Kombiniert beide Richtungen. MA bewertet FK, FK bewertet MA, Peers bewerten sich gegenseitig. Besonders stark in Post-M&amp;A-Situationen.<br><br><strong>Pulse:</strong> Eine kurze, wiederholbare Befragung, z.B. alle zwei Wochen. Ideal um Veränderungen über Zeit zu messen, etwa während einer laufenden Transformation.<br><br><strong>Exit Interview:</strong> Ersetzt das klassische Abschlussgespräch. Die KI führt ein strukturiertes Gespräch wenn jemand das Unternehmen verlässt. Ehrlicher als ein Gespräch mit dem direkten Vorgesetzten, weil vollständig anonym.<br><br>Alle fünf Typen lassen sich mit verschiedenen Interview-Methoden kombinieren: diagnostisch, systemisch, lösungsfokussiert oder als 360° Führungsfeedback.</div>
+                    <div class="faq-answer">Insivo bietet acht Kampagnentypen je nach Situation und Ziel.<br><br><strong>Mitarbeiterbefragung:</strong> Der klassische Einstieg. Die gesamte Belegschaft oder eine Abteilung wird befragt, z.B. zu Engagement, Kultur oder einer konkreten Veränderung wie einem ERP-Rollout.<br><br><strong>Onboarding-Check:</strong> Neue Mitarbeitende nach 30, 60 und 90 Tagen befragen: Wie war die Einarbeitung? Was fehlt? Wo hakt es? Die KI erkennt Muster über alle Neuzugänge hinweg und liefert konkrete Verbesserungsvorschläge für den Onboarding-Prozess. Ideal als wiederkehrende Welle mit integrierter Wirkungsmessung.<br><br><strong>Pulse:</strong> Eine kurze, wiederholbare Befragung, z.B. alle zwei Wochen. Ideal um Veränderungen über Zeit zu messen, etwa während einer laufenden Transformation.<br><br><strong>Stay Interview:</strong> Das Gegenteil vom Exit-Gespräch — proaktiv statt reaktiv. Die KI fragt Mitarbeitende, warum sie bleiben, was sie frustriert und was sie zum Gehen bringen könnte. Anonym und ehrlicher als jedes Gespräch mit dem Vorgesetzten. Erkennt Fluktuationsrisiken, bevor sie zu Kündigungen werden.<br><br><strong>Führungskräfte-Feedback:</strong> Anonym von unten nach oben. Mitarbeitende geben ihrer Führungskraft strukturiertes Feedback, ohne dass einzelne Aussagen einer Person zugeordnet werden können.<br><br><strong>360° Feedback:</strong> Kombiniert beide Richtungen. MA bewertet FK, FK bewertet MA, Peers bewerten sich gegenseitig. Besonders stark in Post-M&amp;A-Situationen.<br><br><strong>Psychische Gefährdungsbeurteilung:</strong> Gesetzlich vorgeschrieben nach ArbSchG §5 — aber selten gut umgesetzt. Die KI führt ein vertrauliches Gespräch über Arbeitsbelastung, Stressoren, Erholung und zwischenmenschliche Konflikte. Liefert nicht nur Compliance-Dokumentation, sondern echte Ursachenanalyse für psychische Belastungen am Arbeitsplatz.<br><br><strong>Exit Interview:</strong> Ersetzt das klassische Abschlussgespräch. Die KI führt ein strukturiertes Gespräch wenn jemand das Unternehmen verlässt. Ehrlicher als ein Gespräch mit dem direkten Vorgesetzten, weil vollständig anonym.<br><br>Alle acht Typen lassen sich mit verschiedenen Interview-Methoden kombinieren: diagnostisch, systemisch, lösungsfokussiert oder als 360° Führungsfeedback.</div>
                 </div>
             </div>
         </div>
