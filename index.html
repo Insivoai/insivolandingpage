@@ -593,11 +593,14 @@
             left: 119px;
             top: 0;
             width: 2px;
-            height: 0%;
+            height: 100%;
             background: linear-gradient(to bottom, rgba(105,90,238,0.45), rgba(105,90,238,0.75));
             border-radius: 99px;
             z-index: 1;
-            transition: height 0.12s ease-out;
+            transform: scaleY(0);
+            transform-origin: top;
+            will-change: transform;
+            transition: transform 0.12s ease-out;
         }
 
         /* Dot pulse animation */
@@ -2608,41 +2611,38 @@
             const stepsLineFill = document.getElementById('stepsLineFill');
             const stepDots = document.querySelectorAll('.step-dot');
 
+            let stepsRafPending = false;
             function updateStepsLine() {
                 if (!stepsContainer || !stepsLineFill) return;
                 const rect = stepsContainer.getBoundingClientRect();
                 const windowMid = window.innerHeight * 0.6;
-                // progress: 0 when container top is at windowMid, 1 when container bottom is at windowMid
                 let progress = (windowMid - rect.top) / rect.height;
                 progress = Math.max(0, Math.min(1, progress));
-                stepsLineFill.style.height = (progress * 100) + '%';
+                stepsLineFill.style.transform = 'scaleY(' + progress + ')';
 
-                // Animate dots + labels: visual feedback when active
                 stepDots.forEach(dot => {
                     const dotRect = dot.getBoundingClientRect();
                     const label = dot.parentElement.querySelector('.step-label');
                     const row = dot.closest('.step-row');
                     if (dotRect.top < windowMid) {
                         dot.classList.add('active-dot');
-                        dot.style.background = '';
-                        dot.style.borderColor = '';
-                        dot.style.boxShadow = '';
-                        dot.style.transform = '';
                         if (label) label.classList.add('active');
                         if (row) row.classList.add('step-active');
                     } else {
                         dot.classList.remove('active-dot');
-                        dot.style.background = '';
-                        dot.style.borderColor = '';
-                        dot.style.boxShadow = '';
-                        dot.style.transform = '';
                         if (label) label.classList.remove('active');
                         if (row) row.classList.remove('step-active');
                     }
                 });
+                stepsRafPending = false;
             }
 
-            window.addEventListener('scroll', updateStepsLine, { passive: true });
+            window.addEventListener('scroll', () => {
+                if (!stepsRafPending) {
+                    stepsRafPending = true;
+                    requestAnimationFrame(updateStepsLine);
+                }
+            }, { passive: true });
             updateStepsLine();
 
             // Scroll Sync Text Logic
