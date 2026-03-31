@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>insivo — Brand Kit & Design CI</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    /* ── Primary Brand Colors (from logo) ── */
+    --spiral-1: #C8BFF8;   /* Layer 1 — lightest, top */
+    --spiral-2: #B3A6F7;   /* Layer 2 */
+    --spiral-3: #9485F0;   /* Layer 3 */
+    --spiral-4: #7B6CE8;   /* Layer 4 */
+    --spiral-5: #695AEE;   /* Layer 5 — darkest, bottom */
+
+    /* ── Extended Palette ── */
+    --indigo-50:  #F0EDFE;
+    --indigo-100: #E0DBFD;
+    --indigo-200: #C8BFF8;
+    --indigo-300: #B3A6F7;
+    --indigo-400: #9485F0;
+    --indigo-500: #7B6CE8;
+    --indigo-600: #695AEE;
+    --indigo-700: #5647D4;
+    --indigo-800: #4338B8;
+    --indigo-900: #332A8F;
+
+    /* ── Neutrals ── */
+    --black:      #1C1C1E;
+    --gray-900:   #2C2C30;
+    --gray-800:   #3A3A40;
+    --gray-700:   #52525B;
+    --gray-600:   #71717A;
+    --gray-500:   #94A3B8;
+    --gray-400:   #A1A1AA;
+    --gray-300:   #CBD5E1;
+    --gray-200:   #E2E8F0;
+    --gray-100:   #F1F5F9;
+    --gray-50:    #F8FAFC;
+    --white:      #FFFFFF;
+
+    /* ── Functional ── */
+    --success:    #22C55E;
+    --warning:    #F59E0B;
+    --error:      #EF4444;
+    --info:       #3B82F6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--gray-50); color: var(--black); line-height: 1.6; }
+
+  /* ── Layout ── */
+  .page { max-width: 1200px; margin: 0 auto; padding: 60px 40px; }
+
+  .section {
+    margin-bottom: 80px;
+  }
+  .section-tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--indigo-600);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--black);
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+  .section-desc {
+    font-size: 16px;
+    color: var(--gray-600);
+    margin-bottom: 40px;
+    max-width: 600px;
+  }
+
+  .divider {
+    border: none;
+    height: 1px;
+    background: var(--gray-200);
+    margin: 80px 0;
+  }
+
+  /* ══════════════════════════════════════════════════ */
+  /* COVER                                             */
+  /* ══════════════════════════════════════════════════ */
+  .cover {
+    background: var(--black);
+    border-radius: 24px;
+    padding: 80px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, var(--indigo-600) 0%, transparent 70%);
+    opacity: 0.08;
+    top: -200px; right: -200px;
+    border-radius: 50%;
+  }
+
+  .cover-logo {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .cover-spiral {
+    position: relative;
+    width: 80px;
+    height: 68px;
+  }
+  .cover-spiral .sl {
+    position: absolute;
+    border-radius: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .cover-spiral .sl:nth-child(1) { width: 80px; height: 20px; background: var(--spiral-1); top: 0; }
+  .cover-spiral .sl:nth-child(2) { width: 62px; height: 18px; background: var(--spiral-2); top: 13px; }
+  .cover-spiral .sl:nth-child(3) { width: 46px; height: 16px; background: var(--spiral-3); top: 24px; }
+  .cover-spiral .sl:nth-child(4) { width: 32px; height: 13px; background: var(--spiral-4); top: 34px; }
+  .cover-spiral .sl:nth-child(5) { width: 20px; height: 10px; background: var(--spiral-5); top: 42px; }
+
+  .cover-wordmark {
+    font-size: 52px;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: -1px;
+  }
+  .cover-sub {
+    font-size: 16px;
+    color: var(--gray-500);
+    text-align: center;
+    max-width: 500px;
+    line-height: 1.6;
+  }
+  .cover-badge {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--indigo-400);
+    border: 1px solid var(--gray-800);
+    padding: 8px 20px;
+    border-radius: 100px;
+    text-transform: uppercase;
+  }
+
+  /* ══════════════════════════════════════════════════ */
+  /* LOGO SECTION                                      */
+  /* ══════════════════════════════════════════════════ */
+  .logo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .logo-card {
+    border-radius: 16px;
+    padding: 60px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    position: relative;
+  }
+  .logo-card img {
+    max-height: 80px;
+    width: auto;
+  }
+  .logo-card.light { background: var(--white); border: 1px solid var(--gray-200); }
+  .logo-card.dark { background: var(--black); }
+  .logo-card.indigo { background: var(--indigo-600); }
+  .logo-card.gray { background: var(--gray-100); border: 1px solid var(--gray-200); }
+
+  .logo-card .label {
+    position: absolute;
+    bottom: 12px;
+    left: 16px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+  .logo-card.light .label { color: var(--gray-400); }
+  .logo-card.dark .label { color: var(--gray-600); }
+  .logo-card.indigo .label { color: rgba(255,255,255,0.5); }
+
+  .logo-variants {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .logo-mini {
+    border-radius: 12px;
+    padding: 30px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    position: relative;
+  }
+  .logo-mini.light { background: var(--white); border: 1px solid var(--gray-200); }
+  .logo-mini.dark { background: var(--black); }
+  .logo-mini .label {
+    position: absolute;
+    bottom: 8px;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+
+  /* Spiral in CSS for icon-only variants */
+  .spiral-icon {
+    position: relative;
+    width: 50px;
+    height: 42px;
+  }
+  .spiral-icon .sl {
+    position: absolute;
+    border-radius: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .spiral-icon .sl:nth-child(1) { width: 50px; height: 13px; background: var(--spiral-1); top: 0; }
+  .spiral-icon .sl:nth-child(2) { width: 39px; height: 11px; background: var(--spiral-2); top: 8px; }
+  .spiral-icon .sl:nth-child(3) { width: 29px; height: 10px; background: var(--spiral-3); top: 15px; }
+  .spiral-icon .sl:nth-child(4) { width: 20px; height: 8px; background: var(--spiral-4); top: 21px; }
+  .spiral-icon .sl:nth-child(5) { width: 13px; height: 6px; background: var(--spiral-5); top: 26px; }
+
+  /* ══════════════════════════════════════════════════ */
+  /* COLOR PALETTE                                     */
+  /* ══════════════════════════════════════════════════ */
+  .color-row {
+    display: flex;
+    gap: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .color-swatch {
+    flex: 1;
+    padding: 40px 16px 16px;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 4px;
+  }
+  .color-swatch .name {
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .color-swatch .hex {
+    font-size: 11px;
+    font-weight: 400;
+    opacity: 0.7;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+  .color-swatch.dark-text .name,
+  .color-swatch.dark-text .hex { color: var(--black); }
+  .color-swatch.light-text .name,
+  .color-swatch.light-text .hex { color: var(--white); }
+
+  .functional-colors {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .func-swatch {
+    border-radius: 12px;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .func-swatch .name { font-size: 12px; font-weight: 600; color: white; }
+  .func-swatch .hex { font-size: 11px; color: rgba(255,255,255,.7); font-family: monospace; }
+
+  /* ══════════════════════════════════════════════════ */
+  /* TYPOGRAPHY                                        */
+  /* ══════════════════════════════════════════════════ */
+  .type-showcase {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--gray-200);
+    padding: 48px;
+    margin-bottom: 24px;
+  }
+  .type-row {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-meta {
+    width: 140px;
+    flex-shrink: 0;
+  }
+  .type-meta .weight { font-size: 11px; color: var(--gray-400); font-weight: 500; }
+  .type-meta .size { font-size: 11px; color: var(--indigo-600); font-weight: 600; font-family: monospace; }
+  .type-sample { flex: 1; color: var(--black); }
+
+  .font-name {
+    font-size: 64px;
+    font-weight: 200;
+    color: var(--black);
+    letter-spacing: -2px;
+    margin-bottom: 8px;
+  }
+  .font-name span { font-weight: 800; color: var(--indigo-600); }
+
+  /* ══════════════════════════════════════════════════ */
+  /* SPACING & GRID                                    */
+  /* ══════════════════════════════════════════════════ */
+  .spacing-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+  .spacing-label {
+    width: 60px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gray-500);
+    font-family: monospace;
+  }
+  .spacing-bar {
+    height: 24px;
+    background: var(--indigo-100);
+    border-radius: 4px;
+    border-left: 3px solid var(--indigo-600);
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+    font-size: 10px;
+    color: var(--indigo-700);
+    font-weight: 600;
+  }
+
+  /* ══════════════════════════════════════════════════ */
+  /* COMPONENTS                                        */
+  /* ══════════════════════════════════════════════════ */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .comp-card {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--gray-200);
+    padding: 32px;
+  }
+  .comp-card h4 {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gray-400);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  /* Buttons */
+  .btn-demo {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .btn {
+    padding: 10px 24px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Inter';
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary { background: var(--indigo-600); color: white; }
+  .btn-primary:hover { background: var(--indigo-700); }
+  .btn-secondary { background: var(--indigo-50); color: var(--indigo-700); }
+  .btn-secondary:hover { background: var(--indigo-100); }
+  .btn-outline { background: transparent; color: var(--indigo-600); border: 1.5px solid var(--indigo-200); }
+  .btn-outline:hover { background: var(--indigo-50); }
+  .btn-dark { background: var(--black); color: white; }
+  .btn-ghost { background: transparent; color: var(--gray-600); }
+  .btn-ghost:hover { background: var(--gray-100); }
+  .btn-sm { padding: 6px 16px; font-size: 12px; border-radius: 8px; }
+  .btn-lg { padding: 14px 32px; font-size: 16px; border-radius: 12px; }
+
+  /* Tags */
+  .tag-demo { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tag {
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .tag-indigo { background: var(--indigo-50); color: var(--indigo-700); }
+  .tag-success { background: #DCFCE7; color: #166534; }
+  .tag-warning { background: #FEF3C7; color: #92400E; }
+  .tag-error { background: #FEE2E2; color: #991B1B; }
+  .tag-neutral { background: var(--gray-100); color: var(--gray-700); }
+
+  /* Cards */
+  .card-demo {
+    background: var(--gray-50);
+    border-radius: 12px;
+    border: 1px solid var(--gray-200);
+    padding: 20px;
+  }
+  .card-demo h5 { font-size: 15px; font-weight: 700; color: var(--black); margin-bottom: 4px; }
+  .card-demo p { font-size: 13px; color: var(--gray-600); }
+  .card-demo .card-accent {
+    height: 4px;
+    background: linear-gradient(90deg, var(--spiral-1), var(--spiral-5));
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+
+  /* Inputs */
+  .input-demo { display: flex; flex-direction: column; gap: 12px; }
+  .input {
+    padding: 10px 14px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 10px;
+    font-family: 'Inter';
+    font-size: 14px;
+    outline: none;
+    background: var(--white);
+    color: var(--black);
+    transition: border-color 0.2s;
+  }
+  .input:focus { border-color: var(--indigo-500); box-shadow: 0 0 0 3px var(--indigo-50); }
+  .input::placeholder { color: var(--gray-400); }
+
+  /* ══════════════════════════════════════════════════ */
+  /* LOGO USAGE RULES                                  */
+  /* ══════════════════════════════════════════════════ */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .rule-card {
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+  .rule-card.do { background: #F0FDF4; border: 1px solid #BBF7D0; }
+  .rule-card.dont { background: #FEF2F2; border: 1px solid #FECACA; }
+  .rule-card .icon { font-size: 24px; }
+  .rule-card .desc { font-size: 12px; color: var(--gray-700); line-height: 1.5; }
+
+  /* ══════════════════════════════════════════════════ */
+  /* CLEAR SPACE                                       */
+  /* ══════════════════════════════════════════════════ */
+  .clearspace-demo {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 16px;
+    padding: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .clearspace-box {
+    border: 2px dashed var(--indigo-200);
+    padding: 32px 48px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .clearspace-box::before,
+  .clearspace-box::after {
+    content: 'x';
+    position: absolute;
+    font-size: 10px;
+    color: var(--indigo-400);
+    font-weight: 600;
+  }
+  .clearspace-box::before { top: -18px; left: 50%; transform: translateX(-50%); }
+  .clearspace-box::after { right: -16px; top: 50%; transform: translateY(-50%); }
+
+  /* ══════════════════════════════════════════════════ */
+  /* DARK/LIGHT PREVIEW                                */
+  /* ══════════════════════════════════════════════════ */
+  .preview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .preview-card {
+    border-radius: 16px;
+    padding: 40px;
+    min-height: 280px;
+  }
+  .preview-card.light-mode {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+  }
+  .preview-card.dark-mode {
+    background: var(--black);
+  }
+  .preview-card h4 {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .preview-card.light-mode h4 { color: var(--gray-400); }
+  .preview-card.dark-mode h4 { color: var(--gray-600); }
+
+  .preview-content h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .preview-content p {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  .preview-card.light-mode .preview-content h3 { color: var(--black); }
+  .preview-card.light-mode .preview-content p { color: var(--gray-600); }
+  .preview-card.dark-mode .preview-content h3 { color: var(--white); }
+  .preview-card.dark-mode .preview-content p { color: var(--gray-500); }
+
+  /* Gradient bar */
+  .gradient-bar {
+    height: 60px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--spiral-1) 0%, var(--spiral-2) 20%, var(--spiral-3) 40%, var(--spiral-4) 60%, var(--spiral-5) 80%, var(--indigo-800) 100%);
+    margin-bottom: 24px;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 40px;
+    color: var(--gray-400);
+    font-size: 12px;
+  }
+  .footer span { color: var(--indigo-600); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ══════ COVER ══════ -->
+  <div class="cover">
+    <div class="cover-badge">Brand Kit & Design CI — 2026</div>
+    <div class="cover-logo">
+      <div class="cover-spiral">
+        <div class="sl"></div><div class="sl"></div><div class="sl"></div><div class="sl"></div><div class="sl"></div>
+      </div>
+      <div class="cover-wordmark">insivo</div>
+    </div>
+    <div class="cover-sub">Qualitative People Intelligence mit KI.<br>Das vollständige Design-System für Marke, Produkt und Kommunikation.</div>
+  </div>
+
+  <!-- ══════ 1. LOGO ══════ -->
+  <div class="section">
+    <div class="section-tag">01 — Logo</div>
+    <div class="section-title">Logo & Markenzeichen</div>
+    <div class="section-desc">Das insivo-Logo besteht aus der Spiral-Icon (umgekehrter Trichter) und dem Wordmark in Inter Black. Die Spirale symbolisiert Tiefe, Schichten einer Organisation und den Erkenntnisprozess.</div>
+
+    <div class="logo-grid">
+      <div class="logo-card light">
+        <img src="Insivo logo black.png" alt="insivo Logo Black" style="max-height:70px;">
+        <span class="label">Primär — auf hellem Hintergrund</span>
+      </div>
+      <div class="logo-card dark">
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div class="spiral-icon"><div class="sl"></div><div class="sl"></div><div class="sl"></div><div class="sl"></div><div class="sl"></div></div>
+          <span style="font-size:36px;font-weight:900;color:white;letter-spacing:-0.5px;">insivo</span>
+        </div>
+        <span class="label" style="color:var(--gray-600);">Invertiert — auf dunklem Hintergrund</span>
+      </div>
+      <div class="logo-card indigo">
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div class="spiral-icon">
+            <div class="sl" style="background:rgba(255,255,255,.4)"></div>
+            <div class="sl" style="background:rgba(255,255,255,.5)"></div>
+            <div class="sl" style="background:rgba(255,255,255,.6)"></div>
+            <div class="sl" style="background:rgba(255,255,255,.75)"></div>
+            <div class="sl" style="background:rgba(255,255,255,.9)"></div>
+          </div>
+          <span style="font-size:36px;font-weight:900;color:white;letter-spacing:-0.5px;">insivo</span>
+        </div>
+        <span class="label" style="color:rgba(255,255,255,.4);">Mono White — auf Brand-Farbe</span>
+      </div>
+      <div class="logo-card gray">
+        <img src="Insivo logo black.png" alt="insivo Logo" style="max-height:70px;opacity:0.7;">
+        <span class="label" style="color:var(--gray-400);">Reduziert — auf grauem Hintergrund</span>
+      </div>
+    </div>
+
+    <div class="logo-variants">
+      <div class="logo-mini light">
+        <div class="spiral-icon"><div class="sl"></div><div class="sl"></div><div class="sl"></div><div class="sl"></div><div class="sl"></div></div>
+        <span class="label" style="color:var(--gray-400);">Icon only</span>
+      </div>
+      <div class="logo-mini dark">
+        <div class="spiral-icon"><div class="sl"></div><div class="sl"></div><div class="sl"></div><div class="sl"></div><div class="sl"></div></div>
+        <span class="label" style="color:var(--gray-600);">Icon only dark</span>
+      </div>
+      <div class="logo-mini light">
+        <span style="font-size:28px;font-weight:900;color:var(--black);letter-spacing:-.5px;">insivo</span>
+        <span class="label" style="color:var(--gray-400);">Wordmark only</span>
+      </div>
+      <div class="logo-mini dark">
+        <span style="font-size:28px;font-weight:900;color:white;letter-spacing:-.5px;">insivo</span>
+        <span class="label" style="color:var(--gray-600);">Wordmark only dark</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Clear Space -->
+  <div class="section">
+    <div class="section-tag">Logo Clear Space</div>
+    <div class="section-desc">Mindestfreiraum rund um das Logo = Höhe des Spiral-Icons (1x).</div>
+    <div class="clearspace-demo">
+      <div class="clearspace-box">
+        <div class="spiral-icon"><div class="sl"></div><div class="sl"></div><div class="sl"></div><div class="sl"></div><div class="sl"></div></div>
+        <span style="font-size:32px;font-weight:900;color:var(--black);letter-spacing:-.5px;">insivo</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════ 2. FARBEN ══════ -->
+  <div class="section">
+    <div class="section-tag">02 — Farbpalette</div>
+    <div class="section-title">Farben</div>
+    <div class="section-desc">Abgeleitet aus den Spiral-Schichten des Logos. Von hell (Layer 1, oben) zu dunkel (Layer 5, unten).</div>
+
+    <div class="gradient-bar"></div>
+
+    <h4 style="font-size:13px;font-weight:600;color:var(--gray-500);margin-bottom:12px;letter-spacing:1px;">BRAND INDIGO — Primärfarbe</h4>
+    <div class="color-row">
+      <div class="color-swatch dark-text" style="background:var(--indigo-50);"><span class="name">50</span><span class="hex">#F0EDFE</span></div>
+      <div class="color-swatch dark-text" style="background:var(--indigo-100);"><span class="name">100</span><span class="hex">#E0DBFD</span></div>
+      <div class="color-swatch dark-text" style="background:var(--indigo-200);"><span class="name">200</span><span class="hex">#C8BFF8</span></div>
+      <div class="color-swatch dark-text" style="background:var(--indigo-300);"><span class="name">300</span><span class="hex">#B3A6F7</span></div>
+      <div class="color-swatch light-text" style="background:var(--indigo-400);"><span class="name">400</span><span class="hex">#9485F0</span></div>
+      <div class="color-swatch light-text" style="background:var(--indigo-500);"><span class="name">500</span><span class="hex">#7B6CE8</span></div>
+      <div class="color-swatch light-text" style="background:var(--indigo-600);"><span class="name">600</span><span class="hex">#695AEE</span></div>
+      <div class="color-swatch light-text" style="background:var(--indigo-700);"><span class="name">700</span><span class="hex">#5647D4</span></div>
+      <div class="color-swatch light-text" style="background:var(--indigo-800);"><span class="name">800</span><span class="hex">#4338B8</span></div>
+      <div class="color-swatch light-text" style="background:var(--indigo-900);"><span class="name">900</span><span class="hex">#332A8F</span></div>
+    </div>
+
+    <h4 style="font-size:13px;font-weight:600;color:var(--gray-500);margin:24px 0 12px;letter-spacing:1px;">NEUTRALS</h4>
+    <div class="color-row">
+      <div class="color-swatch dark-text" style="background:var(--white);border:1px solid var(--gray-200);"><span class="name">White</span><span class="hex">#FFFFFF</span></div>
+      <div class="color-swatch dark-text" style="background:var(--gray-50);"><span class="name">Gray 50</span><span class="hex">#F8FAFC</span></div>
+      <div class="color-swatch dark-text" style="background:var(--gray-100);"><span class="name">Gray 100</span><span class="hex">#F1F5F9</span></div>
+      <div class="color-swatch dark-text" style="background:var(--gray-200);"><span class="name">Gray 200</span><span class="hex">#E2E8F0</span></div>
+      <div class="color-swatch dark-text" style="background:var(--gray-300);"><span class="name">Gray 300</span><span class="hex">#CBD5E1</span></div>
+      <div class="color-swatch light-text" style="background:var(--gray-500);"><span class="name">Gray 500</span><span class="hex">#94A3B8</span></div>
+      <div class="color-swatch light-text" style="background:var(--gray-700);"><span class="name">Gray 700</span><span class="hex">#52525B</span></div>
+      <div class="color-swatch light-text" style="background:var(--gray-900);"><span class="name">Gray 900</span><span class="hex">#2C2C30</span></div>
+      <div class="color-swatch light-text" style="background:var(--black);"><span class="name">Black</span><span class="hex">#1C1C1E</span></div>
+    </div>
+
+    <h4 style="font-size:13px;font-weight:600;color:var(--gray-500);margin:24px 0 12px;letter-spacing:1px;">FUNKTIONAL</h4>
+    <div class="functional-colors">
+      <div class="func-swatch" style="background:var(--success);"><span class="name">Success</span><span class="hex">#22C55E</span></div>
+      <div class="func-swatch" style="background:var(--warning);"><span class="name">Warning</span><span class="hex">#F59E0B</span></div>
+      <div class="func-swatch" style="background:var(--error);"><span class="name">Error</span><span class="hex">#EF4444</span></div>
+      <div class="func-swatch" style="background:var(--info);"><span class="name">Info</span><span class="hex">#3B82F6</span></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════ 3. TYPOGRAPHY ══════ -->
+  <div class="section">
+    <div class="section-tag">03 — Typografie</div>
+    <div class="section-title">Inter</div>
+    <div class="section-desc">Inter ist unsere einzige Schriftfamilie — für Headlines, Body, UI und das Wordmark.</div>
+
+    <div class="font-name">Inter <span>Variable</span></div>
+
+    <div class="type-showcase">
+      <div class="type-row">
+        <div class="type-meta"><span class="weight">Black (900)</span><br><span class="size">48px / -1px</span></div>
+        <div class="type-sample" style="font-size:48px;font-weight:900;letter-spacing:-1px;">Qualitative Intelligence</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><span class="weight">Bold (700)</span><br><span class="size">32px / -0.5px</span></div>
+        <div class="type-sample" style="font-size:32px;font-weight:700;letter-spacing:-0.5px;">Organisationsdiagnostik</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><span class="weight">SemiBold (600)</span><br><span class="size">22px</span></div>
+        <div class="type-sample" style="font-size:22px;font-weight:600;">Ursachenanalyse statt Surface-Level-Scores</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><span class="weight">Medium (500)</span><br><span class="size">16px</span></div>
+        <div class="type-sample" style="font-size:16px;font-weight:500;">Adaptive KI-Interviews mit automatisierter Auswertung</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><span class="weight">Regular (400)</span><br><span class="size">14px</span></div>
+        <div class="type-sample" style="font-size:14px;font-weight:400;color:var(--gray-600);">Die Plattform führt KI-gestützte Tiefeninterviews und liefert automatisiert Management-Reports mit Ursachenanalyse — DSGVO-konform, betriebsratskompatibel, in 48–72 Stunden.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><span class="weight">Light (300)</span><br><span class="size">12px</span></div>
+        <div class="type-sample" style="font-size:12px;font-weight:300;color:var(--gray-500);">UUID-Tokens · SHA256-Hashing · k-Anonymität ≥ 5 · EU-Hosting · DSGVO by Design</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════ 4. SPACING ══════ -->
+  <div class="section">
+    <div class="section-tag">04 — Spacing</div>
+    <div class="section-title">Abstandssystem</div>
+    <div class="section-desc">Basierend auf einem 4px-Grid. Konsistente Abstände für UI, Layout und Print.</div>
+
+    <div style="background:white;border-radius:16px;border:1px solid var(--gray-200);padding:32px;">
+      <div class="spacing-row"><span class="spacing-label">4px</span><div class="spacing-bar" style="width:4px;"></div></div>
+      <div class="spacing-row"><span class="spacing-label">8px</span><div class="spacing-bar" style="width:40px;">8</div></div>
+      <div class="spacing-row"><span class="spacing-label">12px</span><div class="spacing-bar" style="width:60px;">12</div></div>
+      <div class="spacing-row"><span class="spacing-label">16px</span><div class="spacing-bar" style="width:80px;">16</div></div>
+      <div class="spacing-row"><span class="spacing-label">24px</span><div class="spacing-bar" style="width:120px;">24</div></div>
+      <div class="spacing-row"><span class="spacing-label">32px</span><div class="spacing-bar" style="width:160px;">32</div></div>
+      <div class="spacing-row"><span class="spacing-label">48px</span><div class="spacing-bar" style="width:240px;">48</div></div>
+      <div class="spacing-row"><span class="spacing-label">64px</span><div class="spacing-bar" style="width:320px;">64</div></div>
+      <div class="spacing-row"><span class="spacing-label">80px</span><div class="spacing-bar" style="width:400px;">80</div></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════ 5. COMPONENTS ══════ -->
+  <div class="section">
+    <div class="section-tag">05 — UI Komponenten</div>
+    <div class="section-title">Design Bausteine</div>
+    <div class="section-desc">Wiederverwendbare Komponenten für Produkt-UI, Website und Präsentationen.</div>
+
+    <div class="comp-grid">
+      <!-- Buttons -->
+      <div class="comp-card">
+        <h4>Buttons</h4>
+        <div class="btn-demo">
+          <button class="btn btn-primary">Primary</button>
+          <button class="btn btn-secondary">Secondary</button>
+          <button class="btn btn-outline">Outline</button>
+          <button class="btn btn-dark">Dark</button>
+          <button class="btn btn-ghost">Ghost</button>
+        </div>
+        <div class="btn-demo" style="margin-top:16px;">
+          <button class="btn btn-primary btn-sm">Small</button>
+          <button class="btn btn-primary">Default</button>
+          <button class="btn btn-primary btn-lg">Large</button>
+        </div>
+      </div>
+
+      <!-- Tags -->
+      <div class="comp-card">
+        <h4>Tags & Badges</h4>
+        <div class="tag-demo">
+          <span class="tag tag-indigo">Engagement</span>
+          <span class="tag tag-success">Abgeschlossen</span>
+          <span class="tag tag-warning">In Bearbeitung</span>
+          <span class="tag tag-error">Kritisch</span>
+          <span class="tag tag-neutral">Draft</span>
+          <span class="tag tag-indigo">Change</span>
+          <span class="tag tag-indigo">Onboarding</span>
+          <span class="tag tag-indigo">360° Feedback</span>
+        </div>
+      </div>
+
+      <!-- Card -->
+      <div class="comp-card">
+        <h4>Cards</h4>
+        <div class="card-demo">
+          <div class="card-accent"></div>
+          <h5>ERP-Rollout Diagnostik</h5>
+          <p>347 von 500 Teilnehmenden · Report verfügbar</p>
+          <div style="margin-top:12px;display:flex;gap:8px;">
+            <span class="tag tag-indigo">Change</span>
+            <span class="tag tag-success">Live</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inputs -->
+      <div class="comp-card">
+        <h4>Form Elements</h4>
+        <div class="input-demo">
+          <input class="input" placeholder="Kampagnenname eingeben..." value="">
+          <input class="input" placeholder="Zielgruppe definieren..." value="">
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-primary">Kampagne starten</button>
+            <button class="btn btn-ghost">Abbrechen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════ 6. LIGHT/DARK ══════ -->
+  <div class="section">
+    <div class="section-tag">06 — Anwendung</div>
+    <div class="section-title">Light & Dark Mode</div>
+    <div class="section-desc">Alle Elemente funktionieren auf hellen und dunklen Hintergründen.</div>
+
+    <div class="preview-grid">
+      <div class="preview-card light-mode">
+        <h4>Light Mode</h4>
+        <div class="preview-content">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+            <div class="spiral-icon" style="width:30px;height:25px;">
+              <div class="sl" style="width:30px;height:8px;top:0;"></div>
+              <div class="sl" style="width:23px;height:7px;top:5px;"></div>
+              <div class="sl" style="width:17px;height:6px;top:9px;"></div>
+              <div class="sl" style="width:12px;height:5px;top:13px;"></div>
+              <div class="sl" style="width:8px;height:4px;top:16px;"></div>
+            </div>
+            <span style="font-size:18px;font-weight:900;color:var(--black);">insivo</span>
+          </div>
+          <h3>Engagement Diagnostik</h3>
+          <p>KI-gestützte Tiefeninterviews mit automatisierten Reports.</p>
+          <button class="btn btn-primary">Kampagne starten</button>
+        </div>
+      </div>
+      <div class="preview-card dark-mode">
+        <h4>Dark Mode</h4>
+        <div class="preview-content">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+            <div class="spiral-icon" style="width:30px;height:25px;">
+              <div class="sl" style="width:30px;height:8px;top:0;"></div>
+              <div class="sl" style="width:23px;height:7px;top:5px;"></div>
+              <div class="sl" style="width:17px;height:6px;top:9px;"></div>
+              <div class="sl" style="width:12px;height:5px;top:13px;"></div>
+              <div class="sl" style="width:8px;height:4px;top:16px;"></div>
+            </div>
+            <span style="font-size:18px;font-weight:900;color:white;">insivo</span>
+          </div>
+          <h3>Engagement Diagnostik</h3>
+          <p>KI-gestützte Tiefeninterviews mit automatisierten Reports.</p>
+          <button class="btn btn-primary">Kampagne starten</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════ 7. LOGO USAGE RULES ══════ -->
+  <div class="section">
+    <div class="section-tag">07 — Logo Regeln</div>
+    <div class="section-title">Do's & Don'ts</div>
+    <div class="section-desc">Einheitliche Verwendung des Logos sichert den Markenwert.</div>
+
+    <div class="rules-grid">
+      <div class="rule-card do">
+        <span class="icon">✅</span>
+        <span class="desc">Logo immer mit genügend Freiraum verwenden</span>
+      </div>
+      <div class="rule-card do">
+        <span class="icon">✅</span>
+        <span class="desc">Spirale immer links vom Wordmark platzieren</span>
+      </div>
+      <div class="rule-card do">
+        <span class="icon">✅</span>
+        <span class="desc">Auf dunklen Hintergründen weißes Wordmark verwenden</span>
+      </div>
+      <div class="rule-card dont">
+        <span class="icon">❌</span>
+        <span class="desc">Logo nicht rotieren, verzerren oder beschneiden</span>
+      </div>
+      <div class="rule-card dont">
+        <span class="icon">❌</span>
+        <span class="desc">Spirale nicht in anderen Farben als Brand-Indigo verwenden</span>
+      </div>
+      <div class="rule-card dont">
+        <span class="icon">❌</span>
+        <span class="desc">Logo nicht auf unruhigen Hintergründen oder Fotos platzieren</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <span>insivo</span> Brand Kit — Version 2.0 · Q2 2026<br>
+    Qualitative People Intelligence mit KI
+  </div>
+
+</div>
+
+</body>
+</html>

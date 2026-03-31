@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insivo Step Mockups</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans',-apple-system,sans-serif;background:#F5F5FA;padding:40px 16px;display:flex;flex-direction:column;gap:60px;align-items:center}
+
+  .im{--pr:#695AEE;--pm:#9485F0;--pl:#C8BFF8;--pu:#EBE8FD;--dk:#1C1C1E;--wh:#fff;--ow:#F5F5FA;--gn:#22C55E;--gb:#ECFDF5;--or:#F59E0B;--ob:#FFFBEB;--g1:#F3F4F6;--g2:#E5E7EB;--g4:#9CA3AF;--g5:#6B7280;--g7:#374151;font-family:'DM Sans',-apple-system,sans-serif;max-width:480px;width:100%;position:relative;background:var(--wh);border-radius:16px;box-shadow:0 4px 24px rgba(28,28,30,.08),0 0 0 1px rgba(28,28,30,.04);overflow:hidden}
+  .im .hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--g1)}
+  .im .ht{font-size:14px;font-weight:600;color:var(--g5)}
+  .im .cta{display:flex;align-items:center;gap:5px;background:var(--pr);color:#fff;border:none;padding:8px 14px;border-radius:9px;font-family:inherit;font-size:12.5px;font-weight:600;cursor:default;position:relative;z-index:10;transition:transform .15s,box-shadow .15s}
+  .im .cta.clicked{transform:scale(.93);box-shadow:0 0 0 3px rgba(105,90,238,.25)}
+  .im .cta.glow{box-shadow:0 0 0 5px rgba(105,90,238,.15),0 0 16px rgba(105,90,238,.12)}
+  .im .pg{padding:16px 16px 12px}
+  .im .pg h3{font-size:17px;font-weight:700;color:var(--dk);margin:0}
+  .im .pg span{font-size:12px;color:var(--g4)}
+  .im .cards{padding:0 12px 16px;display:flex;flex-direction:column;gap:10px}
+  .im .cd{background:var(--ow);border-radius:11px;padding:12px 14px;border:1px solid var(--g1)}
+  .im .cd-t{font-size:13px;font-weight:600;color:var(--dk);margin-bottom:5px}
+  .im .cd-m{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .im .bd{font-size:10px;font-weight:500;padding:2px 7px;border-radius:5px;background:var(--pu);color:var(--pr)}
+  .im .gr{font-size:11px;color:var(--g4)}
+  .im .live{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--gn);margin-left:auto}
+  .im .live::before{content:'';width:6px;height:6px;background:var(--gn);border-radius:50%;animation:imP 1.8s ease-in-out infinite}
+  @keyframes imP{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.5)}}
+  .im .bar{height:5px;background:var(--g2);border-radius:3px;overflow:hidden;margin-top:8px}
+  .im .fill{height:100%;background:linear-gradient(90deg,var(--pr),var(--pm));border-radius:3px;width:0%}
+  .im .plbl{font-size:10px;color:var(--g5);text-align:right;margin-top:3px}
+  .im .plbl strong{color:var(--pr)}
+  .im .ok{display:flex;align-items:center;gap:5px;font-size:10.5px;color:var(--gn);background:var(--gb);padding:5px 9px;border-radius:7px;margin-top:8px;width:fit-content}
+  .im .cur{position:absolute;width:28px;height:28px;z-index:200;pointer-events:none;opacity:0}
+  .im .rip{position:absolute;width:44px;height:44px;border-radius:50%;border:2px solid var(--pr);z-index:190;opacity:0;transform:scale(0);pointer-events:none}
+  .im .tip{position:absolute;background:var(--dk);color:#fff;font-size:11px;font-weight:500;padding:7px 12px;border-radius:8px;z-index:180;opacity:0;pointer-events:none;white-space:nowrap}
+  .im .tip::before{content:'';position:absolute;top:-4px;right:24px;width:8px;height:8px;background:var(--dk);transform:rotate(45deg);border-radius:1px}
+  .cur-svg{fill:#fff;stroke:#1C1C1E;stroke-width:1.2;stroke-linejoin:round}
+  .im .act{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+  .im .act-b{font-size:10.5px;padding:5px 10px;border-radius:7px;border:1px solid var(--g2);background:var(--wh);color:var(--g7);font-family:inherit;font-weight:500}
+  .im .act-b.primary{background:var(--pr);color:#fff;border-color:var(--pr)}
+  .im .act-b.outline-pr{border-color:var(--pl);color:var(--pr)}
+  .im .st-b{font-size:10px;font-weight:500;padding:3px 8px;border-radius:6px;display:inline-flex;align-items:center;gap:4px}
+  .im .st-b.green{background:var(--gb);color:var(--gn)}
+  .im .st-b.orange{background:var(--ob);color:var(--or)}
+</style>
+</head>
+<body>
+
+<!-- ========== 1) KAMPAGNE ERSTELLEN ========== -->
+<div class="im" id="m1">
+  <div class="hdr"><span class="ht">insivo</span><button class="cta" id="cta1"><span style="font-size:15px;font-weight:300;line-height:1">+</span> Neue Kampagne</button></div>
+  <div class="pg"><h3>Kampagnen</h3><span>Verwalten Sie alle Interview-Kampagnen</span></div>
+  <div class="cards">
+    <div class="cd">
+      <div class="cd-t">ERP-Rollout — Mitarbeiterbefragung Q2</div>
+      <div class="cd-m"><span class="bd">Mitarbeiterbefragung</span><span class="gr">01.–14. Mrz</span><span class="gr">347 / 500</span><span class="live">Live</span></div>
+      <div class="bar"><div class="fill" style="animation:f1 2s .6s ease-out forwards"></div></div>
+      <div class="plbl">347 von 500 MA <strong>(69%)</strong></div>
+    </div>
+    <div class="cd">
+      <div class="cd-t">360° Feedback — Finance Q1 2026</div>
+      <div class="cd-m"><span class="bd">360° Feedback</span><span class="gr">10.–24. Feb</span><span class="gr">62 / 62</span></div>
+      <div class="ok"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#22C55E" stroke-width="1.5"/><path d="M4.5 7L6.2 8.7L9.5 5.3" stroke="#22C55E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Abgeschlossen</div>
+    </div>
+  </div>
+  <svg class="cur" style="top:18px;right:30px;animation:c1 4s 1.2s ease-in-out infinite" viewBox="0 0 24 24"><path d="M5 3l14 8-6.5 1.5L10 19z" class="cur-svg"/></svg>
+  <div class="rip" style="top:10px;right:22px;animation:r1 4s 1.2s ease-out infinite"></div>
+  <div class="tip" style="top:50px;right:12px;animation:t1 4s 1.2s ease-out infinite">Kampagne anlegen</div>
+</div>
+<style>
+@keyframes f1{to{width:69%}}
+@keyframes c1{0%{opacity:0;transform:scale(.9)}12%{opacity:1;transform:scale(1)}30%{transform:scale(1);opacity:1}36%{transform:scale(.82)}42%{transform:scale(1)}65%{opacity:1}80%{opacity:0}100%{opacity:0}}
+@keyframes r1{0%,34%{opacity:0;transform:scale(0)}36%{opacity:.5;transform:scale(.3)}52%{opacity:0;transform:scale(1.6)}100%{opacity:0}}
+@keyframes t1{0%,34%{opacity:0;transform:translateY(-5px)}40%{opacity:1;transform:translateY(0)}65%{opacity:1}73%{opacity:0}100%{opacity:0}}
+</style>
+
+<!-- ========== 2) BETRIEBSRAT — Sequential step clicks ========== -->
+<div class="im" id="m2">
+  <div class="hdr"><span class="ht">insivo · Betriebsrat</span><span class="st-b green" id="br-badge" style="opacity:0;transition:opacity .4s">✓ Genehmigt</span></div>
+  <div class="pg"><h3>Freigabe-Prozess</h3><span>ERP-Rollout Kampagne · März 2026</span></div>
+  <div style="padding:4px 16px 16px">
+    <div class="bs" id="bs1"><div class="bs-n">1</div><div class="bs-b"><div class="bs-t">Kampagne konfiguriert</div><div class="bs-d">Interview-Typ, Fragebogen und Zielgruppe festgelegt.</div><span class="bs-s">Ausstehend</span></div></div>
+    <div class="bs" id="bs2"><div class="bs-n">2</div><div class="bs-b"><div class="bs-t">BR-Paket generiert</div><div class="bs-d">PDF mit Fragekatalog, KI-Methodik und DSGVO-Nachweis.</div><span class="bs-s">Ausstehend</span></div></div>
+    <div class="bs" id="bs3"><div class="bs-n">3</div><div class="bs-b"><div class="bs-t">BR-Prüfung & Rückfragen</div><div class="bs-d">1 Änderungswunsch eingearbeitet.</div><span class="bs-s">Ausstehend</span></div></div>
+    <div class="bs" id="bs4"><div class="bs-n">4</div><div class="bs-b"><div class="bs-t">Freigabe erteilt</div><div class="bs-d">Kampagne technisch entsperrt.</div><span class="bs-s">Ausstehend</span></div></div>
+  </div>
+  <svg class="cur" id="br-cur" viewBox="0 0 24 24" style="opacity:0"><path d="M5 3l14 8-6.5 1.5L10 19z" class="cur-svg"/></svg>
+  <div class="rip" id="br-rip" style="opacity:0"></div>
+</div>
+<style>
+  .bs{display:flex;gap:12px;padding:10px 0;position:relative}
+  .bs:not(:last-child)::after{content:'';position:absolute;left:15px;top:36px;bottom:-2px;width:2px;background:var(--g2);transition:background .4s}
+  .bs.done:not(:last-child)::after{background:#22C55E}
+  .bs-n{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;color:#fff;background:#9CA3AF;transition:background .3s,transform .2s}
+  .bs.done .bs-n{background:#22C55E}
+  .bs.clicking .bs-n{transform:scale(.85)}
+  .bs-b{flex:1}
+  .bs-t{font-size:12.5px;font-weight:600;color:#1C1C1E}
+  .bs-d{font-size:11px;color:#6B7280;margin-top:2px}
+  .bs-s{font-size:10px;font-weight:500;margin-top:4px;padding:2px 7px;border-radius:5px;display:inline-block;background:#F3F4F6;color:#9CA3AF;transition:all .3s}
+  .bs.done .bs-s{background:#ECFDF5;color:#22C55E}
+</style>
+
+<!-- ========== 3) KI INTERVIEW — Voice-first dark UI ========== -->
+<div class="im" id="m3" style="background:#1C1C1E">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #2a2a2e">
+    <div style="display:flex;align-items:center;gap:8px"><span style="width:7px;height:7px;background:#22C55E;border-radius:50%"></span><span style="font-size:11px;color:#888">Anonyme Sitzung · ERP-Rollout · März 2026</span></div>
+    <div style="display:flex;border:1px solid #444;border-radius:8px;overflow:hidden"><span style="padding:5px 12px;font-size:11px;font-weight:600;background:#fff;color:#1C1C1E">🎙 Voice</span><span style="padding:5px 12px;font-size:11px;color:#666">Chat</span></div>
+  </div>
+  <div style="display:flex;min-height:300px">
+    <div style="width:130px;border-right:1px solid #2a2a2e;padding:14px 10px;flex-shrink:0">
+      <div style="font-size:9px;letter-spacing:1.5px;color:#555;margin-bottom:6px">FORTSCHRITT</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><div style="height:3px;background:#333;border-radius:2px;flex:1"><div style="height:100%;width:40%;background:#695AEE;border-radius:2px"></div></div><span style="font-size:10px;color:#9485F0;font-weight:600">40%</span></div>
+      <div class="iv done">Erster Eindruck</div>
+      <div class="iv act">Konkrete Herausforderungen</div>
+      <div class="iv">...</div>
+      <div class="iv">...</div>
+      <div class="iv">...</div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px">
+      <svg width="56" height="48" viewBox="0 0 60 52" fill="none" style="margin-bottom:12px"><ellipse cx="30" cy="8" rx="24" ry="7" fill="#C8BFF8" opacity=".65"/><ellipse cx="30" cy="18" rx="18" ry="5.5" fill="#9485F0" opacity=".8"/><ellipse cx="30" cy="27" rx="13" ry="4.5" fill="#7B6BF2"/><ellipse cx="30" cy="35" rx="9" ry="3.5" fill="#695AEE"/><ellipse cx="30" cy="41" rx="6" ry="2.5" fill="#5A49DB"/><ellipse cx="30" cy="46" rx="3.5" ry="1.8" fill="#4C3CC9"/></svg>
+      <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:3px">insivo KI</div>
+      <div style="font-size:12px;color:#777;margin-bottom:24px">Hört dir zu — adaptives Gespräch</div>
+      <div class="mp"><div class="mb"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" fill="#fff"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 19v3m-3 0h6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg></div></div>
+      <div style="font-size:11px;color:#666;margin-top:12px">Du sprichst — tippe zum Pausieren</div>
+    </div>
+  </div>
+</div>
+<style>
+  .iv{font-size:10.5px;color:#555;padding:7px 10px;border-radius:7px;margin-bottom:3px;padding-left:20px;position:relative}
+  .iv::before{content:'○';position:absolute;left:5px;top:7px;font-size:9px;color:#444}
+  .iv.done{color:#777;opacity:.5}
+  .iv.done::before{content:'✓';color:#22C55E}
+  .iv.act{background:#2a2a2e;color:#fff;font-weight:600;opacity:1}
+  .iv.act::before{content:'◉';color:#695AEE}
+  .mb{width:52px;height:52px;background:#695AEE;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;z-index:2}
+  .mp{position:relative;display:flex;align-items:center;justify-content:center}
+  .mp::before,.mp::after{content:'';position:absolute;width:52px;height:52px;border-radius:50%;border:2px solid #C8BFF8;animation:mpp 2s ease-out infinite;opacity:0}
+  .mp::after{animation-delay:.6s}
+  @keyframes mpp{0%{transform:scale(1);opacity:.5}100%{transform:scale(1.8);opacity:0}}
+</style>
+
+<!-- ========== 4) REPORTS — Cursor clicks "Report generieren" ========== -->
+<div class="im" id="m4">
+  <div class="hdr"><span class="ht">insivo</span><button class="cta" id="cta4" style="background:#22C55E">Report generieren</button></div>
+  <div class="pg"><h3>Reports</h3><span>Exportierte Analyse-Reports und Dokumentation</span></div>
+  <div class="cards">
+    <div class="cd">
+      <div style="display:flex;justify-content:space-between;align-items:start"><div class="cd-t">ERP-Rollout — Management Report</div><span class="st-b green" style="font-size:9px;flex-shrink:0">✓ Bereit</span></div>
+      <div class="cd-m"><span class="bd">Diagnostisch</span><span class="gr">347 / 500 MA</span><span class="gr">15. Mrz</span></div>
+      <div class="act"><button class="act-b">👁 Anzeigen</button><button class="act-b primary">↓ PDF</button><button class="act-b outline-pr">◻ PPTX</button></div>
+    </div>
+    <div class="cd">
+      <div style="display:flex;justify-content:space-between;align-items:start"><div class="cd-t">Onboarding Experience — Report</div><span class="st-b green" style="font-size:9px;flex-shrink:0">✓ Bereit</span></div>
+      <div class="cd-m"><span class="bd">Diagnostisch</span><span class="gr">45 / 45 MA</span></div>
+      <div class="act"><button class="act-b">👁 Anzeigen</button><button class="act-b primary">↓ PDF</button></div>
+    </div>
+    <div class="cd">
+      <div style="display:flex;justify-content:space-between;align-items:start"><div class="cd-t">Remote Work — Zwischenreport</div><span class="st-b orange" style="font-size:9px;flex-shrink:0">⏳ In Bearbeitung</span></div>
+      <div class="cd-m"><span class="bd">Systematisch</span><span class="gr">23 / 150 MA</span></div>
+    </div>
+  </div>
+  <svg class="cur" style="top:18px;right:36px;animation:c4 4.5s 1.5s ease-in-out infinite" viewBox="0 0 24 24"><path d="M5 3l14 8-6.5 1.5L10 19z" class="cur-svg"/></svg>
+  <div class="rip" style="top:10px;right:28px;animation:r4 4.5s 1.5s ease-out infinite"></div>
+  <div class="tip" style="top:50px;right:12px;animation:t4 4.5s 1.5s ease-out infinite">Report generieren</div>
+</div>
+<style>
+@keyframes c4{0%{opacity:0;transform:scale(.9)}10%{opacity:1;transform:scale(1)}28%{transform:scale(1);opacity:1}34%{transform:scale(.82)}40%{transform:scale(1)}62%{opacity:1}78%{opacity:0}100%{opacity:0}}
+@keyframes r4{0%,32%{opacity:0;transform:scale(0)}34%{opacity:.5;transform:scale(.3)}50%{opacity:0;transform:scale(1.6)}100%{opacity:0}}
+@keyframes t4{0%,32%{opacity:0;transform:translateY(-5px)}38%{opacity:1;transform:translateY(0)}62%{opacity:1}70%{opacity:0}100%{opacity:0}}
+</style>
+
+<script>
+// CTA click loops
+function clickLoop(id,cyc,del,pct){
+  var b=document.getElementById(id);if(!b)return;
+  function go(){setTimeout(function(){b.classList.add('clicked');setTimeout(function(){b.classList.remove('clicked')},160);b.classList.add('glow');setTimeout(function(){b.classList.remove('glow')},800)},cyc*pct)}
+  setTimeout(function(){go();setInterval(go,cyc)},del);
+}
+clickLoop('cta1',4000,1200,.36);
+clickLoop('cta4',4500,1500,.34);
+
+// Betriebsrat sequential step animation
+(function(){
+  var steps=['bs1','bs2','bs3','bs4'].map(function(id){return document.getElementById(id)});
+  var cur=document.getElementById('br-cur');
+  var rip=document.getElementById('br-rip');
+  var badge=document.getElementById('br-badge');
+  var SD=1600,ID=1000,RP=3500;
+
+  function pos(i){
+    var p=steps[i].closest('.im').getBoundingClientRect();
+    var n=steps[i].querySelector('.bs-n').getBoundingClientRect();
+    return{t:n.top-p.top+2,l:n.left-p.left+12};
+  }
+
+  function run(){
+    steps.forEach(function(s){s.classList.remove('done','clicking');s.querySelector('.bs-s').textContent='Ausstehend'});
+    badge.style.opacity='0';cur.style.opacity='0';
+
+    steps.forEach(function(step,i){
+      setTimeout(function(){
+        var p=pos(i);
+        cur.style.transition='top .35s ease,left .35s ease,opacity .25s';
+        cur.style.top=p.t+'px';cur.style.left=p.l+'px';cur.style.opacity='1';cur.style.transform='scale(1)';
+
+        rip.style.top=(p.t-8)+'px';rip.style.left=(p.l-8)+'px';
+
+        setTimeout(function(){
+          cur.style.transform='scale(.8)';
+          rip.style.transition='none';rip.style.opacity='.5';rip.style.transform='scale(.3)';
+          setTimeout(function(){
+            cur.style.transform='scale(1)';
+            rip.style.transition='all .4s ease-out';rip.style.transform='scale(1.5)';rip.style.opacity='0';
+          },140);
+          step.classList.add('clicking');
+          setTimeout(function(){step.classList.remove('clicking');step.classList.add('done');step.querySelector('.bs-s').textContent='✓ Abgeschlossen'},180);
+          if(i===3)setTimeout(function(){badge.style.opacity='1';cur.style.opacity='0'},500);
+        },400);
+      },ID+i*SD);
+    });
+    setTimeout(run,ID+4*SD+RP);
+  }
+  setTimeout(run,600);
+})();
+</script>
+</body>
+</html>

@@ -6,7 +6,7 @@
     <title>Insivo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #FFFFFF;
@@ -146,6 +146,72 @@
             color: var(--text-dark);
             background: rgba(0,0,0,0.06);
         }
+
+        /* Funktionen Dropdown */
+        .nav-dropdown {
+            position: relative;
+        }
+        .nav-dropdown-trigger {
+            display: flex; align-items: center; gap: 5px;
+            text-decoration: none; color: var(--text-gray);
+            font-size: 14px; font-weight: 500;
+            padding: 8px 16px; border-radius: 20px;
+            cursor: pointer; transition: all 0.2s;
+            user-select: none;
+        }
+        .nav-dropdown-trigger:hover,
+        .nav-dropdown:hover .nav-dropdown-trigger {
+            color: var(--text-dark); background: rgba(0,0,0,0.03);
+        }
+        .nav-dropdown-trigger svg {
+            transition: transform 0.2s ease;
+            flex-shrink: 0;
+        }
+        .nav-dropdown:hover .nav-dropdown-trigger svg {
+            transform: rotate(180deg);
+        }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 50%;
+            transform: translateX(-50%) translateY(6px);
+            background: #fff; border-radius: 16px;
+            border: 1px solid rgba(0,0,0,0.07);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.04);
+            padding: 16px 8px 8px; min-width: 280px;
+            margin-top: -8px;
+            opacity: 0; visibility: hidden; pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+            z-index: 200;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu {
+            opacity: 1; visibility: visible; pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+        .nav-dd-item {
+            display: flex; align-items: flex-start; gap: 12px;
+            padding: 10px 12px; border-radius: 10px;
+            text-decoration: none; transition: background 0.15s ease;
+        }
+        .nav-dd-item:hover { background: rgba(0,0,0,0.03); }
+        .nav-dd-item.disabled { opacity: 0.45; cursor: default; pointer-events: none; }
+        .nav-dd-icon {
+            width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(105,90,238,0.08);
+        }
+        .nav-dd-body { flex: 1; }
+        .nav-dd-title {
+            font-size: 13px; font-weight: 600; color: var(--text-dark);
+            display: flex; align-items: center; gap: 7px; margin-bottom: 2px;
+        }
+        .nav-dd-desc { font-size: 11.5px; color: var(--text-gray); line-height: 1.4; }
+        .nav-dd-badge {
+            font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 20px;
+            background: rgba(0,0,0,0.06); color: var(--text-gray);
+            letter-spacing: 0.03em;
+        }
+        .nav-dd-divider {
+            height: 1px; background: rgba(0,0,0,0.05); margin: 4px 0;
+        }
         .nav-right {
             display: flex;
             gap: 16px;
@@ -185,11 +251,11 @@
             border-color: rgba(0,0,0,0.4);
         }
         .btn-solid {
-            background: #192732; /* dark slate from screenshot */
+            background: #695AEE;
             color: #FFFFFF;
         }
         .btn-solid:hover {
-            background: #111a22;
+            background: #5a4cd6;
         }
 
         /* Hero Section */
@@ -218,7 +284,7 @@
         }
         .hero-title {
             font-size: 76px;
-            font-weight: 700;
+            font-weight: 900;
             letter-spacing: -0.04em;
             line-height: 1.1;
             margin-bottom: 24px;
@@ -226,6 +292,7 @@
         }
         .hero-subtitle {
             font-size: 19px;
+            font-weight: 500;
             color: var(--text-gray);
             margin: 0 auto 56px;
             max-width: 1000px;
@@ -512,23 +579,31 @@
         .steps-container::before {
             content: '';
             position: absolute;
-            left: 120px;
+            left: 119px;
             top: 0;
             bottom: 0;
             width: 2px;
-            background: #e0e0f0;
+            background: #E8E8EE;
+            border-radius: 99px;
             z-index: 0;
         }
-        /* The animated fill line (real element) */
+        /* The animated fill line */
         .steps-line-fill {
             position: absolute;
-            left: 120px;
+            left: 119px;
             top: 0;
             width: 2px;
             height: 0%;
-            background: #3b82f6; /* More distinct blue to match typical design expectations */
+            background: linear-gradient(to bottom, rgba(105,90,238,0.45), rgba(105,90,238,0.75));
+            border-radius: 99px;
             z-index: 1;
-            transition: height 0.05s linear;
+            transition: height 0.12s ease-out;
+        }
+
+        /* Dot pulse animation */
+        @keyframes dot-pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(0.72); opacity: 0.7; }
         }
 
         /* Individual step row */
@@ -553,15 +628,34 @@
         .step-dot {
             position: sticky;
             top: 107px;
-            margin-left: 115px;
-            margin-bottom: -12px;
-            width: 12px;
-            height: 12px;
-            background: #e0e0f0;
-            border: 2px solid #e0e0f0;
+            margin-left: 111px;
+            margin-bottom: -18px;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border: 2px solid #DDDDE8;
             border-radius: 50%;
             z-index: 3;
-            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: border-color 0.35s ease, box-shadow 0.4s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .step-dot::after {
+            content: '';
+            display: block;
+            position: absolute;
+            inset: 4px;
+            border-radius: 50%;
+            background: #DDDDE8;
+            transition: background 0.35s ease;
+        }
+        .step-dot.active-dot {
+            border-color: #695AEE;
+            box-shadow: 0 0 0 5px rgba(105,90,238,0.12), 0 2px 10px rgba(105,90,238,0.25);
+            transform: scale(1.1);
+        }
+        .step-dot.active-dot::after {
+            background: #695AEE;
+            animation: dot-pulse 2.5s ease-in-out infinite;
         }
         /* Small step label below the dot */
         .step-label {
@@ -589,6 +683,7 @@
             line-height: 1.2;
             letter-spacing: -0.02em;
         }
+        .show-mobile { display: none; }
         .step-desc {
             font-size: 15px;
             color: #555555;
@@ -608,6 +703,7 @@
             position: relative;
             box-shadow: 0 20px 50px rgba(0,0,0,0.10), 0 4px 16px rgba(0,0,0,0.05);
         }
+        .step-mockup-mobile { display: none; }
         .step-mockup::before {
             content: '';
             position: absolute;
@@ -779,22 +875,53 @@
 
         /* Pre Footer CTA */
         .pre-footer {
-            padding: 40px 20px 120px;
+            padding: 80px 20px 100px;
             background-color: var(--surface);
             text-align: center;
         }
+        .pre-footer-title {
+            font-size: clamp(32px, 5vw, 56px); font-weight: 900;
+            letter-spacing: -0.04em; line-height: 1.05;
+            color: var(--text-dark); margin: 0 0 20px;
+        }
+        .pre-footer-title .accent { color: var(--accent-color); }
+        .pre-footer-sub {
+            font-size: 17px; color: var(--text-gray); max-width: 560px;
+            margin: 0 auto 40px; line-height: 1.65; font-weight: 400;
+        }
+        .pre-footer-actions {
+            display: flex; gap: 12px; align-items: center; justify-content: center; flex-wrap: wrap;
+            margin-bottom: 36px;
+        }
         .pre-footer-btn {
-            background-color: #0f1115;
-            color: #fff;
-            padding: 14px 32px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 16px;
-            text-decoration: none;
-            display: inline-flex;
+            background-color: #695AEE; color: #fff;
+            padding: 15px 32px; border-radius: 40px;
+            font-weight: 600; font-size: 15px;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
             transition: opacity 0.2s;
         }
-        .pre-footer-btn:hover { opacity: 0.9; }
+        .pre-footer-btn:hover { opacity: 0.85; }
+        .pre-footer-btn-secondary {
+            background: transparent; color: var(--text-gray);
+            padding: 15px 32px; border-radius: 40px;
+            font-weight: 500; font-size: 15px;
+            text-decoration: none; display: inline-flex; align-items: center;
+            border: 1px solid rgba(0,0,0,0.12);
+            transition: all 0.2s;
+        }
+        .pre-footer-btn-secondary:hover { color: var(--text-dark); border-color: rgba(0,0,0,0.25); }
+
+        .pre-footer-trust {
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            flex-wrap: wrap;
+        }
+        .pre-footer-trust-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 12px; font-weight: 600; color: var(--text-secondary);
+            letter-spacing: -0.01em;
+        }
+        .pre-footer-trust-badge svg { color: var(--accent-color); flex-shrink: 0; }
+        .pre-footer-trust-sep { color: rgba(0,0,0,0.15); font-size: 14px; }
 
         /* Footer */
         .site-footer {
@@ -916,7 +1043,7 @@
         @media (max-width: 768px) {
             /* Layout & Spacing */
             .hero { padding: 120px 20px 40px; }
-            .how-section { padding: 60px 0; }
+            .how-section { padding: 60px 0 20px; }
             .features-animated-section { padding: 60px 20px; }
             .faq-section { padding: 60px 20px; }
             .pre-footer { padding: 40px 20px 60px; }
@@ -925,6 +1052,7 @@
             /* Typography */
             .hero-title { font-size: 44px; line-height: 1.04; letter-spacing: -0.04em; margin-bottom: 12px; }
             .hide-mobile { display: none; }
+            .show-mobile { display: inline; }
             .hero-subtitle { font-size: 15px; margin-bottom: 16px; line-height: 1.6; }
             .hero { padding: 100px 24px 40px; }
             .how-title, .faq-title { font-size: 32px; }
@@ -1024,11 +1152,11 @@
         #features-animated { background: transparent; }
         .features-animated-section { max-width: 1100px; margin: 0 auto; padding: 120px 20px; text-align: center; }
         .features-animated-header { margin-bottom: 60px; }
-        .features-animated-pill { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #d1d1d6; border-radius: 999px; padding: 8px 18px; font-size: 14px; font-weight: 500; color: var(--text-gray); background: transparent; margin-bottom: 32px; }
-        .features-animated-header h2 { font-size: clamp(32px, 4vw, 56px); font-weight: 800; margin-bottom: 16px; letter-spacing:-0.03em;}
+        .features-animated-pill { display: inline-block; border: 1px solid #d1d1d6; border-radius: 999px; padding: 8px 18px; font-size: 14px; font-weight: 500; color: var(--text-gray); background: transparent; margin-bottom: 32px; }
+        .features-animated-header h2 { font-size: clamp(32px, 4vw, 56px); font-weight: 900; margin-bottom: 16px; letter-spacing:-0.03em;}
         .features-animated-header p { font-size: 18px; color: var(--text-gray); max-width: 540px; margin: 0 auto; line-height: 1.5;}
         .animated-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; text-align: left; }
-        .anim-card { background: #FFFFFF; border-radius: 24px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 24px; transition: transform 0.3s ease; cursor: pointer; font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+        .anim-card { background: #FFFFFF; border-radius: 24px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 24px; transition: transform 0.3s ease; cursor: pointer; font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
         .anim-card:hover { transform: translateY(-4px); }
         .anim-visual { height: 340px; border-radius: 16px; background: #ffffff; position: relative; overflow: hidden; }
         .anim-visual-overlay { display: none; }
@@ -1315,10 +1443,8 @@
             .dash-tabs-outer span { white-space: nowrap; font-size: 13px !important; font-weight: 600; }
 
             /* Dashboard direkt anschließen */
-            .dashboard-wrapper { margin-top: 0 !important; padding: 0 12px !important; }
-            .dashboard-mockup-wrapper { border-radius: 12px; margin-top: 16px; }
-            .mock-dashboard { border-radius: 10px; }
-            .mock-dashboard::before { display: none !important; }
+            .dashboard-wrapper { display: none !important; }
+            .dash-tabs-outer { display: none !important; }
 
             /* Step Titel: kein Overflow */
             .step-title { font-size: 20px !important; overflow-wrap: break-word; word-break: break-word; }
@@ -1327,19 +1453,125 @@
 
             /* Steps: Desktop-Look auf Mobile */
             .steps-container { padding-left: 0 !important; }
-            .steps-container::before { left: 13px !important; }
-            .steps-line-fill { left: 13px !important; }
-            .step-row { grid-template-columns: 1fr !important; gap: 8px !important; padding-left: 44px !important; position: relative !important; }
+            /* Line track — centered on dot (dot left:-1px + 14px center = 13px; 2px line at left:12px → center 13px) */
+            .steps-container::before { left: 12px !important; top: 16px !important; bottom: 20px !important; width: 2px !important; background: #E8E8EE !important; border-radius: 99px !important; }
+            .step-row:last-child { padding-bottom: 0 !important; }
+
+            /* Animated fill line — subtle indigo */
+            .steps-line-fill { left: 12px !important; top: 16px !important; width: 2px !important; border-radius: 99px !important;
+                background: linear-gradient(to bottom, rgba(105,90,238,0.45), rgba(105,90,238,0.75)) !important;
+                box-shadow: none !important;
+                transition: height 0.12s ease-out !important; }
+
+            .step-row { grid-template-columns: 1fr !important; gap: 8px !important; padding-left: 48px !important; position: relative !important; }
             .step-left { display: contents !important; }
-            .step-dot { position: absolute !important; left: 0 !important; top: 4px !important; margin-left: 0 !important; margin-bottom: 0 !important; width: 28px !important; height: 28px !important; min-width: 28px !important; background: #e0e0f0 !important; border: 2px solid #e0e0f0 !important; box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important; transition: all 0.3s ease !important; z-index: 2 !important; }
-            .step-label { position: relative !important; top: auto !important; font-size: 11px !important; font-weight: 700 !important; letter-spacing: 0.02em !important; white-space: nowrap; padding-left: 0 !important; transition: color 0.3s ease, opacity 0.3s ease; opacity: 0.5; margin-bottom: -4px !important; }
-            .step-label.active { opacity: 1; color: #3b82f6 !important; }
+
+            /* Dot — inactive */
+            .step-dot {
+                position: absolute !important; left: -1px !important; top: 2px !important;
+                margin-left: 0 !important; margin-bottom: 0 !important;
+                width: 28px !important; height: 28px !important; min-width: 28px !important;
+                background: #fff !important;
+                border: 2px solid #DDDDE8 !important;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+                transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.4s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1) !important;
+                z-index: 2 !important;
+            }
+            /* Dot inner ring via pseudo */
+            .step-dot::after {
+                content: '' !important; display: block !important;
+                position: absolute !important; inset: 5px !important;
+                border-radius: 50% !important;
+                background: #DDDDE8 !important;
+                transition: background 0.35s ease !important;
+            }
+
+            /* Dot — active (mobile overrides) */
+            .step-dot.active-dot {
+                box-shadow: 0 0 0 3px rgba(105,90,238,0.10) !important;
+                transform: scale(1.06) !important;
+            }
+
+            .step-label { position: relative !important; top: auto !important; font-size: 10px !important; font-weight: 700 !important; letter-spacing: 0.08em !important; text-transform: uppercase !important; white-space: nowrap; padding-left: 0 !important; transition: color 0.35s ease, opacity 0.35s ease; opacity: 0.4; margin-bottom: -2px !important; color: #888 !important; }
+            .step-label.active { opacity: 1 !important; color: #695AEE !important; }
             .step-row.step-active .step-title { color: #000 !important; }
             .step-row.step-active .step-desc { color: #444 !important; }
 
-            /* Step Mockup Bilder: volle Breite */
+            /* Step Mockup: PNG ausblenden, animated Mockup zeigen auf Mobile */
             .step-mockup { max-width: 100%; overflow: hidden; border-radius: 12px; }
-            .step-mockup img { width: 100% !important; height: auto !important; }
+            .step-mockup img { display: none !important; }
+            .step-mockup-mobile { display: block !important; margin-top: 2px; }
+            .step-desc { margin-bottom: 8px !important; hyphens: none !important; -webkit-hyphens: none !important; }
+            .step-title { hyphens: none !important; -webkit-hyphens: none !important; }
+
+            /* Animated Step Mockup Styles */
+            .im{--pr:#695AEE;--pm:#9485F0;--pl:#C8BFF8;--pu:#EBE8FD;--dk:#1C1C1E;--wh:#fff;--ow:#F5F5FA;--gn:#22C55E;--gb:#ECFDF5;--or:#F59E0B;--ob:#FFFBEB;--g1:#F3F4F6;--g2:#E5E7EB;--g4:#9CA3AF;--g5:#6B7280;--g7:#374151;font-family:'Inter',-apple-system,sans-serif;width:100%;position:relative;background:var(--wh);border-radius:16px;box-shadow:0 4px 24px rgba(28,28,30,.08),0 0 0 1px rgba(28,28,30,.04);overflow:hidden}
+            .im .hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--g1)}
+            .im .ht{font-size:14px;font-weight:600;color:var(--g5)}
+            .im .cta-m{display:flex;align-items:center;gap:5px;background:var(--pr);color:#fff;border:none;padding:8px 14px;border-radius:9px;font-family:inherit;font-size:12.5px;font-weight:600;cursor:default;position:relative;z-index:10;transition:transform .15s,box-shadow .15s}
+            .im .cta-m.clicked{transform:scale(.93);box-shadow:0 0 0 3px rgba(105,90,238,.25)}
+            .im .cta-m.glow{box-shadow:0 0 0 5px rgba(105,90,238,.15),0 0 16px rgba(105,90,238,.12)}
+            .im .pg{padding:16px 16px 12px}
+            .im .pg h3{font-size:17px;font-weight:700;color:var(--dk);margin:0}
+            .im .pg span{font-size:12px;color:var(--g4)}
+            .im .cards-m{padding:0 12px 16px;display:flex;flex-direction:column;gap:10px}
+            .im .cd{background:var(--ow);border-radius:11px;padding:12px 14px;border:1px solid var(--g1)}
+            .im .cd-t{font-size:13px;font-weight:600;color:var(--dk);margin-bottom:5px}
+            .im .cd-m{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+            .im .bd{font-size:10px;font-weight:500;padding:2px 7px;border-radius:5px;background:var(--pu);color:var(--pr)}
+            .im .gr{font-size:11px;color:var(--g4)}
+            .im .live-m{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--gn);margin-left:auto}
+            .im .live-m::before{content:'';width:6px;height:6px;background:var(--gn);border-radius:50%;animation:imP 1.8s ease-in-out infinite}
+            @keyframes imP{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.5)}}
+            .im .bar-m{height:5px;background:var(--g2);border-radius:3px;overflow:hidden;margin-top:8px}
+            .im .fill-m{height:100%;background:linear-gradient(90deg,var(--pr),var(--pm));border-radius:3px;width:0%}
+            .im .plbl{font-size:10px;color:var(--g5);text-align:right;margin-top:3px}
+            .im .plbl strong{color:var(--pr)}
+            .im .ok-m{display:flex;align-items:center;gap:5px;font-size:10.5px;color:var(--gn);background:var(--gb);padding:5px 9px;border-radius:7px;margin-top:8px;width:fit-content}
+            .im .cur-m{position:absolute;width:28px;height:28px;z-index:200;pointer-events:none;opacity:0}
+            .im .rip-m{position:absolute;width:44px;height:44px;border-radius:50%;border:2px solid var(--pr);z-index:190;opacity:0;transform:scale(0);pointer-events:none}
+            .im .tip-m{position:absolute;background:var(--dk);color:#fff;font-size:11px;font-weight:500;padding:7px 12px;border-radius:8px;z-index:180;opacity:0;pointer-events:none;white-space:nowrap}
+            .im .tip-m::before{content:'';position:absolute;top:-4px;right:24px;width:8px;height:8px;background:var(--dk);transform:rotate(45deg);border-radius:1px}
+            .cur-svg-m{fill:#fff;stroke:#1C1C1E;stroke-width:1.2;stroke-linejoin:round}
+            .im .act-m{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+            .im .act-b-m{font-size:10.5px;padding:5px 10px;border-radius:7px;border:1px solid var(--g2);background:var(--wh);color:var(--g7);font-family:inherit;font-weight:500}
+            .im .act-b-m.primary{background:var(--pr);color:#fff;border-color:var(--pr)}
+            .im .act-b-m.outline-pr{border-color:var(--pl);color:var(--pr)}
+            .im .st-b-m{font-size:10px;font-weight:500;padding:3px 8px;border-radius:6px;display:inline-flex;align-items:center;gap:4px}
+            .im .st-b-m.green{background:var(--gb);color:var(--gn)}
+            .im .st-b-m.orange{background:var(--ob);color:var(--or)}
+            /* Betriebsrat steps */
+            .bs-m{display:flex;gap:12px;padding:10px 0;position:relative}
+            .bs-m:not(:last-child)::after{content:'';position:absolute;left:15px;top:36px;bottom:-2px;width:2px;background:var(--g2);transition:background .4s}
+            .bs-m.done:not(:last-child)::after{background:#22C55E}
+            .bs-n-m{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;color:#fff;background:#9CA3AF;transition:background .3s,transform .2s}
+            .bs-m.done .bs-n-m{background:#22C55E}
+            .bs-m.clicking .bs-n-m{transform:scale(.85)}
+            .bs-b-m{flex:1}
+            .bs-t-m{font-size:12.5px;font-weight:600;color:#1C1C1E}
+            .bs-d-m{font-size:11px;color:#6B7280;margin-top:2px}
+            .bs-s-m{font-size:10px;font-weight:500;margin-top:4px;padding:2px 7px;border-radius:5px;display:inline-block;background:#F3F4F6;color:#9CA3AF;transition:all .3s}
+            .bs-m.done .bs-s-m{background:#ECFDF5;color:#22C55E}
+            /* Interview mockup */
+            .iv-m{font-size:10.5px;color:#555;padding:7px 10px;border-radius:7px;margin-bottom:3px;padding-left:20px;position:relative;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+            .iv-m::before{content:'○';position:absolute;left:5px;top:7px;font-size:9px;color:#444}
+            .iv-m.done::before{content:'✓';color:#22C55E}
+            .iv-m.done{color:#777;opacity:.5}
+            .iv-m.act{background:#2a2a2e;color:#fff;font-weight:600;opacity:1}
+            .iv-m.act::before{content:'◉';color:#695AEE}
+            .mb-m{width:52px;height:52px;background:#695AEE;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;z-index:2}
+            .mp-m{position:relative;display:flex;align-items:center;justify-content:center}
+            .mp-m::before,.mp-m::after{content:'';position:absolute;width:52px;height:52px;border-radius:50%;border:2px solid #C8BFF8;animation:mpp-m 2s ease-out infinite;opacity:0}
+            .mp-m::after{animation-delay:.6s}
+            @keyframes mpp-m{0%{transform:scale(1);opacity:.5}100%{transform:scale(1.8);opacity:0}}
+            @keyframes f1-m{to{width:69%}}
+            /* Cursor animations for step mockups */
+            @keyframes sm-c1{0%{opacity:0;transform:scale(.9)}12%{opacity:1;transform:scale(1)}30%{transform:scale(1);opacity:1}36%{transform:scale(.82)}42%{transform:scale(1)}65%{opacity:1}80%{opacity:0}100%{opacity:0}}
+            @keyframes sm-r1{0%,34%{opacity:0;transform:scale(0)}36%{opacity:.5;transform:scale(.3)}52%{opacity:0;transform:scale(1.6)}100%{opacity:0}}
+            @keyframes sm-t1{0%,34%{opacity:0;transform:translateY(-5px)}40%{opacity:1;transform:translateY(0)}65%{opacity:1}73%{opacity:0}100%{opacity:0}}
+            @keyframes sm-c4{0%{opacity:0;transform:scale(.9)}10%{opacity:1;transform:scale(1)}28%{transform:scale(1);opacity:1}34%{transform:scale(.82)}40%{transform:scale(1)}62%{opacity:1}78%{opacity:0}100%{opacity:0}}
+            @keyframes sm-r4{0%,32%{opacity:0;transform:scale(0)}34%{opacity:.5;transform:scale(.3)}50%{opacity:0;transform:scale(1.6)}100%{opacity:0}}
+            @keyframes sm-t4{0%,32%{opacity:0;transform:translateY(-5px)}38%{opacity:1;transform:translateY(0)}62%{opacity:1}70%{opacity:0}100%{opacity:0}}
 
             /* Feature Cards kleiner auf Mobile */
             .anim-visual { height: 220px !important; position: relative !important; }
@@ -1388,8 +1620,32 @@
             .features-animated-header h2 { font-size: 28px !important; }
             .features-animated-header p { font-size: 15px !important; }
 
+            /* Pill redesign on mobile */
+            .features-animated-pill {
+                background: linear-gradient(135deg, rgba(105,90,238,0.08), rgba(148,133,240,0.12)) !important;
+                border: 1px solid rgba(105,90,238,0.25) !important;
+                color: #695AEE !important;
+                font-weight: 600 !important;
+                font-size: 13px !important;
+                padding: 7px 16px !important;
+                letter-spacing: 0.02em !important;
+                box-shadow: 0 2px 12px rgba(105,90,238,0.1) !important;
+            }
+            .features-animated-pill span { color: #695AEE !important; font-weight: 700 !important; }
+
+            /* Scroll-driven card reveal on mobile */
+            .anim-card.fade-in-up {
+                opacity: 0 !important;
+                transform: translateY(28px) !important;
+                transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1) !important;
+            }
+            .anim-card.fade-in-up.pressed {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+            }
+
             /* McKinsey Zitat: kompakter auf Mobile */
-            .scroll-text-section { padding: 40px 20px !important; }
+            .scroll-text-section { padding: 20px 20px !important; }
             #syncScrollText { font-size: 22px !important; line-height: 1.5; }
             #syncScrollText br { display: none; }
 
@@ -1433,12 +1689,13 @@
         </div>
         <div class="nav-links">
             <a href="#home" class="nav-link active">Home</a>
-            <a href="#how" class="nav-link">Wie es funktioniert</a>
+            <a href="#how" class="nav-link">Prozess</a>
             <a href="#features-animated" class="nav-link">Vorteile</a>
+            <a href="auswertungen.html" class="nav-link">Reports</a>
             <a href="#faq" class="nav-link">FAQ</a>
         </div>
         <div class="nav-right">
-            <a href="https://calendar.app.google/ZYRiNELGw14YEtHV9" target="_blank" class="btn btn-solid" style="background:var(--text-dark);">Gespräch buchen</a>
+            <a href="https://calendar.app.google/ZYRiNELGw14YEtHV9" target="_blank" class="btn btn-solid">Gespräch buchen</a>
         </div>
     </nav>
 
@@ -1446,7 +1703,7 @@
         <h1 class="hero-title">Verstehe deine<br>Mitarbeitenden <span style="color: var(--accent);">wirklich.</span></h1>
         <p class="hero-subtitle">Hunderte qualitative KI-Interviews in wenigen Tagen. Anonyme Gespräche, adaptive Nachfragen und ein priorisierter Report mit klaren Handlungsempfehlungen und Verantwortlichkeiten. <span class="hide-mobile">Keine oberflächlichen Zahlen, sondern echte tiefe Erkenntnisse.</span></p>
         <div class="hero-buttons">
-            <a href="https://calendar.app.google/ZYRiNELGw14YEtHV9" target="_blank" class="btn btn-solid" style="background:var(--text-dark);">Gespräch buchen</a>
+            <a href="https://calendar.app.google/ZYRiNELGw14YEtHV9" target="_blank" class="btn btn-solid">Gespräch buchen</a>
             <a href="#" class="btn btn-solid" style="background:#e5e7eb; color:#6b7280; cursor:default; pointer-events:none;">Demo kommt bald</a>
         </div>
 
@@ -1489,9 +1746,22 @@
                     </div>
                     <div class="step-right">
                         <h3 class="step-title" data-step="1">Kampagne erstellen</h3>
-                        <p class="step-desc">Ziel, Zielgruppe und Interview-Typ definieren. Insivo erstellt automatisch einen strukturierten Fragebogen, anpassbar und sofort betriebsratsbereit.</p>
+                        <p class="step-desc"><span class="hide-mobile">Ziel, Zielgruppe und Interview-Typ definieren. Insivo erstellt automatisch einen strukturierten Fragebogen, anpassbar und sofort betriebsratsbereit.</span><span class="show-mobile">Ziel und Zielgruppe festlegen. Insivo erstellt automatisch den passenden Fragebogen, sofort betriebsratsbereit.</span></p>
                         <div class="step-mockup">
                             <img src="assets/mockups/Kampagnen.png" alt="Kampagne erstellen Mockup" loading="lazy">
+                        </div>
+                        <div class="step-mockup-mobile">
+                            <div class="im" id="sm1">
+                                <div class="hdr"><span class="ht">insivo</span><button class="cta-m" id="sm-cta1"><span style="font-size:15px;font-weight:300;line-height:1">+</span> Neue Kampagne</button></div>
+                                <div class="pg"><h3>Kampagnen</h3><span>Verwalten Sie alle Interview-Kampagnen</span></div>
+                                <div class="cards-m">
+                                    <div class="cd"><div class="cd-t">ERP-Rollout — Mitarbeiterbefragung Q2</div><div class="cd-m"><span class="bd">Mitarbeiterbefragung</span><span class="gr">01.–14. Mrz</span><span class="gr">347 / 500</span><span class="live-m">Live</span></div><div class="bar-m"><div class="fill-m" style="animation:f1-m 2s .6s ease-out forwards"></div></div><div class="plbl">347 von 500 MA <strong>(69%)</strong></div></div>
+                                    <div class="cd"><div class="cd-t">360° Feedback — Finance Q1 2026</div><div class="cd-m"><span class="bd">360° Feedback</span><span class="gr">10.–24. Feb</span><span class="gr">62 / 62</span></div><div class="ok-m"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#22C55E" stroke-width="1.5"/><path d="M4.5 7L6.2 8.7L9.5 5.3" stroke="#22C55E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Abgeschlossen</div></div>
+                                </div>
+                                <svg class="cur-m" style="top:18px;right:30px;animation:sm-c1 4s 1.2s ease-in-out infinite" viewBox="0 0 24 24"><path d="M5 3l14 8-6.5 1.5L10 19z" class="cur-svg-m"/></svg>
+                                <div class="rip-m" style="top:10px;right:22px;animation:sm-r1 4s 1.2s ease-out infinite"></div>
+                                <div class="tip-m" style="top:50px;right:12px;animation:sm-t1 4s 1.2s ease-out infinite">Kampagne anlegen</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1504,9 +1774,23 @@
                     </div>
                     <div class="step-right">
                         <h3 class="step-title" data-step="2">Betriebsrat einbinden</h3>
-                        <p class="step-desc">Ein Klick generiert das vollständige BR-Freigabe-Dokument. Die Kampagne startet technisch erst nach BR-Freigabe. Der Status ist live im Dashboard sichtbar.</p>
+                        <p class="step-desc"><span class="hide-mobile">Ein Klick generiert das vollständige BR-Freigabe-Dokument. Die Kampagne startet technisch erst nach BR-Freigabe. Der Status ist live im Dashboard sichtbar.</span><span class="show-mobile">Ein Klick erstellt das Freigabedokument für den Betriebsrat. Die Kampagne startet erst nach Genehmigung.</span></p>
                         <div class="step-mockup">
                             <img src="assets/mockups/Betriebsrat.png" alt="Betriebsrat Freigabe Mockup" loading="lazy">
+                        </div>
+                        <div class="step-mockup-mobile">
+                            <div class="im" id="sm2">
+                                <div class="hdr"><span class="ht">insivo · Betriebsrat</span><span class="st-b-m green" id="sm-br-badge" style="opacity:0;transition:opacity .4s">✓ Genehmigt</span></div>
+                                <div class="pg"><h3>Freigabe-Prozess</h3><span>ERP-Rollout Kampagne · März 2026</span></div>
+                                <div style="padding:4px 16px 16px">
+                                    <div class="bs-m" id="sm-bs1"><div class="bs-n-m">1</div><div class="bs-b-m"><div class="bs-t-m">Kampagne konfiguriert</div><div class="bs-d-m">Interview-Typ, Fragebogen und Zielgruppe festgelegt.</div><span class="bs-s-m">Ausstehend</span></div></div>
+                                    <div class="bs-m" id="sm-bs2"><div class="bs-n-m">2</div><div class="bs-b-m"><div class="bs-t-m">BR-Paket generiert</div><div class="bs-d-m">PDF mit Fragekatalog, KI-Methodik und DSGVO-Nachweis.</div><span class="bs-s-m">Ausstehend</span></div></div>
+                                    <div class="bs-m" id="sm-bs3"><div class="bs-n-m">3</div><div class="bs-b-m"><div class="bs-t-m">BR-Prüfung & Rückfragen</div><div class="bs-d-m">1 Änderungswunsch eingearbeitet.</div><span class="bs-s-m">Ausstehend</span></div></div>
+                                    <div class="bs-m" id="sm-bs4"><div class="bs-n-m">4</div><div class="bs-b-m"><div class="bs-t-m">Freigabe erteilt</div><div class="bs-d-m">Kampagne technisch entsperrt.</div><span class="bs-s-m">Ausstehend</span></div></div>
+                                </div>
+                                <svg class="cur-m" id="sm-br-cur" viewBox="0 0 24 24" style="opacity:0"><path d="M5 3l14 8-6.5 1.5L10 19z" class="cur-svg-m"/></svg>
+                                <div class="rip-m" id="sm-br-rip" style="opacity:0"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1519,9 +1803,34 @@
                     </div>
                     <div class="step-right">
                         <h3 class="step-title" data-step="3">KI führt die Interviews</h3>
-                        <p class="step-desc">Mitarbeitende erhalten einen persönlichen, anonymen Link und sprechen per Voice oder Text mit der KI. Adaptive Nachfragen dort, wo Tiefe gebraucht wird. Bei psychischer Belastung greift automatisch das Stopp-Protokoll.</p>
+                        <p class="step-desc"><span class="hide-mobile">Mitarbeitende erhalten einen persönlichen, anonymen Link und sprechen per Voice oder Text mit der KI. Adaptive Nachfragen dort, wo Tiefe gebraucht wird. Bei psychischer Belastung greift automatisch das Stopp-Protokoll.</span><span class="show-mobile">Mitarbeitende sprechen anonym per Voice oder Chat mit der KI. Sie fragt intelligent nach und schützt bei psychischer Belastung automatisch.</span></p>
                         <div class="step-mockup">
                             <img src="assets/mockups/Interview.png" alt="KI Interview Mockup" loading="lazy">
+                        </div>
+                        <div class="step-mockup-mobile">
+                            <div class="im" id="sm3" style="background:#1C1C1E">
+                                <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #2a2a2e">
+                                    <div style="display:flex;align-items:center;gap:8px"><span style="width:7px;height:7px;background:#22C55E;border-radius:50%"></span><span style="font-size:11px;color:#888">Anonyme Sitzung · ERP-Rollout</span></div>
+                                    <div style="display:flex;border:1px solid #444;border-radius:8px;overflow:hidden"><span style="padding:5px 12px;font-size:11px;font-weight:600;background:#fff;color:#1C1C1E">Voice</span><span style="padding:5px 12px;font-size:11px;color:#666">Chat</span></div>
+                                </div>
+                                <div style="display:flex;min-height:260px">
+                                    <div style="width:128px;border-right:1px solid #2a2a2e;padding:14px 8px;flex-shrink:0">
+                                        <div style="font-size:8px;letter-spacing:1.5px;color:#555;margin-bottom:6px">FORTSCHRITT</div>
+                                        <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px"><div style="height:3px;background:#333;border-radius:2px;flex:1"><div style="height:100%;width:40%;background:#695AEE;border-radius:2px"></div></div><span style="font-size:10px;color:#9485F0;font-weight:600">40%</span></div>
+                                        <div class="iv-m done">Erster Eindruck</div>
+                                        <div class="iv-m act">Herausforderungen</div>
+                                        <div class="iv-m">...</div>
+                                        <div class="iv-m">...</div>
+                                    </div>
+                                    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px">
+                                        <svg width="48" height="40" viewBox="0 0 60 52" fill="none" style="margin-bottom:10px"><ellipse cx="30" cy="8" rx="24" ry="7" fill="#C8BFF8" opacity=".65"/><ellipse cx="30" cy="18" rx="18" ry="5.5" fill="#9485F0" opacity=".8"/><ellipse cx="30" cy="27" rx="13" ry="4.5" fill="#7B6BF2"/><ellipse cx="30" cy="35" rx="9" ry="3.5" fill="#695AEE"/></svg>
+                                        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:2px">insivo KI</div>
+                                        <div style="font-size:11px;color:#777;margin-bottom:20px">Adaptives Gespräch</div>
+                                        <div class="mp-m"><div class="mb-m"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" fill="#fff"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 19v3m-3 0h6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg></div></div>
+                                        <div style="font-size:10px;color:#666;margin-top:10px">Du sprichst — tippe zum Pausieren</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1534,9 +1843,23 @@
                     </div>
                     <div class="step-right">
                         <h3 class="step-title" data-step="4">Report &amp; Handlungsempfehlungen</h3>
-                        <p class="step-desc">Alle Antworten werden transkribiert, geclustert und analysiert. Ergebnis: ein Management-Report mit Top-Handlungsfeldern, Root-Cause-Mustern und Maßnahmenvorschlägen. Mit Rollenansichten für HR, Führungskräfte und C-Level.</p>
+                        <p class="step-desc"><span class="hide-mobile">Alle Antworten werden transkribiert, geclustert und analysiert. Ergebnis: ein Management-Report mit Top-Handlungsfeldern, Root-Cause-Mustern und Maßnahmenvorschlägen. Mit Rollenansichten für HR, Führungskräfte und C-Level.</span><span class="show-mobile">Alle Antworten werden analysiert und geclustert. Das Ergebnis: ein priorisierter Report mit klaren Handlungsempfehlungen für HR und Führung.</span></p>
                         <div class="step-mockup with-fade">
                             <img src="assets/mockups/reports.png" alt="Reports Mockup" loading="lazy">
+                        </div>
+                        <div class="step-mockup-mobile">
+                            <div class="im" id="sm4">
+                                <div class="hdr"><span class="ht">insivo</span><button class="cta-m" id="sm-cta4" style="background:#22C55E">Report generieren</button></div>
+                                <div class="pg"><h3>Reports</h3><span>Exportierte Analyse-Reports</span></div>
+                                <div class="cards-m">
+                                    <div class="cd"><div style="display:flex;justify-content:space-between;align-items:start"><div class="cd-t">ERP-Rollout — Management Report</div><span class="st-b-m green" style="font-size:9px;flex-shrink:0">✓ Bereit</span></div><div class="cd-m"><span class="bd">Diagnostisch</span><span class="gr">347 / 500 MA</span></div><div class="act-m"><button class="act-b-m">👁 Anzeigen</button><button class="act-b-m primary">↓ PDF</button><button class="act-b-m outline-pr">◻ PPTX</button></div></div>
+                                    <div class="cd"><div style="display:flex;justify-content:space-between;align-items:start"><div class="cd-t">Onboarding Experience — Report</div><span class="st-b-m green" style="font-size:9px;flex-shrink:0">✓ Bereit</span></div><div class="cd-m"><span class="bd">Diagnostisch</span><span class="gr">45 / 45 MA</span></div><div class="act-m"><button class="act-b-m">👁 Anzeigen</button><button class="act-b-m primary">↓ PDF</button></div></div>
+                                    <div class="cd"><div style="display:flex;justify-content:space-between;align-items:start"><div class="cd-t">Remote Work — Zwischenreport</div><span class="st-b-m orange" style="font-size:9px;flex-shrink:0">⏳ In Bearbeitung</span></div><div class="cd-m"><span class="bd">Systematisch</span><span class="gr">23 / 150 MA</span></div></div>
+                                </div>
+                                <svg class="cur-m" style="top:18px;right:36px;animation:sm-c4 4.5s 1.5s ease-in-out infinite" viewBox="0 0 24 24"><path d="M5 3l14 8-6.5 1.5L10 19z" class="cur-svg-m"/></svg>
+                                <div class="rip-m" style="top:10px;right:28px;animation:sm-r4 4.5s 1.5s ease-out infinite"></div>
+                                <div class="tip-m" style="top:50px;right:12px;animation:sm-t4 4.5s 1.5s ease-out infinite">Report generieren</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1550,16 +1873,13 @@
         <div class="scroll-text-container fade-in-up">
             <h2 id="syncScrollText">„Unternehmen, die ihren<br>Mitarbeitenden zuhören und auf das<br>Gehörte reagieren, sind <span style="color:#695AEE;">2,2x</span> häufiger<br>Spitzenperformer."</h2>
             <div class="scroll-author">— McKinsey &amp; Company</div>
-            <div id="scrollTextBtn" class="scroll-btn-wrapper">
-                <a href="https://calendar.app.google/ZYRiNELGw14YEtHV9" target="_blank" class="btn btn-solid" style="background:var(--text-dark);">Gespräch buchen</a>
-            </div>
         </div>
     </section>
 
     <!-- Animated Features Section -->
     <section id="features-animated" class="features-animated-section">
         <div class="features-animated-header">
-            <div class="features-animated-pill">Warum Insivo</div>
+            <div class="features-animated-pill">Warum <span style="color:var(--accent)">insivo</span></div>
             <h2>Der Unterschied liegt im Detail</h2>
             <p>Qualitative Unternehmensdiagnostik. So wie sie wirklich funktionieren sollte.</p>
         </div>
@@ -2208,7 +2528,36 @@
 
     <!-- Pre-Footer CTA -->
     <section class="pre-footer">
-        <a href="https://calendar.app.google/ZYRiNELGw14YEtHV9" target="_blank" class="pre-footer-btn">Gespräch buchen</a>
+        <h2 class="pre-footer-title">Bereit, deine Organisation<br><span class="accent">wirklich</span> zu verstehen?</h2>
+        <p class="pre-footer-sub">Vom ersten Interview zum fertigen Management-Report. Keine externen Berater. Keine wochenlange Auswertung. Nur echte Antworten.</p>
+        <div class="pre-footer-actions">
+            <a href="https://calendar.app.google/ZYRiNELGw14YEtHV9" target="_blank" class="pre-footer-btn">
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M2 4l6 4 6-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/></svg>
+                Gespräch buchen
+            </a>
+            <a href="auswertungen.html" class="pre-footer-btn-secondary">Auswertungen ansehen</a>
+        </div>
+        <div class="pre-footer-trust">
+            <div class="pre-footer-trust-badge">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4v4c0 3.5 2.6 6.4 6 7 3.4-.6 6-3.5 6-7V4L8 1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M5.5 8l2 2 3.5-3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                DSGVO-konform
+            </div>
+            <div class="pre-footer-trust-sep">·</div>
+            <div class="pre-footer-trust-badge">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1C4.7 1 2 3.7 2 7s2.7 6 6 6 6-2.7 6-6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M8 5c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="8" cy="8" r="1" fill="currentColor"/></svg>
+                Betriebsrat-ready
+            </div>
+            <div class="pre-footer-trust-sep">·</div>
+            <div class="pre-footer-trust-badge">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="3" y="6" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 6V4.5a3 3 0 0 1 6 0V6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="8" cy="10" r="1" fill="currentColor"/></svg>
+                Daten in Frankfurt (EU)
+            </div>
+            <div class="pre-footer-trust-sep">·</div>
+            <div class="pre-footer-trust-badge">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                EU AI Act konform
+            </div>
+        </div>
     </section>
 
     <!-- Site Footer -->
@@ -2218,8 +2567,9 @@
                 <!-- Col 1 -->
                 <div class="footer-col" style="flex: 1;">
                     <h4 class="footer-heading">Quick Links</h4>
-                    <a href="#how" class="footer-link">Wie es funktioniert</a>
+                    <a href="#how" class="footer-link">Prozess</a>
                     <a href="#features-animated" class="footer-link">Vorteile</a>
+                    <a href="auswertungen.html" class="footer-link">Reports</a>
                     <a href="#faq" class="footer-link">FAQ</a>
                 </div>
                 <!-- Col 2 -->
@@ -2273,19 +2623,21 @@
                     const label = dot.parentElement.querySelector('.step-label');
                     const row = dot.closest('.step-row');
                     if (dotRect.top < windowMid) {
-                        dot.style.background = '#3b82f6';
-                        dot.style.borderColor = '#3b82f6';
+                        dot.classList.add('active-dot');
+                        dot.style.background = '';
+                        dot.style.borderColor = '';
                         dot.style.boxShadow = '';
                         dot.style.transform = '';
                         if (label) label.classList.add('active');
                         if (row) row.classList.add('step-active');
                     } else {
-                        dot.style.background = '#e0e0f0';
-                        dot.style.borderColor = '#e0e0f0';
-                        if (label) label.classList.remove('active');
-                        if (row) row.classList.remove('step-active');
+                        dot.classList.remove('active-dot');
+                        dot.style.background = '';
+                        dot.style.borderColor = '';
                         dot.style.boxShadow = '';
                         dot.style.transform = '';
+                        if (label) label.classList.remove('active');
+                        if (row) row.classList.remove('step-active');
                     }
                 });
             }
@@ -2347,9 +2699,10 @@
                 const rect = scrollTextContainer.getBoundingClientRect();
                 const windowHeight = window.innerHeight;
                 
-                // Animation bounds
-                const startPos = windowHeight * 0.85; 
-                const endPos = windowHeight * 0.35;
+                // Animation bounds (wider range on mobile = slower fill)
+                const isMobileText = window.innerWidth <= 768;
+                const startPos = isMobileText ? windowHeight * 0.9 : windowHeight * 0.85;
+                const endPos = isMobileText ? windowHeight * 0.1 : windowHeight * 0.35;
                 
                 let progress = (startPos - rect.top) / (startPos - endPos);
                 progress = Math.max(0, Math.min(1, progress));
@@ -2543,25 +2896,111 @@
         }
     </script>
 
-    <!-- Mobile: Scroll-triggered card animations -->
+    <!-- Mobile: Scroll-driven card animations -->
     <script>
     (function() {
         if(!('ontouchstart' in window) && !window.matchMedia('(max-width: 768px)').matches) return;
-        var observer = new IntersectionObserver(function(entries) {
-            entries.forEach(function(entry) {
-                var card = entry.target;
-                if (entry.isIntersecting) {
-                    card.classList.add('pressed');
-                    card.dispatchEvent(new MouseEvent('mouseenter', {bubbles: true}));
-                } else {
-                    card.classList.remove('pressed');
-                    card.dispatchEvent(new MouseEvent('mouseleave', {bubbles: true}));
-                }
+
+        var cards = Array.from(document.querySelectorAll('#features-animated .anim-card'));
+
+        // Remove staggered transition-delays so scroll drives timing instead
+        cards.forEach(function(c) { c.style.transitionDelay = '0s'; });
+
+        function setCard(card, active) {
+            var was = card.classList.contains('pressed');
+            if (active === was) return;
+            if (active) {
+                card.classList.add('pressed');
+                card.dispatchEvent(new MouseEvent('mouseenter', {bubbles: true}));
+            } else {
+                card.classList.remove('pressed');
+                card.dispatchEvent(new MouseEvent('mouseleave', {bubbles: true}));
+            }
+        }
+
+        function update() {
+            var vh = window.innerHeight;
+            cards.forEach(function(card) {
+                var rect = card.getBoundingClientRect();
+                // Activate when card top crosses 78% going down,
+                // deactivate when it goes back above 78% scrolling up
+                var inView = rect.top < vh * 0.78 && rect.bottom > vh * 0.1;
+                setCard(card, inView);
             });
-        }, { threshold: 0.5 });
-        document.querySelectorAll('.anim-card').forEach(function(card) {
-            observer.observe(card);
-        });
+        }
+
+        window.addEventListener('scroll', update, {passive: true});
+        setTimeout(update, 100);
+    })();
+    </script>
+
+    <!-- Step Mockup Animations (Mobile) -->
+    <script>
+    (function(){
+        if(!window.matchMedia('(max-width: 768px)').matches && !('ontouchstart' in window)) return;
+
+        // CTA click loops
+        function clickLoop(id,cyc,del,pct){
+            var b=document.getElementById(id);if(!b)return;
+            function go(){setTimeout(function(){b.classList.add('clicked');setTimeout(function(){b.classList.remove('clicked')},160);b.classList.add('glow');setTimeout(function(){b.classList.remove('glow')},800)},cyc*pct)}
+            setTimeout(function(){go();setInterval(go,cyc)},del);
+        }
+        clickLoop('sm-cta1',4000,1200,.36);
+        clickLoop('sm-cta4',4500,1500,.34);
+
+        // Betriebsrat sequential step animation
+        var steps=['sm-bs1','sm-bs2','sm-bs3','sm-bs4'].map(function(id){return document.getElementById(id)});
+        var cur=document.getElementById('sm-br-cur');
+        var rip=document.getElementById('sm-br-rip');
+        var badge=document.getElementById('sm-br-badge');
+        if(!steps[0]||!cur) return;
+        var SD=1600,ID=1000,RP=3500;
+
+        function pos(i){
+            var p=steps[i].closest('.im').getBoundingClientRect();
+            var n=steps[i].querySelector('.bs-n-m').getBoundingClientRect();
+            return{t:n.top-p.top+2,l:n.left-p.left+12};
+        }
+        var sm2El=document.getElementById('sm2');
+        var brRunning=false;
+        var brTimer=null;
+        function cancelBR(){if(brTimer)clearTimeout(brTimer);brRunning=false;}
+        function runBROnce(){
+            if(brRunning)return;
+            brRunning=true;
+            steps.forEach(function(s){s.classList.remove('done','clicking');s.querySelector('.bs-s-m').textContent='Ausstehend'});
+            badge.style.opacity='0';cur.style.opacity='0';
+            steps.forEach(function(step,i){
+                brTimer=setTimeout(function(){
+                    var p=pos(i);
+                    cur.style.transition='top .35s ease,left .35s ease,opacity .25s';
+                    cur.style.top=p.t+'px';cur.style.left=p.l+'px';cur.style.opacity='1';cur.style.transform='scale(1)';
+                    rip.style.top=(p.t-8)+'px';rip.style.left=(p.l-8)+'px';
+                    setTimeout(function(){
+                        cur.style.transform='scale(.8)';
+                        rip.style.transition='none';rip.style.opacity='.5';rip.style.transform='scale(.3)';
+                        setTimeout(function(){
+                            cur.style.transform='scale(1)';
+                            rip.style.transition='all .4s ease-out';rip.style.transform='scale(1.5)';rip.style.opacity='0';
+                        },140);
+                        step.classList.add('clicking');
+                        setTimeout(function(){step.classList.remove('clicking');step.classList.add('done');step.querySelector('.bs-s-m').textContent='✓ Abgeschlossen'},180);
+                        if(i===3)setTimeout(function(){badge.style.opacity='1';cur.style.opacity='0'},500);
+                    },400);
+                },ID+i*SD);
+            });
+            brTimer=setTimeout(function(){brRunning=false;if(sm2InView)runBROnce();},ID+4*SD+RP);
+        }
+        var sm2InView=false;
+        if(sm2El){
+            var brObs=new IntersectionObserver(function(entries){
+                entries.forEach(function(e){
+                    sm2InView=e.isIntersecting;
+                    if(e.isIntersecting){runBROnce();}else{cancelBR();}
+                });
+            },{threshold:0.4});
+            brObs.observe(sm2El);
+        }
     })();
     </script>
 </body>
