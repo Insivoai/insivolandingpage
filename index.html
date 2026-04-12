@@ -468,6 +468,59 @@
         }
         .problem-section.is-visible .ps-tagline { opacity: 1; }
 
+        /* Divider between symptoms and causes */
+        .ps-divider {
+            display: flex;
+            align-items: center;
+            max-width: 560px;
+            margin: 0 auto 48px;
+            opacity: 0;
+            transition: opacity 0.6s ease 0.95s;
+        }
+        .problem-section.is-visible .ps-divider { opacity: 1; }
+        .ps-divider-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.12) 50%, transparent 100%);
+        }
+
+        /* Causes title */
+        .ps-title-causes {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.7s ease 1.1s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.1s;
+            margin-bottom: 20px;
+        }
+        .problem-section.is-visible .ps-title-causes {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Cause chips */
+        .ps-chip-cause {
+            background: #FFF7ED !important;
+            border-color: rgba(234, 149, 46, 0.25) !important;
+            color: #92400e !important;
+        }
+        .ps-chip-cause:hover {
+            background: #FFEDD5 !important;
+            border-color: rgba(234, 149, 46, 0.45) !important;
+            box-shadow: 0 4px 14px rgba(234, 149, 46, 0.12) !important;
+        }
+        .ps-chips-causes .ps-chip:nth-child(1)  { transition-delay: 1.2s !important; }
+        .ps-chips-causes .ps-chip:nth-child(2)  { transition-delay: 1.27s !important; }
+        .ps-chips-causes .ps-chip:nth-child(3)  { transition-delay: 1.34s !important; }
+        .ps-chips-causes .ps-chip:nth-child(4)  { transition-delay: 1.41s !important; }
+        .ps-chips-causes .ps-chip:nth-child(5)  { transition-delay: 1.48s !important; }
+        .ps-chips-causes .ps-chip:nth-child(6)  { transition-delay: 1.55s !important; }
+        .ps-chips-causes .ps-chip:nth-child(7)  { transition-delay: 1.62s !important; }
+        .ps-chips-causes .ps-chip:nth-child(8)  { transition-delay: 1.69s !important; }
+
+        /* Causes tagline */
+        .ps-tagline-causes {
+            transition-delay: 1.8s !important;
+        }
+
         /* Vertical connector line */
         .ps-connector {
             width: 2px;
@@ -626,6 +679,8 @@
             .ps-chips { gap: 8px; margin-bottom: 28px; }
             .ps-chip { font-size: 12.5px; padding: 10px 16px; }
             .ps-tagline { font-size: 13px; margin-bottom: 36px; }
+            .ps-divider { max-width: 100%; margin-bottom: 36px; }
+            .ps-title-causes { font-size: 28px; }
             .ps-oval { height: 58px; font-size: 15px; }
             .ps-stage-1 .ps-oval { width: 96%; }
             .ps-stage-2 .ps-oval { width: 82%; }
@@ -2423,9 +2478,7 @@
             .footer-legal { gap: 12px; flex-wrap: wrap; }
             .site-footer { padding: 50px 20px 24px; }
             .pre-footer { padding: 40px 20px 60px; }
-            .footer-li-icon { display: none !important; }
-            .footer-li-btn { display: flex !important; align-items: center; gap: 8px; width: auto !important; height: auto !important; border-radius: 10px !important; padding: 12px 20px !important; font-size: 14px; font-weight: 600; color: #fff !important; background: #0A66C2 !important; border-color: #0A66C2 !important; text-decoration: none; }
-            .footer-li-btn svg { width: 18px !important; height: 18px !important; stroke: #fff; }
+            .footer-li-icon { display: inline-flex !important; }
 
             /* FAQ */
             .faq-section { padding: 50px 20px; }
@@ -2587,25 +2640,40 @@
     <!-- Problem Section — chips → funnel → results -->
     <section class="problem-section fade-in-up" id="problem-section">
         <div class="problem-inner">
-            <!-- Part 1: Problem header + chips -->
+            <!-- Part 1a: What the Steering Committee sees -->
             <div class="ps-eyebrow">Das Problem</div>
-            <h2 class="ps-title">Ihr Projekt heute.</h2>
-            <p class="ps-sub">Das sieht Ihr Steering Committee. Nicht die Ursachen.</p>
+            <h2 class="ps-title">Das sieht Ihr Steering Committee.</h2>
 
             <div class="ps-chips">
-                <span class="ps-chip">Doppelarbeit</span>
-                <span class="ps-chip">Scope Creep</span>
-                <span class="ps-chip">Entscheidungsstau</span>
-                <span class="ps-chip">Shadow-IT</span>
-                <span class="ps-chip">Schulungslücken</span>
-                <span class="ps-chip">Zielkonflikte</span>
-                <span class="ps-chip">Wissensträger-Risiko</span>
-                <span class="ps-chip">Fehlkommunikation</span>
-                <span class="ps-chip">Berater ohne Wertbeitrag</span>
-                <span class="ps-chip">Falsches Projektsetting</span>
+                <span class="ps-chip">Zeitplan rutscht</span>
+                <span class="ps-chip">Budget überzogen</span>
+                <span class="ps-chip">Mitarbeiter-Frust</span>
+                <span class="ps-chip">Akzeptanzprobleme</span>
+                <span class="ps-chip">Eskalationen häufen sich</span>
             </div>
 
-            <div class="ps-tagline">Was niemand quantifiziert. Was alle spüren.</div>
+            <div class="ps-tagline">Symptome auf Folien. Aber nicht die Ursachen.</div>
+
+            <!-- Divider between symptoms and causes -->
+            <div class="ps-divider">
+                <div class="ps-divider-line"></div>
+            </div>
+
+            <!-- Part 1b: The actual root causes -->
+            <h2 class="ps-title ps-title-causes">Die eigentlichen Ursachen.</h2>
+
+            <div class="ps-chips ps-chips-causes">
+                <span class="ps-chip ps-chip-cause">Unklare Verantwortlichkeiten</span>
+                <span class="ps-chip ps-chip-cause">Fehlende Governance</span>
+                <span class="ps-chip ps-chip-cause">Kein Change-Management</span>
+                <span class="ps-chip ps-chip-cause">Widerstand in der Linie</span>
+                <span class="ps-chip ps-chip-cause">Mangelnde Zielklarheit</span>
+                <span class="ps-chip ps-chip-cause">Silodenken zwischen Bereichen</span>
+                <span class="ps-chip ps-chip-cause">Falsche Teamzusammensetzung</span>
+                <span class="ps-chip ps-chip-cause">Fehlende Eskalationswege</span>
+            </div>
+
+            <div class="ps-tagline ps-tagline-causes">Was niemand quantifiziert. Was alle spüren. Was insivo sichtbar macht.</div>
 
             <!-- Vertical connector line -->
             <div class="ps-connector"></div>
@@ -3552,13 +3620,10 @@
                 <!-- Col 3 -->
                 <div class="footer-col" style="flex: 1;">
                     <h4 class="footer-heading">Folgen Sie uns</h4>
-                    <div class="footer-socials">
-                        <!-- LinkedIn icon (desktop) -->
-                        <a href="https://www.linkedin.com/company/insivo-ai/posts/?feedView=all" target="_blank" class="footer-li-icon"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
-                        <!-- LinkedIn button (mobile) -->
-                        <a href="https://www.linkedin.com/company/insivo-ai/posts/?feedView=all" target="_blank" class="footer-li-btn"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg> Auf LinkedIn folgen</a>
-                    </div>
                     <p class="footer-text">Neue KI-Features kommen schnell. Folgen Sie Insivo, um nichts zu verpassen.</p>
+                    <div class="footer-socials">
+                        <a href="https://www.linkedin.com/company/insivo-ai/posts/?feedView=all" target="_blank" class="footer-li-icon"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+                    </div>
                 </div>
             </div>
             <div class="footer-bottom">
