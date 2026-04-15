@@ -375,6 +375,63 @@
             line-height: 1.6;
             text-align: center;
         }
+        /* Rotating subtitle carousel */
+        .hero-rotator {
+            position: relative;
+            width: 100%;
+            max-width: 620px;
+            min-height: 80px;
+            margin: 0 auto 16px;
+            text-align: center;
+            overflow: hidden;
+        }
+        .hero-rotator-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            font-size: 16.5px;
+            font-weight: 400;
+            color: var(--text-gray);
+            line-height: 1.55;
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            transition: opacity 0.45s cubic-bezier(.25,.46,.45,.94), transform 0.45s cubic-bezier(.25,.46,.45,.94);
+        }
+        .hero-rotator-slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .hero-rotator-slide.out {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s cubic-bezier(.55,.06,.68,.19), transform 0.3s cubic-bezier(.55,.06,.68,.19);
+        }
+        .hero-rotator-dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 48px;
+        }
+        .hero-rotator-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--border-color);
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: background 0.25s, transform 0.25s;
+        }
+        .hero-rotator-dot.active {
+            background: var(--accent);
+            transform: scale(1.3);
+        }
         .hero-buttons {
             display: flex;
             justify-content: center;
@@ -1893,6 +1950,9 @@
             .hide-mobile { display: none; }
             .show-mobile { display: inline; }
             .hero-subtitle { font-size: 15px; margin-bottom: 16px; line-height: 1.6; }
+            .hero-rotator { min-height: 72px; max-width: 90vw; margin: 0 auto 12px; }
+            .hero-rotator-slide { font-size: 14.5px; }
+            .hero-rotator-dots { margin-bottom: 32px; }
             .hero { padding: 100px 24px 40px; }
             .how-title, .faq-title { font-size: 32px; }
             .how-subtitle, .faq-subtitle { font-size: 16px; margin-bottom: 40px; }
@@ -2673,7 +2733,8 @@
             </span>
         </div>
         <h1 class="hero-title">Verstehe jede Organisation,<br><span style="color: var(--accent);">in Tagen, nicht Monaten.</span></h1>
-        <p class="hero-subtitle">Dein autonomer Organisationsberater. Aggregiert Informationen aus Interviews, Dokumentation und weiteren Quellen, erkennt Ursachen und liefert Handlungsempfehlungen.</p>
+        <div class="hero-rotator" aria-live="polite" id="heroRotator"></div>
+        <div class="hero-rotator-dots" id="heroRotatorDots"></div>
         <div class="hero-buttons">
             <a href="https://calendar.app.google/ZYRiNELGw14YEtHV9" target="_blank" class="btn btn-solid">Gespräch buchen</a>
             <a href="#" class="btn btn-solid btn-schnellcheck" data-pk-open>Projekt-Schnellcheck · 60 Sek</a>
@@ -3682,6 +3743,56 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+
+            // Hero rotator
+            (() => {
+                const slides = [
+                    "OCM-Budget gestrichen, aber die Widerstände im Projekt bleiben? Insivo gibt Projektleitern eine KI-Diagnose mit Handlungsempfehlungen\u00a0— ohne externen Berater.",
+                    "Euer wichtigster Wissensträger ist krank\u00a0— das Projekt steht still? Insivo sichert kritisches Expertenwissen durch Tiefeninterviews, bevor es verloren geht.",
+                    "Key-User sollen Schulungsunterlagen erstellen und gleichzeitig testen? Insivo generiert Trainingsmaterial direkt aus dem Prozesswissen eurer Experten.",
+                    "Change Impact Analyse: drei Monate manuell, trotzdem lückenhaft? Insivo analysiert Ist-Soll-Prozesse und liefert eine fertige CIA in unter zwei Wochen."
+                ];
+                const container = document.getElementById("heroRotator");
+                const dotsWrap = document.getElementById("heroRotatorDots");
+                if (!container || !dotsWrap) return;
+
+                slides.forEach((txt, i) => {
+                    const el = document.createElement("div");
+                    el.className = "hero-rotator-slide" + (i === 0 ? " active" : "");
+                    el.textContent = txt;
+                    container.appendChild(el);
+
+                    const dot = document.createElement("button");
+                    dot.className = "hero-rotator-dot" + (i === 0 ? " active" : "");
+                    dot.setAttribute("aria-label", "Slide " + (i + 1));
+                    dot.addEventListener("click", () => goTo(i));
+                    dotsWrap.appendChild(dot);
+                });
+
+                let cur = 0;
+                let timer = setInterval(next, 5200);
+                const els = container.querySelectorAll(".hero-rotator-slide");
+                const dots = dotsWrap.querySelectorAll(".hero-rotator-dot");
+
+                function goTo(idx) {
+                    if (idx === cur) return;
+                    var prev = cur;
+                    els[prev].classList.remove("active");
+                    els[prev].classList.add("out");
+                    dots[prev].classList.remove("active");
+                    cur = idx;
+                    dots[cur].classList.add("active");
+                    setTimeout(function() {
+                        els[cur].classList.add("active");
+                    }, 80);
+                    setTimeout(function() {
+                        els[prev].classList.remove("out");
+                    }, 350);
+                    clearInterval(timer);
+                    timer = setInterval(next, 5200);
+                }
+                function next() { goTo((cur + 1) % slides.length); }
+            })();
 
             // Steps scroll-fill animation
             const stepsContainer = document.getElementById('stepsContainer');
