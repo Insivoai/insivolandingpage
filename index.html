@@ -366,6 +366,26 @@
             margin-bottom: 24px;
             color: var(--text-dark);
         }
+        .hero-title .type-target {
+            display: inline;
+        }
+        .hero-title .type-caret {
+            display: inline-block;
+            width: 4px;
+            height: 0.78em;
+            margin-left: 6px;
+            vertical-align: -0.04em;
+            background: var(--accent);
+            border-radius: 1px;
+            animation: typeCaretBlink 1s steps(2, end) infinite;
+        }
+        @keyframes typeCaretBlink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .hero-title .type-caret { display: none; }
+        }
         .hero-subtitle {
             font-size: 19px;
             font-weight: 500;
@@ -2732,7 +2752,7 @@
                 EU-Hosting
             </span>
         </div>
-        <h1 class="hero-title">Verstehe jede Organisation,<br><span style="color: var(--accent);">in Tagen, nicht Monaten.</span></h1>
+        <h1 class="hero-title">Verstehe <span class="type-target" id="typeTarget">jede Organisation,</span><span class="type-caret" aria-hidden="true"></span><br><span style="color: var(--accent);">in Tagen, nicht Monaten.</span></h1>
         <div class="hero-rotator" aria-live="polite" id="heroRotator"></div>
         <div class="hero-rotator-dots" id="heroRotatorDots"></div>
         <div class="hero-buttons">
@@ -3744,13 +3764,63 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
 
+            // Hero title typewriter
+            (() => {
+                const target = document.getElementById("typeTarget");
+                if (!target) return;
+                const phrases = [
+                    "jede Organisation,",
+                    "jedes Projekt,",
+                    "jedes Team,",
+                    "jede Transformation,"
+                ];
+                const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+                if (reduce) { target.textContent = phrases[0]; return; }
+
+                let phraseIdx = 0;
+                let charIdx = phrases[0].length;
+                let deleting = false;
+                target.textContent = phrases[0];
+
+                const typeSpeed = 75;
+                const deleteSpeed = 45;
+                const holdAfterType = 3200;
+                const holdAfterDelete = 500;
+
+                function tick() {
+                    const current = phrases[phraseIdx];
+                    if (!deleting) {
+                        charIdx++;
+                        target.textContent = current.slice(0, charIdx);
+                        if (charIdx >= current.length) {
+                            deleting = true;
+                            setTimeout(tick, holdAfterType);
+                            return;
+                        }
+                        setTimeout(tick, typeSpeed + Math.random() * 40);
+                    } else {
+                        charIdx--;
+                        target.textContent = current.slice(0, charIdx);
+                        if (charIdx <= 0) {
+                            deleting = false;
+                            phraseIdx = (phraseIdx + 1) % phrases.length;
+                            setTimeout(tick, holdAfterDelete);
+                            return;
+                        }
+                        setTimeout(tick, deleteSpeed);
+                    }
+                }
+                setTimeout(() => { deleting = true; tick(); }, holdAfterType);
+            })();
+
             // Hero rotator
             (() => {
                 const slides = [
-                    "OCM-Budget gestrichen, aber die Widerstände im Projekt bleiben? Insivo gibt Projektleitern eine KI-Diagnose mit Handlungsempfehlungen\u00a0— ohne externen Berater.",
-                    "Euer wichtigster Wissensträger ist krank\u00a0— das Projekt steht still? Insivo sichert kritisches Expertenwissen durch Tiefeninterviews, bevor es verloren geht.",
-                    "Key-User sollen Schulungsunterlagen erstellen und gleichzeitig testen? Insivo generiert Trainingsmaterial direkt aus dem Prozesswissen eurer Experten.",
-                    "Change Impact Analyse: drei Monate manuell, trotzdem lückenhaft? Insivo analysiert Ist-Soll-Prozesse und liefert eine fertige CIA in unter zwei Wochen."
+                    "OCM Budget gestrichen, aber die Widerstände im Projekt bleiben? Insivo gibt Projektleitern eine KI Diagnose mit Handlungsempfehlungen\u00a0\u2014 ohne externen Berater.",
+                    "Euer wichtigster Wissensträger ist krank\u00a0\u2014 das Projekt steht still? Insivo sichert kritisches Expertenwissen durch Tiefeninterviews, bevor es verloren geht.",
+                    "Key User sollen Schulungsunterlagen erstellen und gleichzeitig testen? Insivo generiert Trainingsmaterial direkt aus dem Prozesswissen eurer Experten.",
+                    "Change Impact Analyse: drei Monate manuell, trotzdem lückenhaft? Insivo analysiert Ist Soll Prozesse und liefert eine fertige CIA in unter zwei Wochen.",
+                    "30 Stakeholder, 30 verschiedene Meinungen\u00a0\u2014 und keiner hat den Gesamtüberblick? Insivo führt strukturierte Interviews und verdichtet sie zu einem klaren Lagebild."
                 ];
                 const container = document.getElementById("heroRotator");
                 const dotsWrap = document.getElementById("heroRotatorDots");
