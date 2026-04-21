@@ -346,17 +346,17 @@
         }
         @media (max-width: 640px) {
             .top-pill {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-                margin-bottom: 24px;
-                font-size: 12px;
-                padding-left: 4px;
+                display: grid;
+                grid-template-columns: repeat(2, max-content);
+                justify-content: center;
+                column-gap: 18px;
+                row-gap: 10px;
+                margin-bottom: 22px;
+                font-size: 11px;
             }
             .top-pill-item {
                 white-space: nowrap;
-                gap: 8px;
+                gap: 6px;
             }
             .top-pill-dot {
                 display: none;
