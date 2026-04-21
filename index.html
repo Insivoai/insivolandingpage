@@ -2106,13 +2106,12 @@
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
             overflow: hidden;
-            min-height: 500px;
+            min-height: 640px;
             position: relative;
         }
         .book-cal-frame {
             width: 100%;
-            min-height: 500px;
-            overflow: hidden;
+            min-height: 640px;
         }
         .book-cal-loading {
             position: absolute;
@@ -2143,13 +2142,13 @@
         .book-cal-frame:not(:empty) + .book-cal-loading { display: none; }
         @media (max-width: 960px) {
             .book-container { grid-template-columns: 1fr; gap: 36px; }
-            .book-right, .book-cal-frame { min-height: 580px; }
+            .book-right, .book-cal-frame { min-height: 760px; }
         }
         @media (max-width: 640px) {
             .book-section { padding: 72px 16px 30px; }
             .book-bullets li { font-size: 14px; }
             .book-sub { font-size: 15.5px; }
-            .book-right, .book-cal-frame { min-height: 560px; }
+            .book-right, .book-cal-frame { min-height: 820px; }
         }
 
         /* Pre Footer CTA */
