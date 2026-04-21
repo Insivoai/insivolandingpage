@@ -344,6 +344,23 @@
         .top-pill-icon svg {
             flex-shrink: 0;
         }
+        @media (max-width: 640px) {
+            .top-pill {
+                display: grid;
+                grid-template-columns: repeat(2, auto);
+                justify-content: center;
+                column-gap: 16px;
+                row-gap: 8px;
+                margin-bottom: 20px;
+                font-size: 11px;
+            }
+            .top-pill-item {
+                white-space: nowrap;
+            }
+            .top-pill-dot {
+                display: none;
+            }
+        }
         .hero-title {
             font-size: 76px;
             font-weight: 900;
