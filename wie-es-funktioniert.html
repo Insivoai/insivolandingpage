@@ -528,11 +528,15 @@
             background: linear-gradient(180deg, #FFF 0%, var(--bg-soft) 100%);
             border-radius: 20px; padding: 28px;
         }
-        .diag-grid {
+        .diag-headers {
             display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+            margin-bottom: 14px;
+        }
+        .diag-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 14px 32px;
         }
         /* Arrow connector: each Ursache points to its matching Lösungsvorschlag */
-        #diagCauses .diag-card::after {
+        .diag-card-cause::after {
             content: "";
             position: absolute;
             right: -16px; top: 50%;
@@ -550,7 +554,7 @@
             z-index: 2;
             pointer-events: none;
         }
-        #diagCauses .diag-card.show::after {
+        .diag-card-cause.show::after {
             opacity: 1;
             transform: translate(50%, -50%) scale(1);
         }
@@ -564,7 +568,7 @@
         }
         .diag-card {
             background: #FFF; border: 1px solid var(--border-color);
-            border-radius: 14px; padding: 14px 16px; margin-bottom: 10px;
+            border-radius: 14px; padding: 14px 16px;
             opacity: 0; transform: translateY(10px);
             transition: opacity 0.5s, transform 0.5s;
             position: relative;
@@ -729,13 +733,34 @@
             .book-right, .book-cal-frame { min-height: 760px; }
             .agg-canvas { grid-template-columns: 1fr; gap: 18px; }
             .agg-side-right .agg-item { transform: translateX(-12px); }
-            .diag-grid { grid-template-columns: 1fr; gap: 16px; }
-            #diagCauses .diag-card::after { display: none; }
+            .diag-headers { display: none; }
+            .diag-grid { grid-template-columns: 1fr; gap: 0; }
+            .diag-card-cause::after { display: none; }
+            .diag-card-cause { margin-bottom: 0; }
+            .diag-card-solution {
+                margin-top: 32px; margin-bottom: 28px;
+                position: relative;
+            }
+            .diag-card-solution::before {
+                content: "↓ Lösung";
+                position: absolute;
+                top: -22px; left: 4px;
+                font-size: 10.5px; font-weight: 700;
+                color: var(--accent);
+                letter-spacing: 1.2px; text-transform: uppercase;
+            }
+            .diag-card-solution:last-child { margin-bottom: 0; }
         }
         @media (max-width: 720px) {
-            .navbar { padding: 14px 20px; }
+            .navbar { padding: 12px 14px; }
+            .nav-logo-img { height: 20px; }
+            .navbar.scrolled {
+                top: 10px; left: 12px; right: 12px;
+                max-width: none; padding: 7px 14px;
+                border-radius: 30px;
+            }
             .nav-links { display: none; }
-            .nav-right .btn { padding: 8px 16px; font-size: 13px; }
+            .nav-right .btn { padding: 7px 14px; font-size: 12.5px; }
             .page-hero { padding: 110px 18px 36px; }
             .page-hero h1 { font-size: clamp(28px, 8vw, 38px); letter-spacing: -0.03em; }
             .page-hero p.lead { font-size: 15px; line-height: 1.55; }
@@ -945,16 +970,11 @@
                 </div>
             </div>
             <div class="diag-canvas">
-                <div class="diag-grid">
-                    <div>
-                        <div class="diag-col-title">Ursachen <span class="badge">Root Cause</span></div>
-                        <div id="diagCauses"></div>
-                    </div>
-                    <div>
-                        <div class="diag-col-title">Lösungsvorschläge <span class="badge">Empfohlen</span></div>
-                        <div id="diagSolutions"></div>
-                    </div>
+                <div class="diag-headers">
+                    <div class="diag-col-title">Ursachen <span class="badge">Root Cause</span></div>
+                    <div class="diag-col-title">Lösungsvorschläge <span class="badge">Empfohlen</span></div>
                 </div>
+                <div class="diag-grid" id="diagPairs"></div>
                 <div class="diag-summary" id="diagSummary">
                     <div class="diag-summary-icon">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
@@ -1340,8 +1360,7 @@
         const ivBubbles = $('#ivBubbles');
         const aggInterviewItems = $('#aggInterviewItems');
         const aggDocItems = $('#aggDocItems');
-        const diagCauses = $('#diagCauses');
-        const diagSolutions = $('#diagSolutions');
+        const diagPairs = $('#diagPairs');
         const diagSummary = $('#diagSummary');
         const counter1 = $('#counter1');
         const counter2 = $('#counter2');
@@ -1407,8 +1426,7 @@
             if (ivActiveRoles) ivActiveRoles.innerHTML = '';
             aggInterviewItems.innerHTML = '';
             aggDocItems.innerHTML = '';
-            diagCauses.innerHTML = '';
-            diagSolutions.innerHTML = '';
+            diagPairs.innerHTML = '';
             diagSummary.classList.remove('show');
             counter1.textContent = '0';
             counter2.textContent = '0';
@@ -1560,24 +1578,28 @@
 
         function playStage3(uc) {
             const myToken = animToken;
+            // Render interleaved: cause1, solution1, cause2, solution2, ...
+            // 2-col grid auto-places as pairs side-by-side on desktop;
+            // single column on mobile keeps each solution directly under its cause.
             uc.causes.forEach((c, i) => {
-                const el = document.createElement('div');
-                el.className = 'diag-card';
-                el.style.setProperty('--w', c.w);
-                el.innerHTML = '<div class="diag-card-row"><div class="diag-card-label">' + c.label + '</div><span class="diag-prio ' + c.prio + '">' + (c.prio === 'high' ? 'kritisch' : c.prio === 'med' ? 'wichtig' : 'mittel') + '</span></div><div class="diag-card-detail">' + c.detail + '</div><div class="diag-card-bar"><div class="diag-card-bar-fill"></div></div>';
-                diagCauses.appendChild(el);
-                later(() => { if (myToken === animToken) el.classList.add('show'); }, 200 + i * 280);
-            });
-            uc.solutions.forEach((s, i) => {
-                const el = document.createElement('div');
-                el.className = 'diag-card';
-                el.style.setProperty('--w', s.w);
-                el.innerHTML = '<div class="diag-card-row"><div class="diag-card-label">' + s.label + '</div><span class="diag-prio ' + s.prio + '">' + (s.prio === 'high' ? 'sofort' : s.prio === 'med' ? '30 Tage' : 'planbar') + '</span></div><div class="diag-card-detail">' + s.detail + '</div><div class="diag-card-bar"><div class="diag-card-bar-fill"></div></div>';
-                diagSolutions.appendChild(el);
-                later(() => { if (myToken === animToken) el.classList.add('show'); }, 350 + i * 280);
+                const causeEl = document.createElement('div');
+                causeEl.className = 'diag-card diag-card-cause';
+                causeEl.style.setProperty('--w', c.w);
+                causeEl.innerHTML = '<div class="diag-card-row"><div class="diag-card-label">' + c.label + '</div><span class="diag-prio ' + c.prio + '">' + (c.prio === 'high' ? 'kritisch' : c.prio === 'med' ? 'wichtig' : 'mittel') + '</span></div><div class="diag-card-detail">' + c.detail + '</div><div class="diag-card-bar"><div class="diag-card-bar-fill"></div></div>';
+                diagPairs.appendChild(causeEl);
+
+                const s = uc.solutions[i];
+                const solEl = document.createElement('div');
+                solEl.className = 'diag-card diag-card-solution';
+                solEl.style.setProperty('--w', s.w);
+                solEl.innerHTML = '<div class="diag-card-row"><div class="diag-card-label">' + s.label + '</div><span class="diag-prio ' + s.prio + '">' + (s.prio === 'high' ? 'sofort' : s.prio === 'med' ? '30 Tage' : 'planbar') + '</span></div><div class="diag-card-detail">' + s.detail + '</div><div class="diag-card-bar"><div class="diag-card-bar-fill"></div></div>';
+                diagPairs.appendChild(solEl);
+
+                later(() => { if (myToken === animToken) causeEl.classList.add('show'); }, 200 + i * 320);
+                later(() => { if (myToken === animToken) solEl.classList.add('show'); }, 360 + i * 320);
             });
             tweenCounter(counter3, 0, uc.causes.length, 1600);
-            later(() => { if (myToken === animToken) diagSummary.classList.add('show'); }, 200 + uc.causes.length * 280 + 600);
+            later(() => { if (myToken === animToken) diagSummary.classList.add('show'); }, 200 + uc.causes.length * 320 + 600);
         }
 
         function play(ucKey, opts) {
