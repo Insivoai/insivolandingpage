@@ -999,8 +999,8 @@
                         <div class="q-card-eyebrow">Deine Frage</div>
                         <div class="q-input" id="qInput"></div>
                         <div class="q-input-meta">
-                            <span class="q-input-meta-avatar">CH</span>
-                            <span>Auftraggeber · CHRO / Projekt-Owner</span>
+                            <span class="q-input-meta-avatar" id="qReqInitials">HR</span>
+                            <span id="qReqRole">Auftraggeber · CHRO</span>
                         </div>
                     </div>
                     <div class="q-arrow">
@@ -1258,6 +1258,8 @@
                 gridGap: 5,
                 sideStatus: '12 gleichzeitig',
                 question: 'Warum stockt unsere Kulturtransformation bei den mittleren Führungskräften?',
+                requesterRole: 'Auftraggeber · CHRO',
+                requesterInitials: 'HR',
                 roleGroups: [
                     { name: 'Vorstand + Direct Reports', count: 12 },
                     { name: 'Bereichsleitung', count: 38 },
@@ -1316,6 +1318,8 @@
                 gridGap: 6,
                 sideStatus: '8 gleichzeitig',
                 question: 'Was sind die größten Risiken vor unserem SAP S/4 Go Live in 8 Wochen?',
+                requesterRole: 'Auftraggeber · CIO / Programm Lead S/4',
+                requesterInitials: 'CI',
                 roleGroups: [
                     { name: 'Key User aus 6 Modulen', count: 42 },
                     { name: 'Prozessverantwortliche FI, CO, MM, SD', count: 28 },
@@ -1373,7 +1377,9 @@
                 gridCols: 6,
                 gridGap: 14,
                 sideStatus: '3 gleichzeitig',
-                question: 'Wo liegen unsere Gesellschafter strategisch wirklich auseinander. Vor der nächsten Versammlung?',
+                question: 'Wo liegen unsere Gesellschafter strategisch wirklich auseinander, vor der nächsten Versammlung?',
+                requesterRole: 'Auftraggeber · Beiratsvorsitz',
+                requesterInitials: 'BV',
                 roleGroups: [
                     { name: 'Familien-Gesellschafter', count: 14 },
                     { name: 'Externe Gesellschafter', count: 4 },
@@ -1432,6 +1438,8 @@
                 gridGap: 4,
                 sideStatus: '18 gleichzeitig',
                 question: 'Warum sinkt unsere Servicequalität trotz mehr Trainings und neuer Tools?',
+                requesterRole: 'Auftraggeber · COO / VP Service',
+                requesterInitials: 'CO',
                 roleGroups: [
                     { name: 'Werkstatt + Service-Frontline', count: 320 },
                     { name: 'Außendienst-Service', count: 180 },
@@ -1490,7 +1498,9 @@
                 gridCols: 40,
                 gridGap: 3,
                 sideStatus: '24 gleichzeitig',
-                question: 'Welche Schlüsseltalente verlieren wir gerade in der Integration. Und warum?',
+                question: 'Welche Schlüsseltalente verlieren wir gerade in der Integration, und warum?',
+                requesterRole: 'Auftraggeber · CEO / Integration Lead',
+                requesterInitials: 'IL',
                 roleGroups: [
                     { name: 'Schlüsseltalente beider Häuser', count: 148 },
                     { name: 'Doppelte Rolleninhaber', count: 76 },
@@ -1560,6 +1570,8 @@
         const diagPairs = $('#diagPairs');
         const diagSummary = $('#diagSummary');
         const qInput = $('#qInput');
+        const qReqInitials = $('#qReqInitials');
+        const qReqRole = $('#qReqRole');
         const qAgentStatusEl = $('#qAgentStatus');
         const qAgentStatusText = $('#qAgentStatusText');
         const qRoles = $('#qRoles');
@@ -1661,6 +1673,10 @@
             const myToken = animToken;
             const qText = uc.question || '';
             const roles = uc.roleGroups || [];
+
+            // Requester avatar + role per use case
+            if (qReqInitials) qReqInitials.textContent = uc.requesterInitials || 'HR';
+            if (qReqRole) qReqRole.textContent = uc.requesterRole || 'Auftraggeber';
 
             // Type out the business question, char by char
             qInput.textContent = '';
