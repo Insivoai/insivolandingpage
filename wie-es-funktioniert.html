@@ -1681,7 +1681,7 @@
             // Type out the business question, char by char
             qInput.textContent = '';
             let qIdx = 0;
-            const typeStep = 22; // ms per char
+            const typeStep = 14; // ms per char
             const typeChar = () => {
                 if (myToken !== animToken) return;
                 if (qIdx <= qText.length) {
@@ -1694,7 +1694,7 @@
             };
             typeChar();
 
-            const typingMs = qText.length * typeStep + 200;
+            const typingMs = qText.length * typeStep + 120;
 
             // Agent switches from "Analysiere die Frage" to "Relevante Stimmen identifiziert"
             later(() => {
@@ -1720,7 +1720,7 @@
                 later(() => {
                     if (myToken !== animToken) return;
                     el.classList.add('show');
-                }, typingMs + 400 + i * 220);
+                }, typingMs + 250 + i * 130);
             });
 
             tweenCounter(counter0, 0, roles.length, 1000);
@@ -1729,7 +1729,7 @@
             later(() => {
                 if (myToken !== animToken) return;
                 qAgentFooter.classList.add('show');
-            }, typingMs + 400 + roles.length * 220 + 100);
+            }, typingMs + 250 + roles.length * 130 + 60);
         }
 
         function playStage1(uc) {
@@ -1741,14 +1741,14 @@
             if (ivSideVal) ivSideVal.textContent = uc.sideStatus || '';
 
             // Dots fill in across the chat run. Background scale indicator
-            const dotsMs = 3400;
+            const dotsMs = 2000;
             allDots.forEach((d, i) => {
                 later(() => {
                     if (myToken !== animToken) return;
                     d.classList.add('in');
-                }, 200 + (i / Math.max(1, dotCount)) * dotsMs);
+                }, 120 + (i / Math.max(1, dotCount)) * dotsMs);
             });
-            tweenCounter(counter1, 0, total, dotsMs + 400);
+            tweenCounter(counter1, 0, total, dotsMs + 250);
 
             // Mark a handful of dots as "live" (currently being interviewed)
             // Distributed evenly so it never clumps into one corner
@@ -1760,7 +1760,7 @@
                     const idx = k * step + (k % 2 === 0 ? 1 : -1);
                     if (allDots[idx]) allDots[idx].classList.add('live');
                 }
-            }, dotsMs + 200);
+            }, dotsMs + 120);
 
             // Active roles (real names from interview labels). Concrete people
             if (ivActiveRoles) {
@@ -1781,7 +1781,7 @@
                     later(() => {
                         if (myToken !== animToken) return;
                         el.classList.add('show');
-                    }, 700 + i * 280);
+                    }, 400 + i * 180);
                 });
             }
 
@@ -1820,7 +1820,7 @@
                     typing.replaceWith(bubble);
                 }, t + 650);
 
-                t += 1100;
+                t += 700;
             });
 
             // Bubble pop-ups. Themes emerging from interviews
@@ -1832,7 +1832,7 @@
                     b.textContent = txt;
                     ivBubbles.appendChild(b);
                     requestAnimationFrame(() => b.classList.add('show'));
-                }, 2600 + i * 280);
+                }, 1600 + i * 180);
             });
         }
 
@@ -1844,7 +1844,7 @@
                 el.className = 'agg-item';
                 el.innerHTML = '<span class="agg-item-icon">' + iconInterview + '</span><span>' + it.name + '</span><span class="agg-item-meta">' + it.meta + '</span>';
                 aggInterviewItems.appendChild(el);
-                later(() => { if (myToken === animToken) el.classList.add('show'); }, 300 + i * 200);
+                later(() => { if (myToken === animToken) el.classList.add('show'); }, 180 + i * 130);
             });
             // Render document items
             uc.docs.forEach((it, i) => {
@@ -1852,12 +1852,12 @@
                 el.className = 'agg-item';
                 el.innerHTML = '<span class="agg-item-icon">' + iconDoc + '</span><span>' + it.name + '</span><span class="agg-item-meta">' + it.meta + '</span>';
                 aggDocItems.appendChild(el);
-                later(() => { if (myToken === animToken) el.classList.add('show'); }, 500 + i * 200);
+                later(() => { if (myToken === animToken) el.classList.add('show'); }, 320 + i * 130);
             });
             // Total sources = full interview count (not just the 4 sample labels shown)
             // plus the document set being analyzed in parallel.
             const total = uc.interviews + uc.docs.length;
-            tweenCounter(counter2, 0, total, 2000);
+            tweenCounter(counter2, 0, total, 1200);
         }
 
         function playStage3(uc) {
@@ -1879,11 +1879,11 @@
                 solEl.innerHTML = '<div class="diag-card-row"><div class="diag-card-label">' + s.label + '</div><span class="diag-prio ' + s.prio + '">' + (s.prio === 'high' ? 'sofort' : s.prio === 'med' ? '30 Tage' : 'planbar') + '</span></div><div class="diag-card-detail">' + s.detail + '</div><div class="diag-card-bar"><div class="diag-card-bar-fill"></div></div>';
                 diagPairs.appendChild(solEl);
 
-                later(() => { if (myToken === animToken) causeEl.classList.add('show'); }, 200 + i * 320);
-                later(() => { if (myToken === animToken) solEl.classList.add('show'); }, 360 + i * 320);
+                later(() => { if (myToken === animToken) causeEl.classList.add('show'); }, 120 + i * 200);
+                later(() => { if (myToken === animToken) solEl.classList.add('show'); }, 220 + i * 200);
             });
-            tweenCounter(counter3, 0, uc.causes.length, 1600);
-            later(() => { if (myToken === animToken) diagSummary.classList.add('show'); }, 200 + uc.causes.length * 320 + 600);
+            tweenCounter(counter3, 0, uc.causes.length, 1000);
+            later(() => { if (myToken === animToken) diagSummary.classList.add('show'); }, 120 + uc.causes.length * 200 + 350);
         }
 
         function play(ucKey, opts) {
@@ -1897,11 +1897,11 @@
             buildDots(uc.interviews);
 
             // Stage 0 (question + role pick) plays first, then 1 → 2 → 3 cascade.
-            const stage0Ms = Math.max(2400, (uc.question || '').length * 22 + 400 + (uc.roleGroups || []).length * 220 + 600);
+            const stage0Ms = Math.max(1500, (uc.question || '').length * 14 + 250 + (uc.roleGroups || []).length * 130 + 350);
             playStage0(uc);
             later(() => playStage1(uc), stage0Ms);
-            later(() => playStage2(uc), stage0Ms + 4600);
-            later(() => playStage3(uc), stage0Ms + 6800);
+            later(() => playStage2(uc), stage0Ms + 2800);
+            later(() => playStage3(uc), stage0Ms + 4200);
         }
 
         // ---------- Use case button wiring ----------
