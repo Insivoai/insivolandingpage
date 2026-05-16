@@ -192,32 +192,141 @@
         }
         .stage-counter-label { font-size: 13px; color: var(--text-gray); margin-top: 4px; font-weight: 500; }
 
-        /* ---------- Stage 1: Interview Wave ---------- */
+        /* ---------- Stage 1: Interview Conversation ---------- */
         .iv-canvas {
             background: var(--bg-soft); border-radius: 20px; padding: 28px;
-            position: relative; min-height: 320px;
+            position: relative;
+        }
+        .iv-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+            gap: 22px; align-items: stretch;
+        }
+        .iv-chat {
+            background: #FFF; border: 1px solid var(--border-color);
+            border-radius: 18px; padding: 18px 18px 20px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+            display: flex; flex-direction: column; gap: 10px;
+            min-height: 320px;
+        }
+        .iv-chat-head {
+            display: flex; align-items: center; gap: 10px;
+            padding-bottom: 12px; margin-bottom: 4px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 11px; color: var(--text-gray); font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1.2px;
+        }
+        .iv-chat-head-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 0 4px rgba(52,199,89,0.18);
+            animation: chatPulse 1.6s ease-in-out infinite;
+        }
+        @keyframes chatPulse {
+            0%, 100% { box-shadow: 0 0 0 4px rgba(52,199,89,0.18); }
+            50% { box-shadow: 0 0 0 7px rgba(52,199,89,0.05); }
+        }
+        .iv-msg {
+            display: flex; gap: 9px; align-items: flex-end;
+            opacity: 0; transform: translateY(8px);
+            transition: opacity 0.4s, transform 0.4s;
+            max-width: 96%;
+        }
+        .iv-msg.show { opacity: 1; transform: translateY(0); }
+        .iv-msg.ai { align-self: flex-start; }
+        .iv-msg.person { align-self: flex-end; flex-direction: row-reverse; }
+        .iv-avatar {
+            width: 28px; height: 28px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 10.5px; font-weight: 700; flex-shrink: 0;
+        }
+        .iv-avatar.ai {
+            background: linear-gradient(135deg, #9485F0, #695AEE);
+            color: #FFF;
+        }
+        .iv-avatar.person {
+            background: #FFF; color: var(--accent);
+            border: 1.5px solid var(--accent-soft-2);
+        }
+        .iv-bubble-msg {
+            padding: 9px 13px; border-radius: 14px;
+            font-size: 13px; line-height: 1.45;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            min-width: 0;
+        }
+        .iv-msg.ai .iv-bubble-msg {
+            background: var(--accent-soft);
+            color: var(--text-dark);
+            border-top-left-radius: 4px;
+        }
+        .iv-msg.person .iv-bubble-msg {
+            background: var(--text-dark);
+            color: #FFF;
+            border-top-right-radius: 4px;
+        }
+        .iv-msg-role {
+            display: block; font-size: 10px; font-weight: 700;
+            color: rgba(255,255,255,0.55); margin-bottom: 3px;
+            text-transform: uppercase; letter-spacing: 0.8px;
+        }
+        .iv-typing {
+            display: inline-flex; gap: 4px; padding: 12px 14px;
+            background: var(--accent-soft); border-radius: 14px;
+            border-top-left-radius: 4px;
+        }
+        .iv-msg.person .iv-typing {
+            background: var(--text-dark);
+            border-top-right-radius: 4px;
+            border-top-left-radius: 14px;
+        }
+        .iv-typing span {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--accent);
+            animation: typingBounce 1.2s ease-in-out infinite;
+        }
+        .iv-msg.person .iv-typing span { background: rgba(255,255,255,0.7); }
+        .iv-typing span:nth-child(2) { animation-delay: 0.15s; }
+        .iv-typing span:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes typingBounce {
+            0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+            30% { opacity: 1; transform: translateY(-3px); }
+        }
+
+        .iv-side {
+            display: flex; flex-direction: column;
+            background: #FFF; border: 1px solid var(--border-color);
+            border-radius: 18px; padding: 18px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+        }
+        .iv-side-title {
+            font-size: 11px; font-weight: 700; color: var(--text-gray);
+            text-transform: uppercase; letter-spacing: 1.4px;
+            margin-bottom: 14px;
         }
         .iv-grid {
             display: grid;
-            grid-template-columns: repeat(var(--iv-cols, 25), 1fr);
-            gap: var(--iv-gap, 6px); padding: 8px 4px;
+            grid-template-columns: repeat(var(--iv-cols, 6), 1fr);
+            gap: 6px; flex: 1; align-content: start;
         }
         .iv-dot {
             aspect-ratio: 1; border-radius: 50%;
-            background: #CFD0D6; opacity: 0;
-            transform: scale(0.5);
-            transition: opacity 0.45s, transform 0.45s, background 0.4s;
-            max-width: 100%;
+            background: #E5E5EB; opacity: 0.6;
+            transform: scale(0.7);
+            transition: opacity 0.35s, transform 0.35s, background 0.35s;
+            max-width: 12px; max-height: 12px;
         }
         .iv-dot.in {
             opacity: 1; transform: scale(1);
-            background: linear-gradient(135deg, #9485F0, #695AEE);
-            box-shadow: 0 2px 6px rgba(105,90,238,0.25);
+            background: var(--accent);
         }
-        .iv-dot.pulse { animation: dotPulse 1.4s ease-in-out infinite; }
-        @keyframes dotPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 2px 6px rgba(105,90,238,0.25); }
-            50% { transform: scale(1.18); box-shadow: 0 2px 12px rgba(105,90,238,0.5); }
+        .iv-side-foot {
+            margin-top: 14px; padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+            font-size: 11.5px; color: var(--text-gray);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .iv-side-foot-val {
+            color: var(--text-dark); font-weight: 700;
         }
         .iv-bubble-row {
             display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
@@ -564,7 +673,11 @@
             .stage { padding: 28px 20px; border-radius: 22px; }
             .stage-head { flex-direction: column; gap: 8px; }
             .stage-meta { text-align: left; }
-            .iv-grid { grid-template-columns: repeat(15, 1fr); }
+            .iv-layout { grid-template-columns: 1fr; gap: 14px; }
+            .iv-chat { min-height: 280px; }
+            .iv-side { padding: 14px; }
+            .iv-side-title { margin-bottom: 10px; }
+            .iv-grid { max-height: 96px; overflow: hidden; }
             .iv-canvas, .agg-canvas, .diag-canvas { padding: 18px; }
             .footer-grid { flex-direction: column; gap: 40px; }
             .footer-bottom { flex-direction: column; align-items: flex-start; }
@@ -663,7 +776,23 @@
                 </div>
             </div>
             <div class="iv-canvas">
-                <div class="iv-grid" id="ivGrid"></div>
+                <div class="iv-layout">
+                    <div class="iv-chat">
+                        <div class="iv-chat-head">
+                            <span class="iv-chat-head-dot"></span>
+                            <span>Live · KI-Interview läuft</span>
+                        </div>
+                        <div id="ivChat" style="display:flex;flex-direction:column;gap:10px;"></div>
+                    </div>
+                    <div class="iv-side">
+                        <div class="iv-side-title">Parallel laufende Interviews</div>
+                        <div class="iv-grid" id="ivGrid"></div>
+                        <div class="iv-side-foot">
+                            <span>Anonym verschlüsselt</span>
+                            <span class="iv-side-foot-val" id="ivSideVal">—</span>
+                        </div>
+                    </div>
+                </div>
                 <div class="iv-bubble-row" id="ivBubbles"></div>
             </div>
         </div>
@@ -873,6 +1002,13 @@
                 interviews: 500,
                 gridCols: 25,
                 gridGap: 5,
+                sideStatus: '12 gleichzeitig',
+                chat: [
+                    { from: 'ai', text: 'Wenn du an die letzten Wochen denkst — was hat dich in deiner Arbeit wirklich blockiert?' },
+                    { from: 'person', role: 'Teamlead Vertrieb', text: 'Die Botschaften von oben und mittlerer Führung passen nicht zusammen. Vorstand redet von Vertrauen — gleichzeitig wird jeder Schritt kontrolliert.' },
+                    { from: 'ai', text: 'Kannst du mir ein konkretes Beispiel dafür nennen?' },
+                    { from: 'person', role: 'Teamlead Vertrieb', text: 'Letzte Woche: neue Werte-Kampagne live, am gleichen Tag musste mein Team eine zusätzliche Stundenrückmeldung machen.' }
+                ],
                 s1Title: '500 Mitarbeiter im offenen Gespräch mit der KI',
                 s1Desc:  'Vom Vorstand bis zum Teamlead: jeder beschreibt anonym, was ihn wirklich antreibt und blockiert. Adaptive Nachfragen statt Multiple Choice.',
                 s2Title: 'Werte-Aussagen + Leitbild-Dokumente, verdichtet',
@@ -917,6 +1053,13 @@
                 interviews: 250,
                 gridCols: 25,
                 gridGap: 6,
+                sideStatus: '8 gleichzeitig',
+                chat: [
+                    { from: 'ai', text: 'Wo verlierst du im SAP-Alltag aktuell die meiste Zeit?' },
+                    { from: 'person', role: 'Key User SD', text: 'An den Schnittstellen. Wir exportieren manuell und tragen es nochmal in Excel ein — der Standardbericht hat die Felder nicht.' },
+                    { from: 'ai', text: 'Welche Felder fehlen dir konkret im Bericht?' },
+                    { from: 'person', role: 'Key User SD', text: 'Kostenstelle und der Buchungstext aus dem Vorsystem. Macht zwei Stunden pro Woche pro Person.' }
+                ],
                 s1Title: 'Key User, Prozessverantwortliche, Endanwender — 250 Stimmen',
                 s1Desc:  'Jeder erklärt seinen Prozess so, wie er ihn lebt. Die KI dokumentiert Ist-Zustand, Workarounds und kritisches Wissen.',
                 s2Title: 'Interviews + Lastenheft + AS-IS-Dokumentation',
@@ -961,6 +1104,13 @@
                 interviews: 24,
                 gridCols: 6,
                 gridGap: 14,
+                sideStatus: '3 gleichzeitig',
+                chat: [
+                    { from: 'ai', text: 'Welche strategische Richtung würdest du für die nächsten 3 Jahre priorisieren?' },
+                    { from: 'person', role: 'Gesellschafter, Gen. 2', text: 'Wachstum ja, aber organisch. Erst Governance sortieren — die ist nicht da, wo sie sein müsste.' },
+                    { from: 'ai', text: 'Was meinst du mit „Governance nicht da, wo sie sein müsste"?' },
+                    { from: 'person', role: 'Gesellschafter, Gen. 2', text: 'Beirat ist zu operativ, Familienverfassung ist 12 Jahre alt. Wir entscheiden noch wie zu Vaters Zeiten.' }
+                ],
                 s1Title: '24 Gesellschafter im strukturierten Tiefeninterview',
                 s1Desc:  'Adaptive Gespräche zu Strategie, Risiko-Appetit, Wachstumspfad und Governance. Vertraulich, vergleichbar, dokumentiert.',
                 s2Title: 'Aussagen + Beirat-Protokolle + Strategiepapiere',
@@ -1005,6 +1155,13 @@
                 interviews: 750,
                 gridCols: 30,
                 gridGap: 4,
+                sideStatus: '18 gleichzeitig',
+                chat: [
+                    { from: 'ai', text: 'Was bremst dich im Werkstatt-Alltag am häufigsten aus?' },
+                    { from: 'person', role: 'Werkstattleiter', text: 'Ersatzteil-Verfügbarkeit. Ich nehme den Auftrag an, finde dann das Teil nicht — Kunde steht da.' },
+                    { from: 'ai', text: 'Wie oft passiert das in einer typischen Woche?' },
+                    { from: 'person', role: 'Werkstattleiter', text: 'Mindestens dreimal. Bei großen Aufträgen jeden zweiten Tag. Kostet uns Termine und Vertrauen.' }
+                ],
                 s1Title: '750 Service- und Frontline-Mitarbeiter — auch ohne Email-Account',
                 s1Desc:  'Werkstatt, Filiale, Außendienst: per Link, QR-Code oder Telefon erreichbar. In 4 Sprachen, ohne Login.',
                 s2Title: 'Stimmen aus der Praxis + Schichtpläne + Ticket-Daten',
@@ -1049,6 +1206,13 @@
                 interviews: 1000,
                 gridCols: 40,
                 gridGap: 3,
+                sideStatus: '24 gleichzeitig',
+                chat: [
+                    { from: 'ai', text: 'Wo merkst du nach 100 Tagen noch Reibung zwischen den beiden Häusern?' },
+                    { from: 'person', role: 'Schlüssel-Talent Eng.', text: 'Doppelte Tools. Wir nutzen noch das alte CRM, die andere Hälfte das neue. Niemand sagt klar, welches gilt.' },
+                    { from: 'ai', text: 'Wie wirkt sich das auf deine Arbeit aus?' },
+                    { from: 'person', role: 'Schlüssel-Talent Eng.', text: 'Forecast ist nicht belastbar. Ich melde Zahlen, die der CFO im anderen System nicht sehen kann.' }
+                ],
                 s1Title: '1.000 Stimmen aus beiden Häusern — auf Augenhöhe befragt',
                 s1Desc:  'Mitarbeitende, Führung und Schlüssel-Talente beider Unternehmen. Vergleichbar, anonym, ohne Verzerrung.',
                 s2Title: 'Interviews + Integration-Playbook + HR-Daten',
@@ -1096,6 +1260,8 @@
         const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
         const ivGrid = $('#ivGrid');
+        const ivChat = $('#ivChat');
+        const ivSideVal = $('#ivSideVal');
         const ivBubbles = $('#ivBubbles');
         const aggInterviewItems = $('#aggInterviewItems');
         const aggDocItems = $('#aggDocItems');
@@ -1106,20 +1272,27 @@
         const counter2 = $('#counter2');
         const counter3 = $('#counter3');
 
-        // Dots are rebuilt per use case (count + cols vary per scenario)
+        // Side panel dots: compact progress indicator, capped so layout stays clean
         let allDots = [];
-        function buildDots(count, cols, gap) {
+        function buildDots(count) {
+            const visible = Math.min(count, 60);
+            const cols = count <= 24 ? 6 : 6;
             ivGrid.style.setProperty('--iv-cols', cols);
-            ivGrid.style.setProperty('--iv-gap', gap + 'px');
             ivGrid.innerHTML = '';
             const frag = document.createDocumentFragment();
-            for (let i = 0; i < count; i++) {
+            for (let i = 0; i < visible; i++) {
                 const d = document.createElement('span');
                 d.className = 'iv-dot';
                 frag.appendChild(d);
             }
             ivGrid.appendChild(frag);
             allDots = Array.from(ivGrid.querySelectorAll('.iv-dot'));
+        }
+
+        function initialsFromRole(role) {
+            if (!role) return 'P';
+            return role.split(/[\s,.\-]+/).filter(Boolean).slice(0, 2)
+                .map(w => w[0].toUpperCase()).join('') || 'P';
         }
 
         // ---------- SVG icons for agg items ----------
@@ -1156,6 +1329,8 @@
         function resetStages() {
             clearTimers();
             ivBubbles.innerHTML = '';
+            if (ivChat) ivChat.innerHTML = '';
+            if (ivSideVal) ivSideVal.textContent = '—';
             aggInterviewItems.innerHTML = '';
             aggDocItems.innerHTML = '';
             diagCauses.innerHTML = '';
@@ -1184,20 +1359,60 @@
         function playStage1(uc) {
             const myToken = animToken;
             const total = uc.interviews;
-            // Animate dots in with stagger (longer for big numbers, capped)
-            const totalMs = Math.min(3200, 1800 + total * 1.2);
-            // Pulse density scales with total so it never feels empty or noisy
-            const pulseEvery = Math.max(8, Math.round(total / 14));
+            const dotCount = allDots.length;
+
+            // Side panel status
+            if (ivSideVal) ivSideVal.textContent = uc.sideStatus || '';
+
+            // Dots fill in across the chat run — background scale indicator
+            const dotsMs = 3400;
             allDots.forEach((d, i) => {
                 later(() => {
                     if (myToken !== animToken) return;
                     d.classList.add('in');
-                    if (i % pulseEvery === 0) d.classList.add('pulse');
-                }, (i / total) * totalMs);
+                }, 200 + (i / Math.max(1, dotCount)) * dotsMs);
             });
-            tweenCounter(counter1, 0, total, totalMs + 200);
+            tweenCounter(counter1, 0, total, dotsMs + 400);
 
-            // Bubble pop-ups
+            // Chat conversation — the hero of stage 1
+            const chat = uc.chat || [];
+            let t = 250;
+            chat.forEach((msg) => {
+                const isAi = msg.from === 'ai';
+                const avatarText = isAi ? 'KI' : initialsFromRole(msg.role);
+                const wrap = document.createElement('div');
+                wrap.className = 'iv-msg ' + msg.from;
+                wrap.innerHTML =
+                    '<div class="iv-avatar ' + msg.from + '">' + avatarText + '</div>' +
+                    '<div class="iv-typing"><span></span><span></span><span></span></div>';
+
+                later(() => {
+                    if (myToken !== animToken) return;
+                    ivChat.appendChild(wrap);
+                    requestAnimationFrame(() => wrap.classList.add('show'));
+                }, t);
+
+                // Swap typing indicator for the actual bubble
+                later(() => {
+                    if (myToken !== animToken) return;
+                    const typing = wrap.querySelector('.iv-typing');
+                    if (!typing) return;
+                    const bubble = document.createElement('div');
+                    bubble.className = 'iv-bubble-msg';
+                    if (msg.role && !isAi) {
+                        const r = document.createElement('span');
+                        r.className = 'iv-msg-role';
+                        r.textContent = msg.role;
+                        bubble.appendChild(r);
+                    }
+                    bubble.appendChild(document.createTextNode(msg.text));
+                    typing.replaceWith(bubble);
+                }, t + 650);
+
+                t += 1100;
+            });
+
+            // Bubble pop-ups — themes emerging from interviews
             uc.bubbles.forEach((txt, i) => {
                 later(() => {
                     if (myToken !== animToken) return;
@@ -1206,7 +1421,7 @@
                     b.textContent = txt;
                     ivBubbles.appendChild(b);
                     requestAnimationFrame(() => b.classList.add('show'));
-                }, 400 + i * 320);
+                }, 2600 + i * 280);
             });
         }
 
@@ -1262,12 +1477,12 @@
             animToken++;
             resetStages();
             setBoundContent(uc);
-            buildDots(uc.interviews, uc.gridCols, uc.gridGap);
+            buildDots(uc.interviews);
 
             // Stage 1 starts immediately. Stage 2 and 3 cascade.
             playStage1(uc);
-            later(() => playStage2(uc), 2600);
-            later(() => playStage3(uc), 4800);
+            later(() => playStage2(uc), 4600);
+            later(() => playStage3(uc), 6800);
         }
 
         // ---------- Use case button wiring ----------
