@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>insivo · Diagnose in 5 Tagen statt 8 Wochen Beratung</title>
-    <meta name="description" content="Hunderte adaptive KI-Interviews, fertige Diagnose in 5 Tagen statt 8 Wochen Beratung. Klare Ursachen, priorisierte Maßnahmen, zum Bruchteil der Kosten." />
+    <title>insivo · Du stellst die Frage, der Agent findet die Stimmen</title>
+    <meta name="description" content="Du stellst die Business-Frage, der KI-Agent findet die richtigen Stimmen. Hunderte adaptive Interviews, fertige Diagnose in 5 Tagen — zum Bruchteil der Beratungskosten." />
     <meta name="robots" content="noindex, nofollow" />
     <link rel="canonical" href="https://insivo.ai/wie-es-funktioniert.html" />
     <link rel="icon" type="image/png" href="logo.png" />
@@ -182,6 +182,127 @@
             font-variant-numeric: tabular-nums;
         }
         .stage-counter-label { font-size: 13px; color: var(--text-gray); margin-top: 4px; font-weight: 500; }
+
+        /* ---------- Stage 0: Question + Agent picks participants ---------- */
+        .q-canvas {
+            background: var(--bg-soft); border-radius: 20px; padding: 28px;
+            position: relative;
+        }
+        .q-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+            gap: 18px; align-items: stretch;
+        }
+        .q-input-card, .q-agent-card {
+            background: #FFF; border: 1px solid var(--border-color);
+            border-radius: 18px; padding: 22px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+            display: flex; flex-direction: column;
+            min-height: 240px;
+        }
+        .q-card-eyebrow {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 10.5px; font-weight: 700; color: var(--text-gray);
+            text-transform: uppercase; letter-spacing: 1.4px;
+            margin-bottom: 16px;
+        }
+        .q-input {
+            flex: 1; font-size: 18px; font-weight: 600;
+            color: var(--text-dark); line-height: 1.4;
+            letter-spacing: -0.01em;
+        }
+        .q-input::after {
+            content: ""; display: inline-block;
+            width: 2px; height: 1em;
+            background: var(--accent); margin-left: 3px;
+            vertical-align: text-bottom;
+            animation: qCaret 0.9s steps(2) infinite;
+        }
+        @keyframes qCaret {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .q-input.done::after { animation: none; opacity: 0; }
+        .q-input-meta {
+            margin-top: 14px; padding-top: 14px;
+            border-top: 1px solid var(--border-color);
+            display: flex; align-items: center; gap: 8px;
+            font-size: 11.5px; color: var(--text-gray);
+        }
+        .q-input-meta-avatar {
+            width: 22px; height: 22px; border-radius: 50%;
+            background: var(--bg-soft); border: 1px solid var(--border-color);
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 9.5px; font-weight: 700; color: var(--text-dark);
+        }
+        .q-arrow {
+            align-self: center;
+            width: 38px; height: 38px; border-radius: 50%;
+            background: var(--accent); color: #FFF;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 14px rgba(105,90,238,0.32);
+            flex-shrink: 0;
+        }
+        .q-agent-avatar {
+            width: 22px; height: 22px; border-radius: 50%;
+            background: linear-gradient(135deg, #9485F0, #695AEE);
+            color: #FFF;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 9px; font-weight: 700;
+            letter-spacing: 0;
+        }
+        .q-agent-status {
+            font-size: 12.5px; color: var(--text-gray);
+            font-weight: 500; margin-bottom: 12px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .q-agent-status-dots { display: inline-flex; gap: 3px; }
+        .q-agent-status-dots span {
+            width: 4px; height: 4px; border-radius: 50%;
+            background: var(--accent);
+            animation: typingBounce 1.2s ease-in-out infinite;
+        }
+        .q-agent-status-dots span:nth-child(2) { animation-delay: 0.15s; }
+        .q-agent-status-dots span:nth-child(3) { animation-delay: 0.3s; }
+        .q-agent-status.done .q-agent-status-dots { display: none; }
+        .q-roles {
+            flex: 1; display: flex; flex-direction: column; gap: 6px;
+        }
+        .q-role {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 12.5px; color: var(--text-dark);
+            padding: 7px 11px; border-radius: 10px;
+            background: var(--bg-soft);
+            opacity: 0; transform: translateX(-6px);
+            transition: opacity 0.4s, transform 0.4s;
+        }
+        .q-role.show { opacity: 1; transform: translateX(0); }
+        .q-role-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--accent); flex-shrink: 0;
+        }
+        .q-role-name { flex: 1; font-weight: 500; }
+        .q-role-count {
+            font-size: 12px; color: var(--text-gray);
+            font-variant-numeric: tabular-nums;
+            font-weight: 700;
+        }
+        .q-agent-footer {
+            margin-top: 14px; padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+            font-size: 11px; font-weight: 700;
+            color: var(--accent-green);
+            display: inline-flex; align-items: center; gap: 8px;
+            text-transform: uppercase; letter-spacing: 1px;
+            opacity: 0; transition: opacity 0.5s;
+        }
+        .q-agent-footer.show { opacity: 1; }
+        .q-go-dot {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 0 4px rgba(52,199,89,0.18);
+            animation: chatPulse 1.6s ease-in-out infinite;
+        }
 
         /* ---------- Stage 1: Interview Conversation ---------- */
         .iv-canvas {
@@ -765,6 +886,9 @@
             .stage { padding: 28px 20px; border-radius: 22px; }
             .stage-head { flex-direction: column; gap: 8px; }
             .stage-meta { text-align: left; }
+            .q-layout { grid-template-columns: 1fr; gap: 14px; }
+            .q-arrow { transform: rotate(90deg); width: 32px; height: 32px; }
+            .q-input-card, .q-agent-card { min-height: 200px; padding: 18px; }
             .iv-layout { grid-template-columns: 1fr; gap: 14px; }
             .iv-chat { min-height: 280px; }
             .iv-side { padding: 16px; }
@@ -808,7 +932,7 @@
     <section class="page-hero">
         <span class="hero-eyebrow">So funktioniert insivo</span>
         <h1>Keine Umfrage. Keine Berater-Folien. <br class="hero-br">Eine <span class="gradient">Diagnose</span> in 5 Tagen.</h1>
-        <p class="lead">Hunderte adaptive KI-Interviews mit deinen Mitarbeitenden, eure Dokumente, fertige Diagnose mit klaren Ursachen und priorisierten Maßnahmen — zum Bruchteil der Kosten einer klassischen Beratung. Wähle deinen Use Case und sieh in 60 Sekunden, wie es funktioniert.</p>
+        <p class="lead">Du stellst eine Frage. Der KI-Agent findet die richtigen Stimmen, führt hunderte adaptive Interviews und liefert eine fertige Diagnose — mit klaren Ursachen und priorisierten Maßnahmen, zum Bruchteil der Kosten einer klassischen Beratung. Wähle deinen Use Case und sieh in 60 Sekunden, wie es funktioniert.</p>
     </section>
 
     <!-- ============= USE CASE SELECTOR ============= -->
@@ -855,6 +979,51 @@
 
     <!-- ============= PIPELINE ============= -->
     <section class="pipeline">
+
+        <!-- STAGE 0 -->
+        <div class="stage" id="stage0">
+            <div class="stage-head">
+                <div>
+                    <div class="stage-step"><span class="stage-step-num">0</span> Frage stellen</div>
+                    <h2 class="stage-title">Du fragst — der Agent findet die richtigen Stimmen.</h2>
+                    <p class="stage-desc">Du formulierst die Business-Frage. insivo identifiziert die relevanten Rollen aus eurer Organisation, befragt sie adaptiv und führt die Antworten zusammen — du musst nicht entscheiden, wer Teil der Stichprobe wird.</p>
+                </div>
+                <div class="stage-meta">
+                    <div class="stage-counter" id="counter0">0</div>
+                    <div class="stage-counter-label">Rollen-Gruppen identifiziert</div>
+                </div>
+            </div>
+            <div class="q-canvas">
+                <div class="q-layout">
+                    <div class="q-input-card">
+                        <div class="q-card-eyebrow">Deine Frage</div>
+                        <div class="q-input" id="qInput"></div>
+                        <div class="q-input-meta">
+                            <span class="q-input-meta-avatar">CH</span>
+                            <span>Auftraggeber · CHRO / Projekt-Owner</span>
+                        </div>
+                    </div>
+                    <div class="q-arrow">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </div>
+                    <div class="q-agent-card">
+                        <div class="q-card-eyebrow">
+                            <span class="q-agent-avatar">KI</span>
+                            insivo-Agent
+                        </div>
+                        <div class="q-agent-status" id="qAgentStatus">
+                            <span id="qAgentStatusText">Analysiere die Frage</span>
+                            <span class="q-agent-status-dots"><span></span><span></span><span></span></span>
+                        </div>
+                        <div class="q-roles" id="qRoles"></div>
+                        <div class="q-agent-footer" id="qAgentFooter">
+                            <span class="q-go-dot"></span>
+                            <span>Interviews starten</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- STAGE 1 -->
         <div class="stage" id="stage1">
@@ -1088,6 +1257,13 @@
                 gridCols: 25,
                 gridGap: 5,
                 sideStatus: '12 gleichzeitig',
+                question: 'Warum stockt unsere Kulturtransformation bei den mittleren Führungskräften?',
+                roleGroups: [
+                    { name: 'Vorstand + Direct Reports', count: 12 },
+                    { name: 'Bereichsleitung', count: 38 },
+                    { name: 'Teamleads', count: 124 },
+                    { name: 'Mitarbeitende cross-funktional', count: 326 }
+                ],
                 chat: [
                     { from: 'ai', text: 'Wenn du an die letzten Wochen denkst — was hat dich in deiner Arbeit wirklich blockiert?' },
                     { from: 'person', role: 'Teamlead Vertrieb', text: 'Die Botschaften von oben und mittlerer Führung passen nicht zusammen. Vorstand redet von Vertrauen — gleichzeitig wird jeder Schritt kontrolliert.' },
@@ -1139,6 +1315,13 @@
                 gridCols: 25,
                 gridGap: 6,
                 sideStatus: '8 gleichzeitig',
+                question: 'Was sind die größten Risiken vor unserem SAP-S/4-Go-Live in 8 Wochen?',
+                roleGroups: [
+                    { name: 'Key User aus 6 Modulen', count: 42 },
+                    { name: 'Prozessverantwortliche FI/CO/MM/SD', count: 28 },
+                    { name: 'Endanwender', count: 158 },
+                    { name: 'IT + Test-Team', count: 22 }
+                ],
                 chat: [
                     { from: 'ai', text: 'Wo verlierst du im SAP-Alltag aktuell die meiste Zeit?' },
                     { from: 'person', role: 'Key User SD', text: 'An den Schnittstellen. Wir exportieren manuell und tragen es nochmal in Excel ein — der Standardbericht hat die Felder nicht.' },
@@ -1190,6 +1373,13 @@
                 gridCols: 6,
                 gridGap: 14,
                 sideStatus: '3 gleichzeitig',
+                question: 'Wo liegen unsere Gesellschafter strategisch wirklich auseinander — vor der nächsten Versammlung?',
+                roleGroups: [
+                    { name: 'Familien-Gesellschafter', count: 14 },
+                    { name: 'Externe Gesellschafter', count: 4 },
+                    { name: 'Beiratsmitglieder', count: 4 },
+                    { name: 'Geschäftsführung', count: 2 }
+                ],
                 chat: [
                     { from: 'ai', text: 'Welche strategische Richtung würdest du für die nächsten 3 Jahre priorisieren?' },
                     { from: 'person', role: 'Gesellschafter, Gen. 2', text: 'Wachstum ja, aber organisch. Erst Governance sortieren — die ist nicht da, wo sie sein müsste.' },
@@ -1241,6 +1431,14 @@
                 gridCols: 30,
                 gridGap: 4,
                 sideStatus: '18 gleichzeitig',
+                question: 'Warum sinkt unsere Servicequalität trotz mehr Trainings und neuer Tools?',
+                roleGroups: [
+                    { name: 'Werkstatt + Service-Frontline', count: 320 },
+                    { name: 'Außendienst-Service', count: 180 },
+                    { name: 'Innendienst-Support', count: 140 },
+                    { name: 'Schicht- + Werkstattleitung', count: 62 },
+                    { name: 'Filialleitung', count: 48 }
+                ],
                 chat: [
                     { from: 'ai', text: 'Was bremst dich im Werkstatt-Alltag am häufigsten aus?' },
                     { from: 'person', role: 'Werkstattmitarbeiter', text: 'Ersatzteil-Verfügbarkeit. Ich nehme den Auftrag an, finde dann das Teil nicht — Kunde steht da.' },
@@ -1292,6 +1490,14 @@
                 gridCols: 40,
                 gridGap: 3,
                 sideStatus: '24 gleichzeitig',
+                question: 'Welche Schlüssel-Talente verlieren wir gerade in der Integration — und warum?',
+                roleGroups: [
+                    { name: 'Schlüssel-Talente beider Häuser', count: 148 },
+                    { name: 'Doppelte Rolleninhaber', count: 76 },
+                    { name: 'Bereichsleitung', count: 124 },
+                    { name: 'HR + Mid-Manager', count: 220 },
+                    { name: 'Mitarbeitende', count: 432 }
+                ],
                 chat: [
                     { from: 'ai', text: 'Wo merkst du nach 100 Tagen noch Reibung zwischen den beiden Häusern?' },
                     { from: 'person', role: 'Schlüssel-Talent Eng.', text: 'Doppelte Tools. Wir nutzen noch das alte CRM, die andere Hälfte das neue. Niemand sagt klar, welches gilt.' },
@@ -1353,6 +1559,12 @@
         const aggDocItems = $('#aggDocItems');
         const diagPairs = $('#diagPairs');
         const diagSummary = $('#diagSummary');
+        const qInput = $('#qInput');
+        const qAgentStatusEl = $('#qAgentStatus');
+        const qAgentStatusText = $('#qAgentStatusText');
+        const qRoles = $('#qRoles');
+        const qAgentFooter = $('#qAgentFooter');
+        const counter0 = $('#counter0');
         const counter1 = $('#counter1');
         const counter2 = $('#counter2');
         const counter3 = $('#counter3');
@@ -1411,6 +1623,12 @@
 
         function resetStages() {
             clearTimers();
+            if (qInput) { qInput.textContent = ''; qInput.classList.remove('done'); }
+            if (qAgentStatusEl) qAgentStatusEl.classList.remove('done');
+            if (qAgentStatusText) qAgentStatusText.textContent = 'Analysiere die Frage';
+            if (qRoles) qRoles.innerHTML = '';
+            if (qAgentFooter) qAgentFooter.classList.remove('show');
+            if (counter0) counter0.textContent = '0';
             ivBubbles.innerHTML = '';
             if (ivChat) ivChat.innerHTML = '';
             if (ivSideVal) ivSideVal.textContent = '—';
@@ -1437,6 +1655,65 @@
                 if (t < 1) requestAnimationFrame(step);
             }
             requestAnimationFrame(step);
+        }
+
+        function playStage0(uc) {
+            const myToken = animToken;
+            const qText = uc.question || '';
+            const roles = uc.roleGroups || [];
+
+            // Type out the business question, char by char
+            qInput.textContent = '';
+            let qIdx = 0;
+            const typeStep = 22; // ms per char
+            const typeChar = () => {
+                if (myToken !== animToken) return;
+                if (qIdx <= qText.length) {
+                    qInput.textContent = qText.slice(0, qIdx);
+                    qIdx++;
+                    later(typeChar, typeStep);
+                } else {
+                    qInput.classList.add('done');
+                }
+            };
+            typeChar();
+
+            const typingMs = qText.length * typeStep + 200;
+
+            // Agent switches from "Analysiere die Frage" to "Relevante Stimmen identifiziert"
+            later(() => {
+                if (myToken !== animToken) return;
+                qAgentStatusText.textContent = 'Relevante Stimmen identifiziert';
+                qAgentStatusEl.classList.add('done');
+            }, typingMs + 200);
+
+            // Cascade in roles
+            roles.forEach((r, i) => {
+                const el = document.createElement('div');
+                el.className = 'q-role';
+                const dot = document.createElement('span');
+                dot.className = 'q-role-dot';
+                const name = document.createElement('span');
+                name.className = 'q-role-name';
+                name.textContent = r.name;
+                const cnt = document.createElement('span');
+                cnt.className = 'q-role-count';
+                cnt.textContent = r.count;
+                el.appendChild(dot); el.appendChild(name); el.appendChild(cnt);
+                qRoles.appendChild(el);
+                later(() => {
+                    if (myToken !== animToken) return;
+                    el.classList.add('show');
+                }, typingMs + 400 + i * 220);
+            });
+
+            tweenCounter(counter0, 0, roles.length, 1000);
+
+            // "Interviews starten" footer indicator
+            later(() => {
+                if (myToken !== animToken) return;
+                qAgentFooter.classList.add('show');
+            }, typingMs + 400 + roles.length * 220 + 100);
         }
 
         function playStage1(uc) {
@@ -1603,10 +1880,12 @@
             setBoundContent(uc);
             buildDots(uc.interviews);
 
-            // Stage 1 starts immediately. Stage 2 and 3 cascade.
-            playStage1(uc);
-            later(() => playStage2(uc), 4600);
-            later(() => playStage3(uc), 6800);
+            // Stage 0 (question + role pick) plays first, then 1 → 2 → 3 cascade.
+            const stage0Ms = Math.max(2400, (uc.question || '').length * 22 + 400 + (uc.roleGroups || []).length * 220 + 600);
+            playStage0(uc);
+            later(() => playStage1(uc), stage0Ms);
+            later(() => playStage2(uc), stage0Ms + 4600);
+            later(() => playStage3(uc), stage0Ms + 6800);
         }
 
         // ---------- Use case button wiring ----------
