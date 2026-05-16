@@ -1525,8 +1525,10 @@
                 aggDocItems.appendChild(el);
                 later(() => { if (myToken === animToken) el.classList.add('show'); }, 500 + i * 200);
             });
-            const total = uc.interviewLabels.length + uc.docs.length;
-            tweenCounter(counter2, 0, total, 1800);
+            // Total sources = full interview count (not just the 4 sample labels shown)
+            // plus the document set being analyzed in parallel.
+            const total = uc.interviews + uc.docs.length;
+            tweenCounter(counter2, 0, total, 2000);
         }
 
         function playStage3(uc) {
