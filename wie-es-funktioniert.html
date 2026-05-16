@@ -529,7 +529,30 @@
             border-radius: 20px; padding: 28px;
         }
         .diag-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+        }
+        /* Arrow connector: each Ursache points to its matching Lösungsvorschlag */
+        #diagCauses .diag-card::after {
+            content: "";
+            position: absolute;
+            right: -16px; top: 50%;
+            width: 30px; height: 30px;
+            transform: translate(50%, -50%) scale(0.55);
+            background-color: var(--accent);
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'><polyline points='9 18 15 12 9 6'/></svg>");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 14px 14px;
+            border-radius: 50%;
+            box-shadow: 0 4px 14px rgba(105,90,238,0.35);
+            opacity: 0;
+            transition: opacity 0.5s 0.4s, transform 0.5s 0.4s;
+            z-index: 2;
+            pointer-events: none;
+        }
+        #diagCauses .diag-card.show::after {
+            opacity: 1;
+            transform: translate(50%, -50%) scale(1);
         }
         .diag-col-title {
             font-size: 13px; font-weight: 700; color: var(--text-dark);
@@ -706,13 +729,17 @@
             .book-right, .book-cal-frame { min-height: 760px; }
             .agg-canvas { grid-template-columns: 1fr; gap: 18px; }
             .agg-side-right .agg-item { transform: translateX(-12px); }
-            .diag-grid { grid-template-columns: 1fr; }
+            .diag-grid { grid-template-columns: 1fr; gap: 16px; }
+            #diagCauses .diag-card::after { display: none; }
         }
         @media (max-width: 720px) {
             .navbar { padding: 14px 20px; }
             .nav-links { display: none; }
             .nav-right .btn { padding: 8px 16px; font-size: 13px; }
             .page-hero { padding: 110px 18px 36px; }
+            .page-hero h1 { font-size: clamp(28px, 8vw, 38px); letter-spacing: -0.03em; }
+            .page-hero p.lead { font-size: 15px; line-height: 1.55; }
+            .hero-br { display: none; }
             .uc-section { padding: 12px 16px 0; }
             .uc-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .uc-card { padding: 14px 10px; }
@@ -764,7 +791,7 @@
     <!-- ============= HERO ============= -->
     <section class="page-hero">
         <span class="hero-eyebrow">So funktioniert insivo</span>
-        <h1>Keine Umfrage. Keine Berater-Folien. <br>Eine <span class="gradient">Diagnose</span> in 5 Tagen.</h1>
+        <h1>Keine Umfrage. Keine Berater-Folien. <br class="hero-br">Eine <span class="gradient">Diagnose</span> in 5 Tagen.</h1>
         <p class="lead">Hunderte adaptive KI-Interviews mit deinen Mitarbeitenden, eure Dokumente, fertige Diagnose mit klaren Ursachen und priorisierten Maßnahmen — zum Bruchteil der Kosten einer klassischen Beratung. Wähle deinen Use Case und sieh in 60 Sekunden, wie es funktioniert.</p>
     </section>
 
