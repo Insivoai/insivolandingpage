@@ -295,38 +295,77 @@
         .iv-side {
             display: flex; flex-direction: column;
             background: #FFF; border: 1px solid var(--border-color);
-            border-radius: 18px; padding: 18px;
+            border-radius: 18px; padding: 20px;
             box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+            position: relative; overflow: hidden;
+        }
+        .iv-side::before {
+            content: ""; position: absolute;
+            top: -40%; right: -25%; width: 240px; height: 240px;
+            background: radial-gradient(circle, rgba(105,90,238,0.10) 0%, transparent 70%);
+            pointer-events: none; z-index: 0;
         }
         .iv-side-title {
-            font-size: 11px; font-weight: 700; color: var(--text-gray);
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 10.5px; font-weight: 700; color: var(--text-gray);
             text-transform: uppercase; letter-spacing: 1.4px;
-            margin-bottom: 14px;
+            margin-bottom: 18px;
+            position: relative; z-index: 1;
+        }
+        .iv-side-live {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 10px; font-weight: 700;
+            color: var(--accent-green);
+            letter-spacing: 0.8px;
+        }
+        .iv-side-live::before {
+            content: ""; width: 6px; height: 6px; border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 0 3px rgba(52,199,89,0.22);
+            animation: chatPulse 1.6s ease-in-out infinite;
         }
         .iv-grid {
             display: grid;
-            grid-template-columns: repeat(var(--iv-cols, 6), 1fr);
-            gap: 6px; flex: 1; align-content: start;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 9px; flex: 1;
+            justify-items: center; align-content: start;
+            position: relative; z-index: 1;
         }
         .iv-dot {
-            aspect-ratio: 1; border-radius: 50%;
-            background: #E5E5EB; opacity: 0.6;
-            transform: scale(0.7);
-            transition: opacity 0.35s, transform 0.35s, background 0.35s;
-            max-width: 12px; max-height: 12px;
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: #E0E1E8;
+            opacity: 0; transform: scale(0.5);
+            transition: opacity 0.4s, transform 0.4s, background 0.4s, box-shadow 0.4s;
         }
         .iv-dot.in {
             opacity: 1; transform: scale(1);
             background: var(--accent);
         }
+        .iv-dot.live {
+            background: var(--accent);
+            box-shadow: 0 0 0 3px rgba(105,90,238,0.22);
+            animation: dotLive 1.8s ease-in-out infinite;
+        }
+        @keyframes dotLive {
+            0%, 100% { box-shadow: 0 0 0 3px rgba(105,90,238,0.22); transform: scale(1); }
+            50% { box-shadow: 0 0 0 6px rgba(105,90,238,0.06); transform: scale(1.15); }
+        }
         .iv-side-foot {
-            margin-top: 14px; padding-top: 12px;
+            margin-top: 18px; padding-top: 14px;
             border-top: 1px solid var(--border-color);
-            font-size: 11.5px; color: var(--text-gray);
+            font-size: 11px; color: var(--text-gray);
             display: flex; justify-content: space-between; align-items: center;
+            position: relative; z-index: 1;
+            text-transform: uppercase; letter-spacing: 0.8px;
+        }
+        .iv-side-foot-lock {
+            display: inline-flex; align-items: center; gap: 5px;
         }
         .iv-side-foot-val {
             color: var(--text-dark); font-weight: 700;
+            text-transform: none; letter-spacing: 0;
+            font-size: 12.5px;
         }
         .iv-bubble-row {
             display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
@@ -628,9 +667,10 @@
             .stage-meta { text-align: left; }
             .iv-layout { grid-template-columns: 1fr; gap: 14px; }
             .iv-chat { min-height: 280px; }
-            .iv-side { padding: 14px; }
-            .iv-side-title { margin-bottom: 10px; }
-            .iv-grid { max-height: 96px; overflow: hidden; }
+            .iv-side { padding: 16px; }
+            .iv-side-title { margin-bottom: 12px; }
+            .iv-grid { gap: 7px; }
+            .iv-side-foot { margin-top: 12px; padding-top: 10px; }
             .iv-canvas, .agg-canvas, .diag-canvas { padding: 18px; }
             .footer-grid { flex-direction: column; gap: 40px; }
             .footer-bottom { flex-direction: column; align-items: flex-start; }
@@ -739,10 +779,16 @@
                         <div id="ivChat" style="display:flex;flex-direction:column;gap:10px;"></div>
                     </div>
                     <div class="iv-side">
-                        <div class="iv-side-title">Parallel laufende Interviews</div>
+                        <div class="iv-side-title">
+                            <span>Parallel laufende Interviews</span>
+                            <span class="iv-side-live">Live</span>
+                        </div>
                         <div class="iv-grid" id="ivGrid"></div>
                         <div class="iv-side-foot">
-                            <span>Anonym verschlüsselt</span>
+                            <span class="iv-side-foot-lock">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                Anonym verschlüsselt
+                            </span>
                             <span class="iv-side-foot-val" id="ivSideVal">—</span>
                         </div>
                     </div>
@@ -1209,9 +1255,7 @@
         // Side panel dots: compact progress indicator, capped so layout stays clean
         let allDots = [];
         function buildDots(count) {
-            const visible = Math.min(count, 60);
-            const cols = count <= 24 ? 6 : 6;
-            ivGrid.style.setProperty('--iv-cols', cols);
+            const visible = Math.min(count, 48);
             ivGrid.innerHTML = '';
             const frag = document.createDocumentFragment();
             for (let i = 0; i < visible; i++) {
@@ -1307,6 +1351,18 @@
                 }, 200 + (i / Math.max(1, dotCount)) * dotsMs);
             });
             tweenCounter(counter1, 0, total, dotsMs + 400);
+
+            // Mark a handful of dots as "live" (currently being interviewed)
+            // Distributed evenly so it never clumps into one corner
+            later(() => {
+                if (myToken !== animToken) return;
+                const liveCount = Math.min(5, Math.max(2, Math.floor(dotCount / 12)));
+                const step = Math.floor(dotCount / (liveCount + 1));
+                for (let k = 1; k <= liveCount; k++) {
+                    const idx = k * step + (k % 2 === 0 ? 1 : -1);
+                    if (allDots[idx]) allDots[idx].classList.add('live');
+                }
+            }, dotsMs + 200);
 
             // Chat conversation — the hero of stage 1
             const chat = uc.chat || [];
