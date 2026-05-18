@@ -2216,18 +2216,59 @@
             });
         }
 
+        // Legacy auto-play trigger: only start the timed reveal once the pipeline
+        // is actually scrolled into view on mobile. Otherwise the animation would
+        // run while the user is still looking at the hero and finish before they
+        // reach the pipeline.
+        let legacyScrollListener = null;
+        let legacyTriggered = false;
+        function teardownLegacyTrigger() {
+            if (legacyScrollListener) {
+                window.removeEventListener('scroll', legacyScrollListener);
+                legacyScrollListener = null;
+            }
+            legacyTriggered = false;
+        }
+        function armLegacyTrigger() {
+            teardownLegacyTrigger();
+            // Pre-build DOM so the user sees a clean stage 0 frame before the animation kicks in.
+            buildStagesForUC(currentUC);
+            stageEls.forEach(s => s.classList.add('active'));
+            const start = () => {
+                if (legacyTriggered) return;
+                legacyTriggered = true;
+                teardownLegacyTrigger();
+                playLegacy(currentUC);
+            };
+            const checkInView = () => {
+                const rect = pipelineEl.getBoundingClientRect();
+                // Fire when the top of the pipeline is within the visible viewport
+                // (with a small buffer so the animation has finished priming by the
+                // time the section is properly on-screen).
+                if (rect.top < window.innerHeight * 0.85 && rect.bottom > 0) start();
+            };
+            checkInView(); // pipeline might already be in view on load
+            if (!legacyTriggered) {
+                legacyScrollListener = () => checkInView();
+                window.addEventListener('scroll', legacyScrollListener, { passive: true });
+            }
+        }
+
         function initMode() {
             if (reducedMotion.matches) {
                 teardownScrollDriven();
+                teardownLegacyTrigger();
                 clearLegacyTimers();
                 showStaticAll(currentUC);
             } else if (desktopQuery.matches) {
+                teardownLegacyTrigger();
                 clearLegacyTimers();
                 stageEls.forEach(s => s.classList.remove('active'));
                 enableScrollDriven();
             } else {
                 teardownScrollDriven();
-                playLegacy(currentUC);
+                clearLegacyTimers();
+                armLegacyTrigger();
             }
         }
 
