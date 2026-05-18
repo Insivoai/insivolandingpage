@@ -27,7 +27,7 @@
             --bg-soft: #F5F5F7;
             --border-color: #E8E8ED;
         }
-        html, body { overflow-x: hidden; }
+        html, body { overflow-x: clip; }
         body {
             background: var(--bg-color);
             color: var(--text-dark);
@@ -182,6 +182,117 @@
             font-variant-numeric: tabular-nums;
         }
         .stage-counter-label { font-size: 13px; color: var(--text-gray); margin-top: 4px; font-weight: 500; }
+
+        /* ---------- Scroll-pinned pipeline (desktop, non-reduced-motion) ---------- */
+        .pipeline.is-pinned {
+            position: relative;
+            height: 350vh;
+            padding: 0;
+            max-width: none;
+        }
+        .pipeline-track {
+            position: relative;
+        }
+        .pipeline.is-pinned .pipeline-track {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow: hidden;
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 24px 24px 64px;
+            box-sizing: border-box;
+        }
+        .pipeline.is-pinned .stage {
+            position: absolute;
+            left: 24px;
+            right: 24px;
+            top: 24px;
+            bottom: 64px;
+            margin: 0;
+            padding: 22px 26px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .pipeline.is-pinned .stage.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .pipeline.is-pinned .stage-head {
+            margin-bottom: 14px;
+            align-items: center;
+        }
+        .pipeline.is-pinned .stage-desc {
+            display: none;
+        }
+        .pipeline.is-pinned .stage-title {
+            font-size: clamp(19px, 2.1vw, 25px);
+            max-width: 720px;
+        }
+        .pipeline.is-pinned .stage-counter {
+            font-size: clamp(32px, 3.4vw, 42px);
+        }
+        .pipeline.is-pinned .stage-counter-label {
+            font-size: 11.5px;
+        }
+        .pipeline.is-pinned .q-canvas,
+        .pipeline.is-pinned .iv-canvas,
+        .pipeline.is-pinned .agg-canvas,
+        .pipeline.is-pinned .diag-canvas {
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+            padding: 20px;
+        }
+        .pipeline.is-pinned .iv-chat { min-height: 0; }
+        .pipeline.is-pinned .iv-extracted { margin-top: 16px; }
+        .pipeline.is-pinned .iv-extracted-arrow { width: 28px; height: 28px; margin-bottom: 6px; }
+        .pipeline.is-pinned .iv-extracted-label { margin-bottom: 8px; font-size: 10.5px; }
+        .pipeline.is-pinned .iv-bubble-row { margin-top: 10px; gap: 7px; }
+        .pipeline.is-pinned .diag-summary { margin-top: 14px; padding: 12px 16px; }
+        .pipeline.is-pinned .agg-canvas { min-height: 0; }
+        .pipeline.is-pinned .agg-core-ring { width: 130px; height: 130px; }
+        .pipeline.is-pinned .diag-grid { gap: 10px 32px; }
+        .pipeline.is-pinned .diag-card { padding: 11px 14px; }
+        .pipeline.is-pinned .diag-card-bar { margin-top: 7px; }
+
+        /* Pipeline progress indicator (only visible in pinned mode) */
+        .pipeline-progress {
+            display: none;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            gap: 10px;
+            z-index: 5;
+            padding: 8px 14px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(6px);
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+        }
+        .pipeline.is-pinned .pipeline-progress {
+            display: flex;
+        }
+        .pipeline-progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.14);
+            transition: background 0.25s, transform 0.25s, width 0.25s;
+        }
+        .pipeline-progress-dot.done {
+            background: var(--accent);
+        }
+        .pipeline-progress-dot.active {
+            background: var(--accent);
+            width: 22px;
+            border-radius: 4px;
+        }
 
         /* ---------- Stage 0: Question + Agent picks participants ---------- */
         .q-canvas {
@@ -979,6 +1090,7 @@
 
     <!-- ============= PIPELINE ============= -->
     <section class="pipeline">
+      <div class="pipeline-track">
 
         <!-- STAGE 0 -->
         <div class="stage" id="stage0">
@@ -1147,6 +1259,14 @@
             </div>
         </div>
 
+        <div class="pipeline-progress" id="pipelineProgress" aria-hidden="true">
+            <span class="pipeline-progress-dot" data-stage="0"></span>
+            <span class="pipeline-progress-dot" data-stage="1"></span>
+            <span class="pipeline-progress-dot" data-stage="2"></span>
+            <span class="pipeline-progress-dot" data-stage="3"></span>
+        </div>
+
+      </div>
     </section>
 
     <!-- ============= NÄCHSTER SCHRITT + Cal.com booking ============= -->
@@ -1608,19 +1728,34 @@
 
         // ---------- Animation orchestration ----------
         let currentUC = 'kultur';
-        let isAnimating = false;
-        let animToken = 0;
-        let timers = [];
 
-        function clearTimers() {
-            timers.forEach(t => clearTimeout(t));
-            timers = [];
-        }
-        function later(fn, ms) {
-            const t = setTimeout(fn, ms);
-            timers.push(t);
-            return t;
-        }
+        const pipelineEl = document.querySelector('.pipeline');
+        const stageEls = [
+            document.getElementById('stage0'),
+            document.getElementById('stage1'),
+            document.getElementById('stage2'),
+            document.getElementById('stage3')
+        ];
+        const progressDotEls = Array.from(document.querySelectorAll('.pipeline-progress-dot'));
+
+        // Cached element handles populated by buildStagesForUC
+        let s1ActiveRoleEls = [];
+        let s1ChatEls = [];
+        let s1BubbleEls = [];
+        let s1LiveDotIdx = [];
+        let s2InterviewEls = [];
+        let s2DocEls = [];
+        let s3CauseEls = [];
+        let s3SolEls = [];
+        let s1Total = 0;
+        let s2Total = 0;
+        let s0Roles = 0;
+        let s3Causes = 0;
+        let qTextCache = '';
+
+        let lastStageIdx = -1;
+        let scrollDriven = false;
+        let suppressScrollListener = false;
 
         function setBoundContent(uc) {
             $('[data-bind="s1-title"]').textContent = uc.s1Title;
@@ -1633,78 +1768,44 @@
             $('[data-bind="s3-summary-sub"]').textContent   = uc.summarySub;
         }
 
-        function resetStages() {
-            clearTimers();
+        function fmt(n) { return n.toLocaleString('de-DE'); }
+
+        function clamp01(x) { return x < 0 ? 0 : (x > 1 ? 1 : x); }
+        function smoothstep(a, b, x) {
+            return clamp01((x - a) / (b - a));
+        }
+        function setCounterProgress(el, from, to, p) {
+            const t = clamp01(p);
+            const eased = 1 - Math.pow(1 - t, 3);
+            el.textContent = fmt(Math.round(from + (to - from) * eased));
+        }
+
+        function setBoolClass(el, cls, on) {
+            if (!el) return;
+            if (on) {
+                if (!el.classList.contains(cls)) el.classList.add(cls);
+            } else {
+                if (el.classList.contains(cls)) el.classList.remove(cls);
+            }
+        }
+
+        // ---------- Build DOM for a use case (no .show classes) ----------
+        function buildStagesForUC(ucKey) {
+            const uc = USE_CASES[ucKey];
+            if (!uc) return;
+            currentUC = ucKey;
+            setBoundContent(uc);
+
+            // ---- Stage 0 ----
+            qTextCache = uc.question || '';
+            s0Roles = (uc.roleGroups || []).length;
+            if (qReqInitials) qReqInitials.textContent = uc.requesterInitials || 'HR';
+            if (qReqRole) qReqRole.textContent = uc.requesterRole || 'Auftraggeber';
             if (qInput) { qInput.textContent = ''; qInput.classList.remove('done'); }
             if (qAgentStatusEl) qAgentStatusEl.classList.remove('done');
             if (qAgentStatusText) qAgentStatusText.textContent = 'Analysiere die Frage';
             if (qRoles) qRoles.innerHTML = '';
-            if (qAgentFooter) qAgentFooter.classList.remove('show');
-            if (counter0) counter0.textContent = '0';
-            ivBubbles.innerHTML = '';
-            if (ivChat) ivChat.innerHTML = '';
-            if (ivSideVal) ivSideVal.textContent = '';
-            if (ivActiveRoles) ivActiveRoles.innerHTML = '';
-            aggInterviewItems.innerHTML = '';
-            aggDocItems.innerHTML = '';
-            diagPairs.innerHTML = '';
-            diagSummary.classList.remove('show');
-            counter1.textContent = '0';
-            counter2.textContent = '0';
-            counter3.textContent = '0';
-        }
-
-        function fmt(n) { return n.toLocaleString('de-DE'); }
-
-        function tweenCounter(el, from, to, duration) {
-            const start = performance.now();
-            const myToken = animToken;
-            function step(now) {
-                if (myToken !== animToken) return;
-                const t = Math.min(1, (now - start) / duration);
-                const eased = 1 - Math.pow(1 - t, 3);
-                el.textContent = fmt(Math.round(from + (to - from) * eased));
-                if (t < 1) requestAnimationFrame(step);
-            }
-            requestAnimationFrame(step);
-        }
-
-        function playStage0(uc) {
-            const myToken = animToken;
-            const qText = uc.question || '';
-            const roles = uc.roleGroups || [];
-
-            // Requester avatar + role per use case
-            if (qReqInitials) qReqInitials.textContent = uc.requesterInitials || 'HR';
-            if (qReqRole) qReqRole.textContent = uc.requesterRole || 'Auftraggeber';
-
-            // Type out the business question, char by char
-            qInput.textContent = '';
-            let qIdx = 0;
-            const typeStep = 14; // ms per char
-            const typeChar = () => {
-                if (myToken !== animToken) return;
-                if (qIdx <= qText.length) {
-                    qInput.textContent = qText.slice(0, qIdx);
-                    qIdx++;
-                    later(typeChar, typeStep);
-                } else {
-                    qInput.classList.add('done');
-                }
-            };
-            typeChar();
-
-            const typingMs = qText.length * typeStep + 120;
-
-            // Agent switches from "Analysiere die Frage" to "Relevante Stimmen identifiziert"
-            later(() => {
-                if (myToken !== animToken) return;
-                qAgentStatusText.textContent = 'Relevante Stimmen identifiziert';
-                qAgentStatusEl.classList.add('done');
-            }, typingMs + 200);
-
-            // Cascade in roles
-            roles.forEach((r, i) => {
+            (uc.roleGroups || []).forEach((r) => {
                 const el = document.createElement('div');
                 el.className = 'q-role';
                 const dot = document.createElement('span');
@@ -1717,160 +1818,110 @@
                 cnt.textContent = r.count;
                 el.appendChild(dot); el.appendChild(name); el.appendChild(cnt);
                 qRoles.appendChild(el);
-                later(() => {
-                    if (myToken !== animToken) return;
-                    el.classList.add('show');
-                }, typingMs + 250 + i * 130);
             });
+            if (qAgentFooter) qAgentFooter.classList.remove('show');
+            if (counter0) counter0.textContent = '0';
 
-            tweenCounter(counter0, 0, roles.length, 1000);
-
-            // "Interviews starten" footer indicator
-            later(() => {
-                if (myToken !== animToken) return;
-                qAgentFooter.classList.add('show');
-            }, typingMs + 250 + roles.length * 130 + 60);
-        }
-
-        function playStage1(uc) {
-            const myToken = animToken;
-            const total = uc.interviews;
+            // ---- Stage 1 ----
+            s1Total = uc.interviews;
+            buildDots(uc.interviews);
+            // Pre-compute which dot indices get the "live" pulse
             const dotCount = allDots.length;
-
-            // Side panel status
-            if (ivSideVal) ivSideVal.textContent = uc.sideStatus || '';
-
-            // Dots fill in across the chat run. Background scale indicator
-            const dotsMs = 2000;
-            allDots.forEach((d, i) => {
-                later(() => {
-                    if (myToken !== animToken) return;
-                    d.classList.add('in');
-                }, 120 + (i / Math.max(1, dotCount)) * dotsMs);
-            });
-            tweenCounter(counter1, 0, total, dotsMs + 250);
-
-            // Mark a handful of dots as "live" (currently being interviewed)
-            // Distributed evenly so it never clumps into one corner
-            later(() => {
-                if (myToken !== animToken) return;
-                const liveCount = Math.min(5, Math.max(2, Math.floor(dotCount / 12)));
-                const step = Math.floor(dotCount / (liveCount + 1));
-                for (let k = 1; k <= liveCount; k++) {
-                    const idx = k * step + (k % 2 === 0 ? 1 : -1);
-                    if (allDots[idx]) allDots[idx].classList.add('live');
-                }
-            }, dotsMs + 120);
-
-            // Active roles (real names from interview labels). Concrete people
-            if (ivActiveRoles) {
-                const roles = (uc.interviewLabels || []).slice(0, 3);
-                roles.forEach((r, i) => {
-                    const el = document.createElement('div');
-                    el.className = 'iv-active-role';
-                    const dot = document.createElement('span');
-                    dot.className = 'iv-active-role-dot';
-                    const name = document.createElement('span');
-                    name.className = 'iv-active-role-name';
-                    name.textContent = r.name;
-                    const time = document.createElement('span');
-                    time.className = 'iv-active-role-time';
-                    time.textContent = r.meta;
-                    el.appendChild(dot); el.appendChild(name); el.appendChild(time);
-                    ivActiveRoles.appendChild(el);
-                    later(() => {
-                        if (myToken !== animToken) return;
-                        el.classList.add('show');
-                    }, 400 + i * 180);
-                });
+            const liveCount = Math.min(5, Math.max(2, Math.floor(dotCount / 12)));
+            const step = Math.floor(dotCount / (liveCount + 1));
+            s1LiveDotIdx = [];
+            for (let k = 1; k <= liveCount; k++) {
+                const idx = k * step + (k % 2 === 0 ? 1 : -1);
+                if (idx >= 0 && idx < dotCount) s1LiveDotIdx.push(idx);
             }
-
-            // Chat conversation. The hero of stage 1
-            const chat = uc.chat || [];
-            let t = 250;
-            chat.forEach((msg) => {
+            if (ivSideVal) ivSideVal.textContent = uc.sideStatus || '';
+            if (ivActiveRoles) ivActiveRoles.innerHTML = '';
+            s1ActiveRoleEls = [];
+            ((uc.interviewLabels || []).slice(0, 3)).forEach((r) => {
+                const el = document.createElement('div');
+                el.className = 'iv-active-role';
+                const dot = document.createElement('span');
+                dot.className = 'iv-active-role-dot';
+                const name = document.createElement('span');
+                name.className = 'iv-active-role-name';
+                name.textContent = r.name;
+                const time = document.createElement('span');
+                time.className = 'iv-active-role-time';
+                time.textContent = r.meta;
+                el.appendChild(dot); el.appendChild(name); el.appendChild(time);
+                ivActiveRoles.appendChild(el);
+                s1ActiveRoleEls.push(el);
+            });
+            // Chat: build bubble-msg directly (no typing-dot intermediate state in scroll mode)
+            if (ivChat) ivChat.innerHTML = '';
+            s1ChatEls = [];
+            (uc.chat || []).forEach((msg) => {
                 const isAi = msg.from === 'ai';
                 const avatarText = isAi ? 'KI' : initialsFromRole(msg.role);
                 const wrap = document.createElement('div');
                 wrap.className = 'iv-msg ' + msg.from;
-                wrap.innerHTML =
-                    '<div class="iv-avatar ' + msg.from + '">' + avatarText + '</div>' +
-                    '<div class="iv-typing"><span></span><span></span><span></span></div>';
-
-                later(() => {
-                    if (myToken !== animToken) return;
-                    ivChat.appendChild(wrap);
-                    requestAnimationFrame(() => wrap.classList.add('show'));
-                }, t);
-
-                // Swap typing indicator for the actual bubble
-                later(() => {
-                    if (myToken !== animToken) return;
-                    const typing = wrap.querySelector('.iv-typing');
-                    if (!typing) return;
-                    const bubble = document.createElement('div');
-                    bubble.className = 'iv-bubble-msg';
-                    if (msg.role && !isAi) {
-                        const r = document.createElement('span');
-                        r.className = 'iv-msg-role';
-                        r.textContent = msg.role;
-                        bubble.appendChild(r);
-                    }
-                    bubble.appendChild(document.createTextNode(msg.text));
-                    typing.replaceWith(bubble);
-                }, t + 650);
-
-                t += 700;
+                const avatar = document.createElement('div');
+                avatar.className = 'iv-avatar ' + msg.from;
+                avatar.textContent = avatarText;
+                wrap.appendChild(avatar);
+                const bubble = document.createElement('div');
+                bubble.className = 'iv-bubble-msg';
+                if (msg.role && !isAi) {
+                    const r = document.createElement('span');
+                    r.className = 'iv-msg-role';
+                    r.textContent = msg.role;
+                    bubble.appendChild(r);
+                }
+                bubble.appendChild(document.createTextNode(msg.text));
+                wrap.appendChild(bubble);
+                ivChat.appendChild(wrap);
+                s1ChatEls.push(wrap);
             });
-
-            // Bubble pop-ups. Themes emerging from interviews
-            uc.bubbles.forEach((txt, i) => {
-                later(() => {
-                    if (myToken !== animToken) return;
-                    const b = document.createElement('span');
-                    b.className = 'iv-bubble';
-                    b.textContent = txt;
-                    ivBubbles.appendChild(b);
-                    requestAnimationFrame(() => b.classList.add('show'));
-                }, 1600 + i * 180);
+            if (ivBubbles) ivBubbles.innerHTML = '';
+            s1BubbleEls = [];
+            (uc.bubbles || []).forEach((txt) => {
+                const b = document.createElement('span');
+                b.className = 'iv-bubble';
+                b.textContent = txt;
+                ivBubbles.appendChild(b);
+                s1BubbleEls.push(b);
             });
-        }
+            if (counter1) counter1.textContent = '0';
 
-        function playStage2(uc) {
-            const myToken = animToken;
-            // Render interview items
-            uc.interviewLabels.forEach((it, i) => {
+            // ---- Stage 2 ----
+            if (aggInterviewItems) aggInterviewItems.innerHTML = '';
+            s2InterviewEls = [];
+            (uc.interviewLabels || []).forEach((it) => {
                 const el = document.createElement('div');
                 el.className = 'agg-item';
                 el.innerHTML = '<span class="agg-item-icon">' + iconInterview + '</span><span>' + it.name + '</span><span class="agg-item-meta">' + it.meta + '</span>';
                 aggInterviewItems.appendChild(el);
-                later(() => { if (myToken === animToken) el.classList.add('show'); }, 180 + i * 130);
+                s2InterviewEls.push(el);
             });
-            // Render document items
-            uc.docs.forEach((it, i) => {
+            if (aggDocItems) aggDocItems.innerHTML = '';
+            s2DocEls = [];
+            (uc.docs || []).forEach((it) => {
                 const el = document.createElement('div');
                 el.className = 'agg-item';
                 el.innerHTML = '<span class="agg-item-icon">' + iconDoc + '</span><span>' + it.name + '</span><span class="agg-item-meta">' + it.meta + '</span>';
                 aggDocItems.appendChild(el);
-                later(() => { if (myToken === animToken) el.classList.add('show'); }, 320 + i * 130);
+                s2DocEls.push(el);
             });
-            // Total sources = full interview count (not just the 4 sample labels shown)
-            // plus the document set being analyzed in parallel.
-            const total = uc.interviews + uc.docs.length;
-            tweenCounter(counter2, 0, total, 1200);
-        }
+            s2Total = uc.interviews + (uc.docs || []).length;
+            if (counter2) counter2.textContent = '0';
 
-        function playStage3(uc) {
-            const myToken = animToken;
-            // Render interleaved: cause1, solution1, cause2, solution2, ...
-            // 2-col grid auto-places as pairs side-by-side on desktop;
-            // single column on mobile keeps each solution directly under its cause.
-            uc.causes.forEach((c, i) => {
+            // ---- Stage 3 ----
+            if (diagPairs) diagPairs.innerHTML = '';
+            s3CauseEls = [];
+            s3SolEls = [];
+            s3Causes = (uc.causes || []).length;
+            (uc.causes || []).forEach((c, i) => {
                 const causeEl = document.createElement('div');
                 causeEl.className = 'diag-card diag-card-cause';
                 causeEl.style.setProperty('--w', c.w);
                 causeEl.innerHTML = '<div class="diag-card-row"><div class="diag-card-label">' + c.label + '</div><span class="diag-prio ' + c.prio + '">' + (c.prio === 'high' ? 'kritisch' : c.prio === 'med' ? 'wichtig' : 'mittel') + '</span></div><div class="diag-card-detail">' + c.detail + '</div><div class="diag-card-bar"><div class="diag-card-bar-fill"></div></div>';
                 diagPairs.appendChild(causeEl);
+                s3CauseEls.push(causeEl);
 
                 const s = uc.solutions[i];
                 const solEl = document.createElement('div');
@@ -1878,31 +1929,319 @@
                 solEl.style.setProperty('--w', s.w);
                 solEl.innerHTML = '<div class="diag-card-row"><div class="diag-card-label">' + s.label + '</div><span class="diag-prio ' + s.prio + '">' + (s.prio === 'high' ? 'sofort' : s.prio === 'med' ? '30 Tage' : 'planbar') + '</span></div><div class="diag-card-detail">' + s.detail + '</div><div class="diag-card-bar"><div class="diag-card-bar-fill"></div></div>';
                 diagPairs.appendChild(solEl);
-
-                later(() => { if (myToken === animToken) causeEl.classList.add('show'); }, 120 + i * 200);
-                later(() => { if (myToken === animToken) solEl.classList.add('show'); }, 220 + i * 200);
+                s3SolEls.push(solEl);
             });
-            tweenCounter(counter3, 0, uc.causes.length, 1000);
-            later(() => { if (myToken === animToken) diagSummary.classList.add('show'); }, 120 + uc.causes.length * 200 + 350);
+            if (counter3) counter3.textContent = '0';
+            if (diagSummary) diagSummary.classList.remove('show');
+
+            // Reset active-stage tracking so applyProgress refreshes everything
+            lastStageIdx = -1;
         }
 
-        function play(ucKey, opts) {
-            opts = opts || {};
+        // ---------- Apply scroll progress 0..1 ----------
+        function applyStage0(local) {
+            const txt = qTextCache;
+            const chars = Math.floor(clamp01(local / 0.4) * txt.length);
+            qInput.textContent = txt.slice(0, chars);
+            const typingDone = chars >= txt.length;
+            setBoolClass(qInput, 'done', typingDone);
+
+            const statusFlip = local >= 0.45;
+            if (qAgentStatusText) {
+                qAgentStatusText.textContent = statusFlip
+                    ? 'Relevante Stimmen identifiziert'
+                    : 'Analysiere die Frage';
+            }
+            setBoolClass(qAgentStatusEl, 'done', statusFlip);
+
+            const roleEls = qRoles ? qRoles.children : [];
+            for (let i = 0; i < roleEls.length; i++) {
+                setBoolClass(roleEls[i], 'show', local >= 0.5 + i * 0.06);
+            }
+            setCounterProgress(counter0, 0, s0Roles, smoothstep(0.5, 0.9, local));
+            setBoolClass(qAgentFooter, 'show', local >= 0.92);
+        }
+
+        function applyStage1(local) {
+            const dotCount = allDots.length;
+            for (let i = 0; i < dotCount; i++) {
+                const t = 0.05 + (i / Math.max(1, dotCount)) * 0.4;
+                setBoolClass(allDots[i], 'in', local >= t);
+            }
+            // Live pulse on selected dots once we cross the midpoint
+            const live = local >= 0.5;
+            for (let i = 0; i < dotCount; i++) {
+                const wantLive = live && s1LiveDotIdx.indexOf(i) !== -1;
+                setBoolClass(allDots[i], 'live', wantLive);
+            }
+            setCounterProgress(counter1, 0, s1Total, smoothstep(0.05, 0.5, local));
+            for (let i = 0; i < s1ActiveRoleEls.length; i++) {
+                setBoolClass(s1ActiveRoleEls[i], 'show', local >= 0.2 + i * 0.08);
+            }
+            for (let i = 0; i < s1ChatEls.length; i++) {
+                setBoolClass(s1ChatEls[i], 'show', local >= 0.18 + i * 0.13);
+            }
+            for (let i = 0; i < s1BubbleEls.length; i++) {
+                setBoolClass(s1BubbleEls[i], 'show', local >= 0.7 + i * 0.05);
+            }
+        }
+
+        function applyStage2(local) {
+            for (let i = 0; i < s2InterviewEls.length; i++) {
+                setBoolClass(s2InterviewEls[i], 'show', local >= 0.1 + i * 0.09);
+            }
+            for (let i = 0; i < s2DocEls.length; i++) {
+                setBoolClass(s2DocEls[i], 'show', local >= 0.4 + i * 0.09);
+            }
+            setCounterProgress(counter2, 0, s2Total, smoothstep(0.1, 0.9, local));
+        }
+
+        function applyStage3(local) {
+            for (let i = 0; i < s3CauseEls.length; i++) {
+                setBoolClass(s3CauseEls[i], 'show', local >= 0.1 + i * 0.15);
+            }
+            for (let i = 0; i < s3SolEls.length; i++) {
+                setBoolClass(s3SolEls[i], 'show', local >= 0.18 + i * 0.15);
+            }
+            setCounterProgress(counter3, 0, s3Causes, smoothstep(0.1, 0.85, local));
+            setBoolClass(diagSummary, 'show', local >= 0.92);
+        }
+
+        function applyProgress(p) {
+            p = clamp01(p);
+            const segments = 4;
+            const raw = p * segments;
+            const stageIdx = Math.min(segments - 1, Math.floor(raw));
+            const local = clamp01(raw - stageIdx);
+
+            // Active-stage swap + progress dots
+            if (stageIdx !== lastStageIdx) {
+                for (let i = 0; i < 4; i++) {
+                    setBoolClass(stageEls[i], 'active', i === stageIdx);
+                    setBoolClass(progressDotEls[i], 'active', i === stageIdx);
+                    setBoolClass(progressDotEls[i], 'done', i < stageIdx);
+                }
+                lastStageIdx = stageIdx;
+            } else {
+                // Refresh "done" markers in case applyProgress was called after a rebuild
+                for (let i = 0; i < 4; i++) {
+                    setBoolClass(progressDotEls[i], 'done', i < stageIdx);
+                }
+            }
+
+            switch (stageIdx) {
+                case 0: applyStage0(local); break;
+                case 1: applyStage1(local); break;
+                case 2: applyStage2(local); break;
+                case 3: applyStage3(local); break;
+            }
+        }
+
+        function computeProgress() {
+            const rect = pipelineEl.getBoundingClientRect();
+            const scrollable = pipelineEl.offsetHeight - window.innerHeight;
+            if (scrollable <= 0) return 0;
+            return clamp01(-rect.top / scrollable);
+        }
+
+        let scrollTicking = false;
+        function onPipelineScroll() {
+            if (scrollTicking || suppressScrollListener) return;
+            scrollTicking = true;
+            requestAnimationFrame(() => {
+                applyProgress(computeProgress());
+                scrollTicking = false;
+            });
+        }
+
+        // ---------- Legacy (mobile / reduced-motion) auto-play path ----------
+        let legacyTimers = [];
+        let legacyToken = 0;
+        function clearLegacyTimers() {
+            legacyTimers.forEach(t => clearTimeout(t));
+            legacyTimers = [];
+        }
+        function legacyLater(fn, ms) {
+            const t = setTimeout(fn, ms);
+            legacyTimers.push(t);
+            return t;
+        }
+        function playLegacy(ucKey) {
             const uc = USE_CASES[ucKey];
             if (!uc) return;
-            currentUC = ucKey;
-            animToken++;
-            resetStages();
-            setBoundContent(uc);
-            buildDots(uc.interviews);
+            clearLegacyTimers();
+            legacyToken++;
+            const myToken = legacyToken;
+            buildStagesForUC(ucKey);
 
-            // Stage 0 (question + role pick) plays first, then 1 → 2 → 3 cascade.
-            const stage0Ms = Math.max(1500, (uc.question || '').length * 14 + 250 + (uc.roleGroups || []).length * 130 + 350);
-            playStage0(uc);
-            later(() => playStage1(uc), stage0Ms);
-            later(() => playStage2(uc), stage0Ms + 2800);
-            later(() => playStage3(uc), stage0Ms + 4200);
+            // Reveal stages immediately stacked, animate elements with timed waves.
+            stageEls.forEach(s => s.classList.add('active'));
+
+            // Stage 0 reveal
+            const qText = uc.question || '';
+            qInput.textContent = qText; // skip per-char typing on mobile
+            qInput.classList.add('done');
+            if (qAgentStatusText) qAgentStatusText.textContent = 'Relevante Stimmen identifiziert';
+            if (qAgentStatusEl) qAgentStatusEl.classList.add('done');
+            const roleEls = qRoles ? qRoles.children : [];
+            for (let i = 0; i < roleEls.length; i++) {
+                legacyLater(() => { if (myToken === legacyToken) roleEls[i].classList.add('show'); }, 200 + i * 90);
+            }
+            tweenLegacyCounter(counter0, 0, s0Roles, 800, myToken);
+            legacyLater(() => { if (myToken === legacyToken && qAgentFooter) qAgentFooter.classList.add('show'); }, 200 + s0Roles * 90 + 80);
+
+            // Stage 1 reveal
+            const stage1Start = Math.max(900, qText.length * 8 + 600);
+            legacyLater(() => {
+                if (myToken !== legacyToken) return;
+                const dotCount = allDots.length;
+                allDots.forEach((d, i) => {
+                    legacyLater(() => { if (myToken === legacyToken) d.classList.add('in'); }, (i / Math.max(1, dotCount)) * 1100);
+                });
+                s1LiveDotIdx.forEach(idx => {
+                    legacyLater(() => { if (myToken === legacyToken && allDots[idx]) allDots[idx].classList.add('live'); }, 1100);
+                });
+                tweenLegacyCounter(counter1, 0, s1Total, 1300, myToken);
+                s1ActiveRoleEls.forEach((el, i) => {
+                    legacyLater(() => { if (myToken === legacyToken) el.classList.add('show'); }, 200 + i * 130);
+                });
+                s1ChatEls.forEach((el, i) => {
+                    legacyLater(() => { if (myToken === legacyToken) el.classList.add('show'); }, 200 + i * 360);
+                });
+                s1BubbleEls.forEach((el, i) => {
+                    legacyLater(() => { if (myToken === legacyToken) el.classList.add('show'); }, 1500 + i * 120);
+                });
+            }, stage1Start);
+
+            // Stage 2 reveal
+            const stage2Start = stage1Start + 2400;
+            legacyLater(() => {
+                if (myToken !== legacyToken) return;
+                s2InterviewEls.forEach((el, i) => {
+                    legacyLater(() => { if (myToken === legacyToken) el.classList.add('show'); }, 100 + i * 90);
+                });
+                s2DocEls.forEach((el, i) => {
+                    legacyLater(() => { if (myToken === legacyToken) el.classList.add('show'); }, 220 + i * 90);
+                });
+                tweenLegacyCounter(counter2, 0, s2Total, 1000, myToken);
+            }, stage2Start);
+
+            // Stage 3 reveal
+            const stage3Start = stage2Start + 1600;
+            legacyLater(() => {
+                if (myToken !== legacyToken) return;
+                s3CauseEls.forEach((el, i) => {
+                    legacyLater(() => { if (myToken === legacyToken) el.classList.add('show'); }, 80 + i * 140);
+                });
+                s3SolEls.forEach((el, i) => {
+                    legacyLater(() => { if (myToken === legacyToken) el.classList.add('show'); }, 160 + i * 140);
+                });
+                tweenLegacyCounter(counter3, 0, s3Causes, 900, myToken);
+                legacyLater(() => { if (myToken === legacyToken && diagSummary) diagSummary.classList.add('show'); }, 80 + s3Causes * 140 + 280);
+            }, stage3Start);
         }
+        function tweenLegacyCounter(el, from, to, duration, token) {
+            const start = performance.now();
+            function step(now) {
+                if (token !== legacyToken) return;
+                const t = Math.min(1, (now - start) / duration);
+                const eased = 1 - Math.pow(1 - t, 3);
+                el.textContent = fmt(Math.round(from + (to - from) * eased));
+                if (t < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+        }
+        function showStaticAll(ucKey) {
+            // For reduced-motion fallback: render every element in its completed state, no animation.
+            clearLegacyTimers();
+            legacyToken++;
+            buildStagesForUC(ucKey);
+            stageEls.forEach(s => s.classList.add('active'));
+            qInput.textContent = qTextCache;
+            qInput.classList.add('done');
+            if (qAgentStatusText) qAgentStatusText.textContent = 'Relevante Stimmen identifiziert';
+            if (qAgentStatusEl) qAgentStatusEl.classList.add('done');
+            const roleEls = qRoles ? qRoles.children : [];
+            for (let i = 0; i < roleEls.length; i++) roleEls[i].classList.add('show');
+            if (qAgentFooter) qAgentFooter.classList.add('show');
+            counter0.textContent = fmt(s0Roles);
+            allDots.forEach(d => d.classList.add('in'));
+            s1LiveDotIdx.forEach(idx => { if (allDots[idx]) allDots[idx].classList.add('live'); });
+            counter1.textContent = fmt(s1Total);
+            s1ActiveRoleEls.forEach(el => el.classList.add('show'));
+            s1ChatEls.forEach(el => el.classList.add('show'));
+            s1BubbleEls.forEach(el => el.classList.add('show'));
+            s2InterviewEls.forEach(el => el.classList.add('show'));
+            s2DocEls.forEach(el => el.classList.add('show'));
+            counter2.textContent = fmt(s2Total);
+            s3CauseEls.forEach(el => el.classList.add('show'));
+            s3SolEls.forEach(el => el.classList.add('show'));
+            counter3.textContent = fmt(s3Causes);
+            if (diagSummary) diagSummary.classList.add('show');
+        }
+
+        // ---------- Mode detection + lifecycle ----------
+        const desktopQuery = window.matchMedia('(min-width: 960px) and (min-height: 680px)');
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        function teardownScrollDriven() {
+            if (!scrollDriven) return;
+            scrollDriven = false;
+            pipelineEl.classList.remove('is-pinned');
+            window.removeEventListener('scroll', onPipelineScroll);
+            window.removeEventListener('resize', onPipelineResize);
+            lastStageIdx = -1;
+            // Drop .active off all stages so they render in stacked default flow again
+            stageEls.forEach(s => s.classList.remove('active'));
+            progressDotEls.forEach(d => { d.classList.remove('active'); d.classList.remove('done'); });
+        }
+
+        function enableScrollDriven() {
+            if (scrollDriven) return;
+            scrollDriven = true;
+            pipelineEl.classList.add('is-pinned');
+            buildStagesForUC(currentUC);
+            applyProgress(computeProgress());
+            window.addEventListener('scroll', onPipelineScroll, { passive: true });
+            window.addEventListener('resize', onPipelineResize);
+        }
+
+        let resizeTicking = false;
+        function onPipelineResize() {
+            if (resizeTicking) return;
+            resizeTicking = true;
+            requestAnimationFrame(() => {
+                applyProgress(computeProgress());
+                resizeTicking = false;
+            });
+        }
+
+        function initMode() {
+            if (reducedMotion.matches) {
+                teardownScrollDriven();
+                clearLegacyTimers();
+                showStaticAll(currentUC);
+            } else if (desktopQuery.matches) {
+                clearLegacyTimers();
+                stageEls.forEach(s => s.classList.remove('active'));
+                enableScrollDriven();
+            } else {
+                teardownScrollDriven();
+                playLegacy(currentUC);
+            }
+        }
+
+        // React to viewport / motion-preference changes
+        const handleModeChange = () => initMode();
+        if (desktopQuery.addEventListener) desktopQuery.addEventListener('change', handleModeChange);
+        else desktopQuery.addListener(handleModeChange);
+        if (reducedMotion.addEventListener) reducedMotion.addEventListener('change', handleModeChange);
+        else reducedMotion.addListener(handleModeChange);
+
+        // bfcache restore: re-sync progress when coming back to the page
+        window.addEventListener('pageshow', () => {
+            if (scrollDriven) applyProgress(computeProgress());
+        });
 
         // ---------- Use case button wiring ----------
         $$('.uc-card').forEach(btn => {
@@ -1911,31 +2250,25 @@
                 if (key === currentUC) return;
                 $$('.uc-card').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                // Smooth scroll to pipeline top
-                const pipelineEl = document.querySelector('.pipeline');
-                const rect = pipelineEl.getBoundingClientRect();
-                if (rect.top < 0 || rect.top > window.innerHeight) {
-                    pipelineEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                currentUC = key;
+
+                if (reducedMotion.matches) {
+                    showStaticAll(key);
+                    return;
                 }
-                play(key);
+                if (scrollDriven) {
+                    buildStagesForUC(key);
+                    applyProgress(computeProgress());
+                    pipelineEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    pipelineEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    playLegacy(key);
+                }
             });
         });
 
-        // ---------- First-load trigger via IntersectionObserver ----------
-        let initialPlayed = false;
-        const io = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !initialPlayed) {
-                    initialPlayed = true;
-                    play('kultur');
-                    io.disconnect();
-                }
-            });
-        }, { threshold: 0.15 });
-        io.observe(document.querySelector('.pipeline'));
-
-        // Fallback: play after 1.2s in case observer hasn't fired (very short pages)
-        setTimeout(() => { if (!initialPlayed) { initialPlayed = true; play('kultur'); } }, 1500);
+        // ---------- Initial run ----------
+        initMode();
 
     })();
     </script>
