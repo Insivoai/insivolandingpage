@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<title>Key-User-Überlastung: das stille Risiko vor dem Go-Live · insivo Blog</title>
+<meta name="description" content="Vier bis fünf Key User tragen oft den halben Rollout. Warum Überlastung im Reporting fehlt — und wie Sie die Abhängigkeit früh sichtbar machen." />
+<link rel="canonical" href="https://insivo.ai/blog/key-user-ueberlastung.html" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Key-User-Überlastung: das stille Risiko, das Ihren Go-Live kippt" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/blog.css">
+</head>
+<body>
+
+<div class="read-progress" id="readProgress"></div>
+
+<nav class="bnav" id="bnav">
+  <a href="../index.html" class="bnav-logo"><img src="../assets/logos/insivo-logo-black-cropped.png" alt="insivo"></a>
+  <div class="bnav-links">
+    <a href="../index.html#home">Home</a>
+    <a href="../index.html#problem-section">Diagnose</a>
+    <a href="index.html" class="active">Blog</a>
+    <a href="../index.html#features-animated">Vorteile</a>
+    <a href="../index.html#faq">FAQ</a>
+  </div>
+  <div class="bnav-right">
+    <span class="bnav-lang">
+      <a href="key-user-ueberlastung.html" class="on" aria-current="true">DE</a>
+      <a href="../en/blog/key-user-overload.html" aria-label="Switch to English">EN</a>
+    </span>
+    <a href="https://calendar.app.google/ZYRiNELGw14YEtHV9" target="_blank" class="btn btn-solid">Gespräch buchen</a>
+    <button class="bnav-burger" id="bnavBurger" aria-label="Menü">
+      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+<div class="bnav-spacer"></div>
+
+<main class="wrap">
+  <article class="article">
+    <a href="index.html" class="article-back"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Alle Artikel</a>
+
+    <header class="article-head">
+      <span class="tag">Key User</span>
+      <h1 class="article-title">Key-User-Überlastung: das stille Risiko, das Ihren Go-Live kippt</h1>
+      <p class="article-dek">Vier bis fünf Personen tragen oft den halben Rollout. Solange alle da sind, läuft es. Fällt eine aus, steht das Projekt — und niemand hat es kommen sehen.</p>
+      <div class="article-byline">
+        <div class="article-avatar">VS</div>
+        <div>
+          <div class="name">Valerio Szattalov</div>
+          <div class="meta">Gründer insivo <span class="dot"></span> 8. Mai 2026 <span class="dot"></span> 5 Min. Lesezeit</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="article-cover cover cover-2">
+      <svg viewBox="0 0 740 300" preserveAspectRatio="none" aria-hidden="true"><path d="M0 180 C 150 130, 240 230, 370 180 S 590 130, 740 180" fill="none" stroke="rgba(255,255,255,0.36)" stroke-width="2.5"/><path d="M0 220 C 150 170, 240 270, 370 220 S 590 170, 740 220" fill="none" stroke="rgba(255,255,255,0.24)" stroke-width="2.5"/></svg>
+    </div>
+
+    <div class="article-body">
+      <p>Jedes größere ERP-Programm hat sie: ein paar Key User, die nicht nur ihr Modul kennen, sondern auch die Geschichte dahinter — warum ein Prozess so läuft, wie er läuft, und welche Ausnahme im Altsystem nie dokumentiert wurde. Diese Menschen sind Gold wert. Und genau deshalb sind sie das größte Einzelrisiko im Projekt.</p>
+
+      <h2>Die unsichtbaren Tragpfeiler</h2>
+      <p>Wissen konzentriert sich. In der Praxis tragen oft vier bis fünf Personen einen unverhältnismäßig großen Teil der Rollout-Last — als Übersetzer zwischen Fachbereich und Projekt, als Trainer, als letzte Eskalationsstufe. Solange sie verfügbar sind, kaschiert ihr Einsatz strukturelle Lücken. Das Projekt fühlt sich stabil an, ist es aber nicht.</p>
+
+      <blockquote>Eine Schlüsselperson, die mitten im Rollout abspringt, nimmt Wissen mit, das in keinem System steht.</blockquote>
+
+      <h2>Warum Überlastung im Reporting fehlt</h2>
+      <p>Überlastung erscheint in keinem Projektplan. Sie zeigt sich in längeren Antwortzeiten, in Aufgaben, die an einer Person hängen bleiben, in einem Kalender ohne Lücken. Klassisches Reporting erfasst Arbeitspakete, nicht die Tragfähigkeit der Menschen dahinter. Wenn das Thema sichtbar wird, ist die Person meist schon am Limit — oder bereits auf dem Sprung.</p>
+
+      <h2>Drei Fragen, die Sie heute stellen sollten</h2>
+      <ul>
+        <li><strong>Konzentration:</strong> An wie wenigen Personen hängt Ihr kritischstes Modul wirklich?</li>
+        <li><strong>Ausfallszenario:</strong> Was passiert konkret am Go-Live-Tag, wenn eine davon ausfällt?</li>
+        <li><strong>Wissenstransfer:</strong> Existiert das Prozesswissen irgendwo außer in einem Kopf?</li>
+      </ul>
+
+      <div class="callout"><strong>Frühindikator statt Nachruf:</strong> Wer Key User vertraulich befragt, erkennt Überlastung und Abwanderungsrisiko, bevor eine Schlüsselperson abspringt — und kann Last umverteilen, solange noch Zeit ist.</div>
+
+      <h2>Vom Einzelrisiko zur belastbaren Struktur</h2>
+      <p>Die Lösung ist nicht, einzelne Helden noch stärker zu belasten, sondern Abhängigkeiten sichtbar zu machen und Wissen zu verteilen. Das beginnt mit einer ehrlichen Bestandsaufnahme: Wer trägt was, wer ist am Limit, wo fehlt die Redundanz. Sobald das auf dem Tisch liegt, wird aus einem stillen Risiko eine planbare Größe.</p>
+    </div>
+
+    <div class="article-foot">
+      <section class="blog-cta reveal" style="margin-top:0;">
+        <h2>Wissen Sie, an wem Ihr Rollout hängt?</h2>
+        <p>insivo macht Key-User-Abhängigkeiten und Überlastung sichtbar — bevor sie zum Problem werden.</p>
+        <a href="https://calendar.app.google/ZYRiNELGw14YEtHV9" target="_blank" class="btn btn-solid">Gespräch buchen</a>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="bfooter">
+  <div class="wrap">
+    <div class="bfooter-grid">
+      <div class="bfooter-col">
+        <h4>Quick Links</h4>
+        <a href="../index.html#problem-section">Diagnose</a>
+        <a href="../index.html#features-animated">Vorteile</a>
+        <a href="../index.html#faq">FAQ</a>
+        <a href="index.html">Blog</a>
+      </div>
+      <div class="bfooter-col">
+        <h4>Kontakt</h4>
+        <p>szattalov.valerio@insivo.ai</p>
+        <p>Antwortzeit: unter 24h</p>
+      </div>
+      <div class="bfooter-col">
+        <h4>Folgen Sie uns</h4>
+        <a href="https://www.linkedin.com/company/insivo-ai/posts/?feedView=all" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+    <div class="bfooter-bottom">
+      <span>&copy; 2026 insivo. Alle Rechte vorbehalten.</span>
+      <span class="legal">
+        <a href="../impressum.html">Impressum</a>
+        <a href="../datenschutz.html">Datenschutz</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('bnavBurger').addEventListener('click', () => document.getElementById('bnav').classList.toggle('open'));
+  const bar = document.getElementById('readProgress');
+  const onScroll = () => { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%'; };
+  document.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  const io = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
