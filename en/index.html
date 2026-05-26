@@ -407,7 +407,7 @@
         .hero-rotator {
             position: relative;
             width: 100%;
-            max-width: 620px;
+            max-width: 700px;
             min-height: 80px;
             margin: 0 auto 16px;
             text-align: center;
@@ -421,8 +421,8 @@
             display: flex;
             align-items: flex-start;
             justify-content: center;
-            font-size: 16.5px;
-            font-weight: 400;
+            font-size: 19px;
+            font-weight: 500;
             color: var(--text-gray);
             line-height: 1.55;
             opacity: 0;
@@ -3127,7 +3127,8 @@
             </span>
         </div>
         <h1 class="hero-title">What will make your S/4HANA rollout fail?<br><span style="color: var(--accent);">You'll know in 5 days, not at go-live.</span></h1>
-        <p class="hero-subtitle">Project Intelligence from hundreds of interviews with your project stakeholders. Root causes, prioritized actions and missing documents — in 5 days instead of 6 weeks.</p>
+        <div class="hero-rotator" id="heroRotator"></div>
+        <div class="hero-rotator-dots" id="heroRotatorDots"></div>
         <div class="hero-buttons">
             <a href="https://calendar.app.google/ZYRiNELGw14YEtHV9" target="_blank" class="btn btn-solid">Book a call</a>
             <a href="#" class="btn btn-solid btn-schnellcheck" data-pk-open>Project Quick Check · 60 sec</a>
@@ -4224,11 +4225,11 @@
             // Hero rotator
             (() => {
                 const slides = [
-                    "insivo diagnoses the human side of your transformation\u00a0\u2014 adoption, risks, knowledge-holder gaps. From hundreds of interviews, as a report in 3\u20135 days.",
-                    "insivo reveals which key people your rollout really depends on — and secures their critical process knowledge in deep interviews before it is lost.",
-                    "insivo turns your key-users’ process knowledge into ready-to-use training material — without the same experts having to build training and run testing at once.",
-                    "insivo analyzes as-is and to-be processes and delivers a finished Change Impact Analysis in under two weeks — instead of three months of patchy manual work.",
-                    "insivo condenses the input of hundreds of stakeholders into one clear situational view — the full picture nobody else in the project has."
+                    "What happens to your rollout when your key users leave six months after go-live?",
+                    "Do you know which key people your S/4HANA project actually depends on?",
+                    "Why does that workaround exist in the legacy system — and is it written down anywhere but in someone's head?",
+                    "Will you only discover at cutover which process knowledge has long left the project?",
+                    "Can your AI find the context in the legacy system that no one ever documented?"
                 ];
                 const container = document.getElementById("heroRotator");
                 const dotsWrap = document.getElementById("heroRotatorDots");

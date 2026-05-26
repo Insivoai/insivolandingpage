@@ -367,7 +367,7 @@
             }
         }
         .hero-title {
-            font-size: 76px;
+            font-size: 60px;
             font-weight: 900;
             letter-spacing: -0.04em;
             line-height: 1.1;
@@ -407,7 +407,7 @@
         .hero-rotator {
             position: relative;
             width: 100%;
-            max-width: 620px;
+            max-width: 700px;
             min-height: 80px;
             margin: 0 auto 16px;
             text-align: center;
@@ -421,8 +421,8 @@
             display: flex;
             align-items: flex-start;
             justify-content: center;
-            font-size: 16.5px;
-            font-weight: 400;
+            font-size: 19px;
+            font-weight: 500;
             color: var(--text-gray);
             line-height: 1.55;
             opacity: 0;
@@ -3127,7 +3127,8 @@
             </span>
         </div>
         <h1 class="hero-title">Was bringt Ihren S/4HANA-Rollout zum Scheitern?<br><span style="color: var(--accent);">Sie wissen es in 5 Tagen, nicht beim Go-Live.</span></h1>
-        <p class="hero-subtitle">Project Intelligence aus hunderten Interviews mit Ihren Projektbeteiligten. Ursachen, priorisierte Maßnahmen und fehlende Dokumente — in 5 Tagen statt 6 Wochen.</p>
+        <div class="hero-rotator" id="heroRotator"></div>
+        <div class="hero-rotator-dots" id="heroRotatorDots"></div>
         <div class="hero-buttons">
             <a href="https://calendar.app.google/ZYRiNELGw14YEtHV9" target="_blank" class="btn btn-solid">Gespräch buchen</a>
             <a href="#" class="btn btn-solid btn-schnellcheck" data-pk-open>Projekt-Schnellcheck · 60 Sek</a>
@@ -4224,11 +4225,11 @@
             // Hero rotator
             (() => {
                 const slides = [
-                    "insivo diagnostiziert die menschliche Seite Ihrer Transformation\u00a0\u2014 Adoption, Risiken, Wissensträger-Lücken. Aus hunderten Interviews, als Report in 3\u20135 Tagen.",
-                    "insivo deckt auf, an welchen Schlüsselpersonen Ihr Rollout hängt — und sichert deren kritisches Prozesswissen in Tiefeninterviews, bevor es verloren geht.",
-                    "Aus dem Prozesswissen Ihrer Key-User erzeugt insivo fertiges Trainingsmaterial — ohne dass dieselben Experten Schulung aufbauen und gleichzeitig testen müssen.",
-                    "insivo analysiert Ist- und Soll-Prozesse und liefert eine fertige Change-Impact-Analyse in unter zwei Wochen — statt drei Monaten manueller Arbeit mit Lücken.",
-                    "Aus den Einschätzungen hunderter Stakeholder verdichtet insivo ein klares Lagebild — den Gesamtüberblick, den sonst niemand im Projekt hat."
+                    "Was passiert mit Ihrem Rollout, wenn Ihre Key-User sechs Monate nach Go-Live das Unternehmen verlassen?",
+                    "Wissen Sie, an welchen Schlüsselpersonen Ihr S/4HANA-Projekt wirklich hängt?",
+                    "Warum existiert dieser Workaround im Altsystem — und steht das irgendwo außer in einem Kopf?",
+                    "Merken Sie erst beim Cutover, welches Prozesswissen längst aus dem Projekt verschwunden ist?",
+                    "Findet Ihre KI im Altsystem den Kontext, den nie jemand dokumentiert hat?"
                 ];
                 const container = document.getElementById("heroRotator");
                 const dotsWrap = document.getElementById("heroRotatorDots");
