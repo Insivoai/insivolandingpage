@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="googlebot" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Golden path — Insivo × Now to Next</title>
+<link rel="icon" href="/favicon-32x32.png" sizes="32x32">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --canvas:#F6F6F9;--ink:#16161D;--ink-2:#4A4A57;--ink-3:#8A8A96;
+  --line:#E4E4EB;--indigo:#695AEE;--indigo-soft:#EEEBFE;--indigo-line:#C9C2F8;--indigo-deep:#4B3ECB;
+  --teal:#0E8F7E;--teal-soft:#E4F4F1;--teal-line:#A9DDD5;
+  --amber:#B4780C;--amber-soft:#FBF1DE;
+  --radius:9px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--canvas);font-feature-settings:"cv05","ss01"}
+.stage{max-width:1240px;margin:0 auto;padding:34px 28px 52px}
+
+.top{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between}
+h1{font-size:21px;font-weight:600;letter-spacing:-.022em;margin:0 0 3px}
+.sub{margin:0;font-size:13px;color:var(--ink-3)}
+.controls{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+button{font:inherit;font-size:12.5px;color:var(--ink-2);background:#fff;border:1px solid var(--line);border-radius:20px;padding:6px 13px;cursor:pointer;transition:border-color .15s,color .15s}
+button:hover{border-color:var(--indigo-line);color:var(--indigo-deep)}
+button:focus-visible{outline:2px solid var(--indigo);outline-offset:2px}
+button.on{background:var(--indigo);border-color:var(--indigo);color:#fff}
+.wave{display:inline-flex;align-items:baseline;gap:7px;background:#fff;border:1px solid var(--indigo-line);border-radius:20px;padding:5px 13px;font-size:12.5px;color:var(--indigo-deep)}
+.wave b{font-weight:600;font-variant-numeric:tabular-nums}
+.wave .lbl{color:var(--ink-3);font-size:11.5px}
+
+.bar{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-top:14px;padding-top:13px;border-top:1px solid var(--line)}
+.bar .spacer{flex:1}
+.saved{font-size:11.5px;color:var(--ink-3);transition:color .2s}
+.saved.flash{color:var(--teal)}
+.who{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:4px 6px 4px 12px;font-size:11.5px;color:var(--ink-3)}
+.who input{font:inherit;font-size:12.5px;color:var(--ink);border:0;background:none;outline:none;width:96px;padding:2px 4px;border-radius:12px}
+.who input:focus{background:var(--indigo-soft)}
+
+.board{position:relative;margin-top:24px}
+.rail{position:absolute;left:0;right:0;top:31px;height:2px;background:var(--line);border-radius:2px}
+.rail-fill{position:absolute;left:0;top:0;height:100%;width:0;background:var(--indigo);border-radius:2px;transition:width .38s cubic-bezier(.4,0,.2,1)}
+.phases{position:relative;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}
+.phase{display:flex;flex-direction:column;min-width:0;cursor:pointer}
+.dot{width:11px;height:11px;border-radius:50%;background:#fff;border:2px solid var(--line);margin:26px 0 14px;transition:.3s;position:relative;z-index:2}
+.phase.on .dot,.phase.done .dot{border-color:var(--indigo);background:var(--indigo)}
+.phase.on .dot::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--indigo);opacity:.35;animation:ping 1.4s ease-out infinite}
+@keyframes ping{0%{transform:scale(.7);opacity:.5}100%{transform:scale(1.9);opacity:0}}
+.pname{font-size:14px;font-weight:600;letter-spacing:-.01em;margin:0 0 2px;color:var(--ink-3);transition:color .3s}
+.phase.on .pname,.phase.done .pname{color:var(--ink)}
+.pde{font-size:11.5px;color:var(--ink-3);margin:0 0 14px;min-height:16px;line-height:1.35}
+.steps{display:flex;flex-direction:column;gap:6px;flex:1}
+.step{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:8px 9px;opacity:.42;transition:opacity .3s,background .3s,border-color .3s,transform .3s}
+.step .n{font-size:10px;font-variant-numeric:tabular-nums;color:var(--ink-3);min-width:14px}
+.step .t{font-size:12.5px;line-height:1.25;color:var(--ink-2);flex:1;min-width:0}
+.step .tag{font-size:9px;letter-spacing:.05em;text-transform:uppercase;font-weight:500;border-radius:4px;padding:2px 4px;background:#F1F0FB;color:var(--indigo-deep)}
+.step .tag.gate{background:#fff;border:1px solid var(--indigo-line)}
+.step .tag.mcp{background:var(--teal-soft);color:var(--teal)}
+.step .cb{font-size:9.5px;font-weight:600;font-variant-numeric:tabular-nums;background:var(--amber-soft);color:var(--amber);border-radius:9px;padding:2px 6px}
+.step.done{opacity:1;border-color:var(--indigo-line);background:var(--indigo-soft)}
+.step.done .n{color:var(--indigo-deep)}
+.step.done .t{color:var(--ink)}
+.step.live{opacity:1;background:var(--indigo);border-color:var(--indigo);transform:translateX(3px)}
+.step.live .n{color:#fff;opacity:.65}
+.step.live .t{color:#fff;font-weight:500}
+.step.live .tag{background:rgba(255,255,255,.2);color:#fff;border-color:transparent}
+.step.live .cb{background:rgba(255,255,255,.24);color:#fff}
+.step.isnew{border-style:dashed}
+.acts{display:none;gap:2px;flex-shrink:0}
+body.edit .acts{display:inline-flex}
+.acts button{border:0;background:none;padding:1px 3px;font-size:11px;line-height:1;color:var(--ink-3);border-radius:4px}
+.acts button:hover{background:var(--indigo-soft);color:var(--indigo-deep)}
+.step.live .acts button{color:rgba(255,255,255,.75)}
+.step.live .acts button:hover{background:rgba(255,255,255,.2);color:#fff}
+.addstep{display:none;margin-top:2px;font-size:11.5px;padding:5px 9px;border-style:dashed;color:var(--ink-3);width:100%}
+body.edit .addstep{display:block}
+.artifact{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px;font-size:11px;color:var(--ink-3);opacity:.4;transition:opacity .35s}
+.artifact b{display:block;font-size:12.5px;font-weight:500;color:var(--ink-2);margin-top:2px}
+.phase.done .artifact{opacity:1}
+.phase.done .artifact b{color:var(--indigo-deep)}
+
+.arcwrap{position:relative;height:88px;margin-top:2px}
+#arc{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#arcpath{fill:none;stroke:var(--indigo-line);stroke-width:2;stroke-linecap:round}
+#arclive{fill:none;stroke:var(--indigo);stroke-width:2.5;stroke-linecap:round;opacity:0;transition:opacity .2s}
+#arclive.go{opacity:1;animation:draw 1.05s cubic-bezier(.5,0,.3,1) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.arclabel{position:absolute;left:50%;top:48px;transform:translateX(-50%);background:var(--canvas);padding:0 12px;font-size:12px;color:var(--ink-3);white-space:nowrap}
+.arclabel b{color:var(--indigo-deep);font-weight:500}
+
+/* ---------- detail panel ---------- */
+.panel{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.phead{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;justify-content:space-between;padding:18px 24px 0}
+.idx{font-size:10.5px;font-variant-numeric:tabular-nums;letter-spacing:.06em;color:var(--ink-3);text-transform:uppercase}
+.phead h2{font-size:17px;font-weight:600;letter-spacing:-.015em;margin:4px 0 0}
+.tabs{display:flex;gap:2px;padding:14px 24px 0;border-bottom:1px solid var(--line)}
+.tab{font-size:12.5px;color:var(--ink-3);background:none;border:0;border-bottom:2px solid transparent;border-radius:0;padding:8px 12px;cursor:pointer}
+.tab:hover{color:var(--ink-2);border-color:transparent}
+.tab.on{color:var(--indigo-deep);border-bottom-color:var(--indigo);background:none}
+.tab .pill{font-size:9.5px;font-weight:600;background:var(--amber-soft);color:var(--amber);border-radius:9px;padding:1px 6px;margin-left:5px;vertical-align:1px}
+.tabbody{padding:20px 24px 22px;min-height:186px}
+.cols{display:grid;grid-template-columns:1.55fr 1fr;gap:28px}
+.tabbody p{margin:0 0 4px;font-size:13.5px;line-height:1.6;color:var(--ink-2);max-width:60ch}
+.meta{display:flex;gap:12px;padding:6px 0;border-bottom:1px solid #F1F1F5;font-size:12.5px;align-items:center}
+.meta:last-child{border-bottom:0}
+.meta .k{color:var(--ink-3);min-width:76px;flex-shrink:0}
+.meta .v{color:var(--ink);font-weight:500}
+.meta select{font:inherit;font-size:12.5px;color:var(--ink);background:#fff;border:1px solid var(--indigo-line);border-radius:6px;padding:3px 6px}
+h4{margin:0 0 9px;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+h4 + h4,.rule + h4,.tools + h4{margin-top:18px}
+.layers{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.layer{font-size:11.5px;padding:4px 11px;border-radius:20px;border:1px solid var(--line);color:var(--ink-3)}
+.layer.hit{border-color:var(--indigo);background:var(--indigo-soft);color:var(--indigo-deep);font-weight:500}
+body.edit .layer{cursor:pointer}
+body.edit .layer:hover{border-color:var(--indigo-line)}
+.rule{border-left:2px solid var(--indigo);padding:2px 0 2px 13px;font-size:13px;line-height:1.6;color:var(--ink-2);max-width:62ch}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px}
+.tool{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#FCFCFD;position:relative}
+.dir{font-size:9px;letter-spacing:.05em;text-transform:uppercase;font-weight:500;border-radius:4px;padding:3px 5px;flex-shrink:0;margin-top:1px}
+.dir.read{background:var(--indigo-soft);color:var(--indigo-deep)}
+.dir.write{background:var(--teal-soft);color:var(--teal)}
+.dir.sync{background:#F3F3F7;color:var(--ink-2)}
+body.edit .dir{cursor:pointer}
+.tool .tn{font-size:12.5px;font-weight:500;display:block;line-height:1.3}
+.tool .tw{font-size:11.5px;color:var(--ink-3);line-height:1.4;display:block}
+.tool .rm{display:none;position:absolute;top:5px;right:5px;border:0;background:none;padding:2px 4px;font-size:11px;line-height:1;color:var(--ink-3);border-radius:4px}
+body.edit .tool .rm{display:block}
+.tool .rm:hover{background:var(--indigo-soft);color:var(--indigo-deep)}
+.addtool{display:none;margin-top:9px;font-size:11.5px;border-style:dashed;color:var(--ink-3)}
+body.edit .addtool{display:inline-block}
+.none{font-size:13px;color:var(--ink-3);font-style:normal}
+
+/* ---------- comments ---------- */
+.notes{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;max-width:74ch}
+.note{border:1px solid var(--line);border-left:2px solid var(--amber);border-radius:8px;padding:9px 11px;background:#FCFCFD}
+.note.done{border-left-color:var(--teal);opacity:.5}
+.nhead{display:flex;align-items:baseline;gap:8px;margin-bottom:3px}
+.nwho{font-size:12px;font-weight:600;color:var(--ink)}
+.nts{font-size:10.5px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.nacts{margin-left:auto;display:flex;gap:2px}
+.nacts button{border:0;background:none;padding:2px 6px;font-size:11px;line-height:1;color:var(--ink-3);border-radius:5px}
+.nacts button:hover{background:var(--indigo-soft);color:var(--indigo-deep)}
+.ntxt{font-size:13px;line-height:1.55;color:var(--ink-2);white-space:pre-wrap;margin:0}
+.noteform{display:flex;flex-direction:column;gap:8px;align-items:flex-start;max-width:74ch}
+.noteform textarea{font:inherit;font-size:13px;line-height:1.55;color:var(--ink);width:100%;min-height:70px;resize:vertical;border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#fff;outline:none;transition:border-color .15s}
+.noteform textarea:focus{border-color:var(--indigo)}
+.hint{font-size:11px;color:var(--ink-3)}
+
+[contenteditable="true"]{outline:none;border-radius:4px;transition:background .15s,box-shadow .15s}
+body.edit [contenteditable="true"]{background:#FBFAFF;box-shadow:inset 0 0 0 1px var(--indigo-line);padding:1px 4px;margin:0 -4px}
+body.edit [contenteditable="true"]:focus{background:#fff;box-shadow:inset 0 0 0 1.5px var(--indigo)}
+body.edit .panel{border-color:var(--indigo-line)}
+
+.foot{margin-top:22px;padding-top:16px;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px 30px;font-size:12px;color:var(--ink-3);line-height:1.55}
+.foot b{font-weight:500;color:var(--ink-2)}
+.foot .note-internal{grid-column:1/-1;margin-top:6px;padding-top:12px;border-top:1px dashed var(--line);font-size:11.5px}
+
+@media (max-width:920px){
+  .stage{padding:22px 16px 40px}
+  .rail{display:none}
+  .phases{grid-template-columns:1fr;gap:22px}
+  .dot{margin:0 0 10px}
+  .arcwrap{height:auto;padding:12px 0}
+  #arc{display:none}
+  .arclabel{position:static;transform:none;display:block;text-align:center;padding:8px 0}
+  .cols{grid-template-columns:1fr;gap:18px}
+  .tabs{overflow-x:auto}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <div class="top">
+    <div>
+      <h1>Golden path</h1>
+      <p class="sub" id="subline">19 steps, six phases, one loop that does not restart at the beginning.</p>
+    </div>
+    <div class="controls">
+      <span class="wave"><span class="lbl">Wave</span><b id="waveno">01</b><span class="lbl" id="wavekind">Baseline</span></span>
+      <button id="play" class="on">Pause</button>
+      <button id="reset">Restart</button>
+      <button id="speed">1&times;</button>
+    </div>
+  </div>
+
+  <div class="bar">
+    <button id="editBtn">Edit</button>
+    <span class="who">you <input id="whoIn" type="text" placeholder="your name" autocomplete="off" spellcheck="false"></span>
+    <span class="saved" id="saved">saved locally</span>
+    <span class="spacer"></span>
+    <button id="shareBtn">Copy share link</button>
+    <button id="copyBtn">Copy step as Markdown</button>
+    <button id="mdBtn">Export Markdown</button>
+    <button id="exportBtn">Export JSON</button>
+    <button id="importBtn">Import JSON</button>
+    <button id="clearBtn">Reset to defaults</button>
+    <input type="file" id="fileIn" accept="application/json" style="display:none">
+  </div>
+
+  <div class="board">
+    <div class="rail"><div class="rail-fill" id="railfill"></div></div>
+    <div class="phases" id="phases"></div>
+  </div>
+
+  <div class="arcwrap">
+    <svg id="arc" aria-hidden="true"><path id="arcpath"/><path id="arclive"/></svg>
+    <div class="arclabel">Follow-up wave &mdash; back to <b>Diagnose</b>, not back to the start</div>
+  </div>
+
+  <div class="panel">
+    <div class="phead">
+      <div><span class="idx" id="pidx"></span><h2 id="ptitle"></h2></div>
+    </div>
+    <div class="tabs">
+      <button class="tab on" data-tab="0">What happens</button>
+      <button class="tab" data-tab="1">Context</button>
+      <button class="tab" data-tab="2">Tools &amp; MCP</button>
+      <button class="tab" data-tab="3">Comments<span class="pill" id="cpill" style="display:none">0</span></button>
+    </div>
+    <div class="tabbody" id="tabbody"></div>
+  </div>
+
+  <div class="foot">
+    <div><b>Why the return loop is short.</b> Client, program and context are built once. From wave two onward only Diagnose &rarr; Measure repeats.</div>
+    <div><b>Context has two homes.</b> Client context is inherited by every program read-only. Program context is scoped. Any program source can be promoted to client level in one click.</div>
+    <div><b>Insivo is not the system of record.</b> Tasks, calendars and documents stay where the client already works. MCP moves evidence in and decisions out.</div>
+    <div><b>Insivo runs as an MCP server too.</b> A consultant can query the evidence layer from their own AI tools: which findings moved, where is participation lagging, what did wave two change.</div>
+    <div class="note-internal"><b>Working doc.</b> Everything you type is stored in this browser only. To hand your version to someone else use <b>Copy share link</b> (whole state travels in the URL) or <b>Export JSON</b>. Nothing is sent to a server.</div>
+  </div>
+
+</div>
+
+<script>
+/* ------------------------------------------------------------------ model */
+var PHASES = [
+  {name:"Understand", de:"Build the context",       art:"Program context"},
+  {name:"Diagnose",   de:"Assessment and evidence", art:"Evidence"},
+  {name:"Decide",     de:"Validate and interpret",  art:"Findings"},
+  {name:"Act",        de:"Deliver interventions",   art:"Interventions"},
+  {name:"Measure",    de:"Prove the movement",      art:"Outcome"},
+  {name:"Evolve",     de:"Choose the next move",    art:"Next wave"}
+];
+
+var LAYERS = ["Client", "Program", "Assessment"];
+var TAGS   = ["", "MCP", "AI", "Gate"];
+var DIRS   = ["read", "write", "sync"];
+
+var DEFAULT_STEPS = [
+{id:"s01",t:"Create client",p:0,tag:"",
+ d:"Register the organisation, the industry and the internal engagement owner. Everything downstream hangs off this record.",
+ own:"Studio admin",obj:"Client",scr:"Create client workspace",
+ lay:[1,0,0],
+ ctx:"Nothing program-specific belongs here yet. The urge to attach a first assessment at this point is the most common modelling mistake — it strands the assessment outside any program.",
+ tools:[{dir:"read",tn:"HubSpot / Salesforce",tw:"Pull the company record and the account owner"},
+        {dir:"read",tn:"Company website",tw:"Industry, size, public positioning"}]},
+
+{id:"s02",t:"Engagement intent",p:0,tag:"",
+ d:"Capture what the client is actually trying to change and which business outcome would count as success.",
+ own:"Studio admin",obj:"Client context",scr:"Client overview",
+ lay:[1,0,0],
+ ctx:"Intent stays true across every program under this client. If it only holds for one initiative, it is a program objective instead — record it in the next step.",
+ tools:[{dir:"read",tn:"Google Drive / SharePoint",tw:"Read the signed SOW or proposal, extract the stated intent"},
+        {dir:"read",tn:"Notion / Confluence",tw:"Prior engagement notes for this account"}]},
+
+{id:"s03",t:"Create program",p:0,tag:"",
+ d:"Open the transformation program the work sits under: objective, scope, success definition, team. One client can run several in parallel.",
+ own:"Consultant",obj:"Program",scr:"Program setup",
+ lay:[1,1,0],
+ ctx:"Reads client context, writes program context. From here on every object in the chain carries a program ID — that is what makes multi-client and multi-program reporting possible later.",
+ tools:[{dir:"write",tn:"Asana / Monday / ClickUp",tw:"Mirror the program so the client sees it where they already work"},
+        {dir:"sync",tn:"Slack / Teams",tw:"Create the program channel, post the kickoff summary"}]},
+
+{id:"s04",t:"Add context",p:0,tag:"MCP",
+ d:"Load strategy, workflows, KPIs and existing initiatives. Context is input, not insight — the system reads it before it analyses anything.",
+ own:"Consultant",obj:"Data sources",scr:"Program context and data",
+ lay:[1,1,0],
+ ctx:"Two destinations, one screen. The test: would a second program at this client want this file too? Yes → client context. No → program context. Client context appears inside the program read-only with an inherited badge, and any program source can be promoted to client level in one click. Without that promote action the two layers drift apart within a month.",
+ tools:[{dir:"sync",tn:"Google Drive / SharePoint",tw:"Live folder connection, re-reads on change"},
+        {dir:"read",tn:"Notion / Confluence",tw:"Operating model, policies, org language"},
+        {dir:"read",tn:"Workday / SuccessFactors",tw:"Org structure and workforce groups"},
+        {dir:"read",tn:"Miro",tw:"Existing workflow and journey boards"}]},
+
+{id:"s05",t:"Create assessment",p:1,tag:"",
+ d:"Name the decision this diagnosis has to inform. An assessment without a decision behind it produces a report nobody acts on.",
+ own:"Consultant",obj:"Assessment",scr:"Create assessment · step 1",
+ lay:[0,1,1],
+ ctx:"Assessments never own context. They select from what the client and program already hold — which is why the Understand phase cannot be skipped on the first pass, and is skipped on every pass after it.",
+ tools:[{dir:"read",tn:"Prior assessments",tw:"Duplicate the config of an earlier wave or engagement"}]},
+
+{id:"s06",t:"Select methodology",p:1,tag:"",
+ d:"Pick the framework and map it onto the client's own language. The methodology is preserved; the wording adapts.",
+ own:"Consultant",obj:"Framework config",scr:"Create assessment · step 2",
+ lay:[1,0,1],
+ ctx:"The template stores the methodology at studio level. The assessment stores the client-specific application. Client context supplies the vocabulary — terms to use, terms to avoid.",
+ tools:[{dir:"read",tn:"Template library",tw:"Studio-level frameworks and interview blueprints"},
+        {dir:"read",tn:"Notion",tw:"Methodology source of record, versioned"}]},
+
+{id:"s07",t:"Evidence sources",p:1,tag:"MCP",
+ d:"Decide what counts as evidence besides interviews — workflow maps, adoption data, tickets, prior surveys.",
+ own:"Consultant",obj:"Evidence sources",scr:"Create assessment · step 3",
+ lay:[0,1,1],
+ ctx:"Inclusion is set per source, per wave. A source can sit in program context and still be excluded from a specific analysis — the two decisions are separate on purpose.",
+ tools:[{dir:"read",tn:"Jira / ServiceNow",tw:"Support and incident volume by process area"},
+        {dir:"read",tn:"Microsoft Graph / Amplitude",tw:"Actual tool adoption and usage patterns"},
+        {dir:"read",tn:"Qualtrics / Forms",tw:"Prior engagement or pulse surveys"}]},
+
+{id:"s08",t:"Invite participants",p:1,tag:"MCP",
+ d:"Set audience groups and the anonymity threshold. The system warns on under-represented groups before launch, not after.",
+ own:"Consultant",obj:"Participants",scr:"Create assessment · step 5",
+ lay:[1,0,1],
+ ctx:"Stakeholders live at client level and are reused across programs. Identity and interview answers are stored separately — the link is broken before analysis, not after.",
+ tools:[{dir:"read",tn:"Entra ID / Google Workspace",tw:"Directory groups become audience groups"},
+        {dir:"write",tn:"Slack / Teams / Outlook",tw:"Deliver invitations and reminders in their channel"}]},
+
+{id:"s09",t:"Conduct interviews",p:1,tag:"AI",
+ d:"Adaptive voice or chat, one question at a time. Follow-ups adjust to role, prior answer, framework and known workflows.",
+ own:"Participant",obj:"Interviews",scr:"Participant interview experience",
+ lay:[0,1,1],
+ ctx:"This is where context pays for itself. A generic follow-up asks what the barrier is; a context-aware one asks about the specific approval step the participant just described.",
+ tools:[{dir:"sync",tn:"Slack / Teams",tw:"Interview runs in the tool they already have open"},
+        {dir:"write",tn:"Outlook / Gmail",tw:"Reminder cadence for non-starters"}]},
+
+{id:"s10",t:"Analyze evidence",p:2,tag:"AI",
+ d:"Excerpts become codes, codes become themes, themes are cross-checked against the non-interview sources.",
+ own:"AI proposal",obj:"Themes",scr:"Evidence explorer",
+ lay:[0,1,1],
+ ctx:"Analysis reads across all three layers: client language for phrasing, program KPIs for relevance, assessment evidence for substance. A theme with no supporting source outside interviews is flagged low-confidence.",
+ tools:[{dir:"read",tn:"Jira / ServiceNow",tw:"Does ticket volume corroborate the theme?"},
+        {dir:"read",tn:"Microsoft Graph",tw:"Does usage data corroborate the theme?"}]},
+
+{id:"s11",t:"Consultant validation",p:2,tag:"Gate",
+ d:"A proposed theme is not yet a client-ready finding. Include, exclude, recode, or send back for more evidence.",
+ own:"Consultant",obj:"Findings",scr:"Analysis review",
+ lay:[0,1,1],
+ ctx:"The promotion point: an assessment-level theme becomes a program-level finding. Everything the client eventually sees crosses this line, and nothing crosses it automatically.",
+ tools:[{dir:"write",tn:"Slack / Teams",tw:"Review queue notifications to the owning consultant"}]},
+
+{id:"s12",t:"Executive insights",p:2,tag:"",
+ d:"Three to five prioritised findings with evidence strength, business implication and a recommended next move.",
+ own:"Consultant",obj:"Executive insights",scr:"Executive insights",
+ lay:[0,1,0],
+ ctx:"Lives at program level. Findings from several assessments in the same program can appear together here — that is the argument for programs existing at all.",
+ tools:[{dir:"write",tn:"Google Slides / PowerPoint",tw:"Draft the readout deck from approved findings"}]},
+
+{id:"s13",t:"Create intervention",p:3,tag:"",
+ d:"Turn a finding into one concrete activity, with a desired outcome and a measurement plan attached from the start.",
+ own:"Consultant",obj:"Intervention",scr:"Create intervention",
+ lay:[0,1,0],
+ ctx:"Interventions are program-scoped by design. A global intervention list without program context cannot answer the only question that matters: for which client, which program, and against which finding?",
+ tools:[{dir:"write",tn:"Google Calendar / Outlook",tw:"Hold the workshop slot with the right attendees"},
+        {dir:"write",tn:"Miro",tw:"Generate the facilitation board from the intervention blueprint"}]},
+
+{id:"s14",t:"Publish deliverable",p:3,tag:"",
+ d:"Package the selected findings and actions for a named audience — executive brief, workshop plan, 30/60/90 day plan.",
+ own:"Consultant",obj:"Deliverable",scr:"Deliverable builder",
+ lay:[1,1,0],
+ ctx:"Publishing moves an object from program-internal to client-visible. The status chain — internal draft, consultant reviewed, approved, published — is the only thing standing between raw analysis and a client inbox.",
+ tools:[{dir:"write",tn:"Google Slides / PowerPoint",tw:"Branded export in the studio template"},
+        {dir:"write",tn:"Notion / Drive",tw:"File it where the client already keeps program documents"}]},
+
+{id:"s15",t:"Deliver action",p:3,tag:"MCP",
+ d:"Run the workshop or activity and log the outputs. Task execution stays in the client's existing tools.",
+ own:"Consultant + client",obj:"Delivery record",scr:"Intervention detail",
+ lay:[0,1,0],
+ ctx:"The boundary line. Insivo holds why the action exists and what it should change; the client's tool holds who does what by Friday. Duplicating the second one is how this becomes a worse Monday.com.",
+ tools:[{dir:"sync",tn:"Asana / Monday / Jira",tw:"Commitments mirror out, completion mirrors back"},
+        {dir:"read",tn:"Miro",tw:"Pull workshop outputs back in as evidence"},
+        {dir:"write",tn:"Slack / Teams",tw:"Follow-up nudges against agreed owners"}]},
+
+{id:"s16",t:"Re-measure",p:4,tag:"",
+ d:"Re-run the assessment as a follow-up wave against the same audiences. Same instrument, later point in time.",
+ own:"Consultant",obj:"Follow-up wave",scr:"Assessments overview",
+ lay:[0,1,1],
+ ctx:"The wave inherits the assessment configuration unchanged. Any edit to the questions between waves makes the comparison worthless — the product should make changing it deliberately hard.",
+ tools:[{dir:"read",tn:"Google Calendar",tw:"Trigger from the measurement date set with the intervention"},
+        {dir:"write",tn:"Slack / Teams",tw:"Re-invite the original audience groups"}]},
+
+{id:"s17",t:"Compare movement",p:4,tag:"AI",
+ d:"What weakened, what strengthened, what is new, what stayed unresolved — plus which interventions show no evidence of impact.",
+ own:"AI + consultant",obj:"Comparison",scr:"Wave comparison",
+ lay:[0,1,1],
+ ctx:"Compares the assessment layer across waves, and pulls the same operational sources configured in Evidence sources so the KPI delta sits beside the language delta.",
+ tools:[{dir:"read",tn:"Jira / ServiceNow",tw:"Ticket volume delta against baseline"},
+        {dir:"read",tn:"Microsoft Graph / Amplitude",tw:"Usage delta against baseline"}]},
+
+{id:"s18",t:"Publish value story",p:4,tag:"",
+ d:"Evidence-backed progress rather than a satisfaction score: baseline, action taken, observed change, business effect.",
+ own:"Consultant",obj:"Outcome",scr:"Client program home",
+ lay:[1,1,0],
+ ctx:"Written at program level, published to client level. This is what replaces a standalone value evidence area — it is the output of the closed loop, not a separate data type.",
+ tools:[{dir:"write",tn:"Slack / Teams",tw:"Executive digest to the sponsor channel"},
+        {dir:"write",tn:"Google Slides",tw:"Progress update in the same template as the baseline readout"}]},
+
+{id:"s19",t:"Define next action",p:5,tag:"",
+ d:"Continue, adapt, replace, escalate or close the intervention — and open the next wave from the same program.",
+ own:"Consultant + client",obj:"Next wave",scr:"Program journey",
+ lay:[0,1,0],
+ ctx:"Client and program context persist untouched. Only the assessment layer resets. That asymmetry is the entire economic argument: the expensive setup happens once, the measurable loop happens repeatedly.",
+ tools:[{dir:"write",tn:"Asana / Monday",tw:"Next-wave milestone into the client plan"},
+        {dir:"write",tn:"Google Calendar",tw:"Book the follow-up measurement date"}]}
+];
+
+/* ---------------------------------------------------------------- storage */
+var KEY = "insivo.goldenpath.v3";
+var LEGACY_KEY = "insivo.goldenpath.v2";
+var WHO_KEY = "insivo.goldenpath.who";
+var mem = {};
+var store = {
+  get:function(k){ try{ return localStorage.getItem(k); }catch(e){ return mem[k] || null; } },
+  set:function(k,v){ try{ localStorage.setItem(k,v); }catch(e){ mem[k]=v; } },
+  del:function(k){ try{ localStorage.removeItem(k); }catch(e){ delete mem[k]; } }
+};
+
+function clone(x){ return JSON.parse(JSON.stringify(x)); }
+var DEFAULT_PHASES = clone(PHASES);   /* captured before any saved state can overwrite PHASES */
+function uid(pfx){ seq++; return pfx + seq.toString(36) + "-" + (perfStamp + seq).toString(36); }
+var seq = 0;
+var perfStamp = Math.floor(performance.now() * 1000) + 100000;
+
+function blankSteps(){
+  var s = clone(DEFAULT_STEPS);
+  s.forEach(function(x){ x.notes = []; });
+  return s;
+}
+
+function normalizeSteps(arr){
+  if (!arr || !arr.length) return blankSteps();
+  var out = arr.map(function(s, ix){
+    return {
+      id:   typeof s.id === "string" && s.id ? s.id : "s" + (ix + 1),
+      t:    String(s.t || "Untitled step"),
+      p:    Math.max(0, Math.min(PHASES.length - 1, parseInt(s.p, 10) || 0)),
+      tag:  TAGS.indexOf(s.tag) >= 0 ? s.tag : "",
+      d:    String(s.d || ""),
+      own:  String(s.own || ""),
+      obj:  String(s.obj || ""),
+      scr:  String(s.scr || ""),
+      lay:  (Array.isArray(s.lay) && s.lay.length === 3) ? s.lay.map(function(v){ return v ? 1 : 0; }) : [0,0,0],
+      ctx:  String(s.ctx || ""),
+      tools:(Array.isArray(s.tools) ? s.tools : []).map(function(x){
+              return {dir: DIRS.indexOf(x && x.dir) >= 0 ? x.dir : "read",
+                      tn: String((x && x.tn) || ""), tw: String((x && x.tw) || "")};
+            }),
+      notes:(Array.isArray(s.notes) ? s.notes : []).map(function(n, ni){
+              return {id: (n && n.id) || ("n" + ix + "-" + ni),
+                      who: String((n && n.who) || "anon"),
+                      txt: String((n && n.txt) || ""),
+                      ts:  String((n && n.ts) || ""),
+                      done: !!(n && n.done)};
+            }).filter(function(n){ return n.txt; })
+    };
+  });
+  var seen = {};
+  out.forEach(function(s, ix){
+    while (seen[s.id]) s.id = s.id + "-" + ix;
+    seen[s.id] = 1;
+  });
+  return sortByPhase(out);
+}
+
+function sortByPhase(arr){ return arr.slice().sort(function(a,b){ return a.p - b.p; }); }
+
+function readPhases(o){
+  if (!o || !Array.isArray(o.phases) || o.phases.length !== PHASES.length) return;
+  o.phases.forEach(function(p, ix){
+    if (p && typeof p.name === "string") PHASES[ix].name = p.name;
+    if (p && typeof p.de   === "string") PHASES[ix].de   = p.de;
+    if (p && typeof p.art  === "string") PHASES[ix].art  = p.art;
+  });
+}
+
+function migrateLegacy(){
+  var raw = store.get(LEGACY_KEY);
+  if (!raw) return null;
+  try {
+    var old = JSON.parse(raw);
+    if (!Array.isArray(old)) return null;
+    var base = blankSteps();
+    old.forEach(function(s, ix){
+      if (!base[ix] || !s) return;
+      ["t","d","own","obj","scr","ctx"].forEach(function(k){ if (s[k]) base[ix][k] = s[k]; });
+      if (Array.isArray(s.tools)) base[ix].tools = s.tools;
+    });
+    return base;
+  } catch(e){ return null; }
+}
+
+function load(){
+  var raw = store.get(KEY);
+  if (raw){
+    try {
+      var o = JSON.parse(raw);
+      readPhases(o);
+      return normalizeSteps(Array.isArray(o) ? o : o.steps);
+    } catch(e){ /* fall through */ }
+  }
+  var legacy = migrateLegacy();
+  if (legacy){
+    var migrated = normalizeSteps(legacy);
+    store.set(KEY, JSON.stringify({v:3, phases:PHASES, steps:migrated}));
+    return migrated;
+  }
+  return blankSteps();
+}
+
+/* ----------------------------------------------------------- share via url */
+function b64enc(bytes){
+  var s = "", CH = 0x8000;
+  for (var i = 0; i < bytes.length; i += CH) s += String.fromCharCode.apply(null, bytes.subarray(i, i + CH));
+  return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+}
+function b64dec(str){
+  var s = str.replace(/-/g,"+").replace(/_/g,"/");
+  while (s.length % 4) s += "=";
+  var bin = atob(s), out = new Uint8Array(bin.length);
+  for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+function packState(){
+  var json = JSON.stringify({v:3, phases:PHASES, steps:STEPS});
+  var bytes = new TextEncoder().encode(json);
+  if (typeof CompressionStream === "undefined") return Promise.resolve("r" + b64enc(bytes));
+  var cs = new CompressionStream("gzip");
+  var w = cs.writable.getWriter();
+  w.write(bytes); w.close();
+  return new Response(cs.readable).arrayBuffer().then(function(buf){
+    return "g" + b64enc(new Uint8Array(buf));
+  });
+}
+function unpackState(payload){
+  var mode = payload.charAt(0), bytes = b64dec(payload.slice(1));
+  if (mode === "r") return Promise.resolve(JSON.parse(new TextDecoder().decode(bytes)));
+  if (typeof DecompressionStream === "undefined") return Promise.reject(new Error("no gzip"));
+  var ds = new DecompressionStream("gzip");
+  var w = ds.writable.getWriter();
+  w.write(bytes); w.close();
+  return new Response(ds.readable).arrayBuffer().then(function(buf){
+    return JSON.parse(new TextDecoder().decode(new Uint8Array(buf)));
+  });
+}
+
+/* ------------------------------------------------------------------ state */
+var STEPS = load();
+var host = document.getElementById("phases");
+var phaseEls = [], stepEls = [];
+
+var railfill = document.getElementById("railfill"), waveno = document.getElementById("waveno"),
+    wavekind = document.getElementById("wavekind"), body = document.getElementById("tabbody"),
+    pidx = document.getElementById("pidx"), ptitle = document.getElementById("ptitle"),
+    playBtn = document.getElementById("play"), arclive = document.getElementById("arclive"),
+    savedEl = document.getElementById("saved"), cpill = document.getElementById("cpill"),
+    whoIn = document.getElementById("whoIn"), subline = document.getElementById("subline");
+
+var i = 0, wave = 1, playing = true, speed = 1, timer = null, tab = 0, editing = false;
+var BASE = 1500;
+var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var drafts = {};
+
+whoIn.value = store.get(WHO_KEY) || "";
+whoIn.addEventListener("input", function(){ store.set(WHO_KEY, whoIn.value.trim()); });
+function me(){ return whoIn.value.trim() || "anon"; }
+
+function loopStart(){
+  for (var k = 0; k < STEPS.length; k++) if (STEPS[k].p >= 1) return k;
+  return 0;
+}
+function pad(n){ return (n < 10 ? "0" : "") + n; }
+function esc(x){ return String(x).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function open_(x){ return x.filter(function(n){ return !n.done; }).length; }
+
+/* ------------------------------------------------------------------ board */
+function renderBoard(){
+  host.innerHTML = "";
+  phaseEls = []; stepEls = [];
+  PHASES.forEach(function(p, pi){
+    var col = document.createElement("div");
+    col.className = "phase";
+    col.innerHTML =
+      '<div class="dot"></div>' +
+      '<p class="pname" data-p="' + pi + '" data-pf="name" contenteditable="false">' + esc(p.name) + '</p>' +
+      '<p class="pde" data-p="' + pi + '" data-pf="de" contenteditable="false">' + esc(p.de) + '</p>' +
+      '<div class="steps"></div>' +
+      '<button class="addstep" data-add="' + pi + '">+ step</button>' +
+      '<div class="artifact">produces<b data-p="' + pi + '" data-pf="art" contenteditable="false">' + esc(p.art) + '</b></div>';
+    host.appendChild(col);
+    phaseEls.push(col);
+    col.addEventListener("click", function(){ stop(); jump(firstOfPhase(pi)); });
+
+    var box = col.querySelector(".steps");
+    STEPS.forEach(function(s, si){
+      if (s.p !== pi) return;
+      var el = document.createElement("div");
+      el.className = "step";
+      var cls = s.tag === "Gate" ? " gate" : (s.tag === "MCP" ? " mcp" : "");
+      var openN = open_(s.notes);
+      el.innerHTML =
+        '<span class="n">' + pad(si + 1) + '</span>' +
+        '<span class="t"></span>' +
+        (s.tag ? '<span class="tag' + cls + '">' + esc(s.tag) + '</span>' : '') +
+        (openN ? '<span class="cb" title="open comments">' + openN + '</span>' : '') +
+        '<span class="acts">' +
+          '<button data-a="up" title="move up">&#9650;</button>' +
+          '<button data-a="dn" title="move down">&#9660;</button>' +
+          '<button data-a="rm" title="delete step">&#10005;</button>' +
+        '</span>';
+      el.querySelector(".t").textContent = s.t;
+      el.addEventListener("click", function(e){
+        var b = e.target.closest("button[data-a]");
+        e.stopPropagation();
+        stop();
+        if (b){ stepAction(s.id, b.dataset.a); return; }
+        jump(indexOf(s.id));
+      });
+      box.appendChild(el);
+      stepEls[si] = el;
+    });
+  });
+  host.querySelectorAll("[data-add]").forEach(function(b){
+    b.addEventListener("click", function(e){ e.stopPropagation(); stop(); addStep(+b.dataset.add); });
+  });
+  applyPhaseEdit();
+  subline.textContent = STEPS.length + " steps, " + PHASES.length +
+    " phases, one loop that does not restart at the beginning.";
+}
+
+function applyPhaseEdit(){
+  host.querySelectorAll("[data-pf]").forEach(function(el){
+    el.setAttribute("contenteditable", editing ? "true" : "false");
+    el.onclick = function(e){ if (editing) e.stopPropagation(); };
+    el.oninput = function(){ PHASES[+el.dataset.p][el.dataset.pf] = el.textContent; save(); };
+  });
+}
+
+function indexOf(id){ for (var k = 0; k < STEPS.length; k++) if (STEPS[k].id === id) return k; return 0; }
+function firstOfPhase(pi){
+  for (var k = 0; k < STEPS.length; k++) if (STEPS[k].p === pi) return k;
+  return Math.min(i, STEPS.length - 1);
+}
+
+/* ------------------------------------------------- structural edit actions */
+function restructure(keepId){
+  STEPS = sortByPhase(STEPS);
+  if (!STEPS.length) STEPS = blankSteps();
+  i = keepId ? indexOf(keepId) : Math.max(0, Math.min(i, STEPS.length - 1));
+  renderBoard(); paint(); save(); drawArc();
+}
+
+function addStep(pi){
+  var s = {id:uid("s"), t:"New step", p:pi, tag:"",
+           d:"", own:"", obj:"", scr:"", lay:[0,0,0], ctx:"", tools:[], notes:[]};
+  var at = STEPS.length;
+  for (var k = STEPS.length - 1; k >= 0; k--) if (STEPS[k].p === pi){ at = k + 1; break; }
+  STEPS.splice(at, 0, s);
+  restructure(s.id);
+  tab = 0;
+  syncTabs();
+  renderTab();
+  var f = body.querySelector('[data-f="d"]');
+  if (f) f.focus();
+}
+
+function stepAction(id, a){
+  var ix = indexOf(id), s = STEPS[ix];
+  if (a === "rm"){
+    if (STEPS.length < 2) return;
+    if (!confirm('Delete step "' + s.t + '"' + (s.notes.length ? " and its " + s.notes.length + " comment(s)" : "") + "?")) return;
+    STEPS.splice(ix, 1);
+    i = Math.max(0, Math.min(ix, STEPS.length - 1));
+    restructure(STEPS[i] && STEPS[i].id);
+    return;
+  }
+  var dir = a === "up" ? -1 : 1, j = ix + dir;
+  if (j < 0 || j >= STEPS.length){
+    var edge = s.p + dir;
+    if (edge < 0 || edge >= PHASES.length) return;
+    s.p = edge;
+  } else if (STEPS[j].p === s.p){
+    STEPS[ix] = STEPS[j]; STEPS[j] = s;
+  } else {
+    var np = s.p + dir;
+    if (np < 0 || np >= PHASES.length) return;
+    s.p = np;
+  }
+  restructure(id);
+}
+
+/* ------------------------------------------------------------ detail panel */
+function ed(field, val, tag, cls){
+  tag = tag || "span";
+  return "<" + tag + (cls ? ' class="' + cls + '"' : "") +
+         ' data-f="' + field + '" contenteditable="false">' + esc(val) + "</" + tag + ">";
+}
+
+function renderTab(){
+  var s = STEPS[i];
+
+  if (tab === 0){
+    var phaseSel = editing
+      ? '<select data-sel="p">' + PHASES.map(function(p, pi){
+          return '<option value="' + pi + '"' + (pi === s.p ? " selected" : "") + ">" + esc(p.name) + "</option>";
+        }).join("") + "</select>"
+      : '<span class="v">' + esc(PHASES[s.p].name) + "</span>";
+    var tagSel = editing
+      ? '<select data-sel="tag">' + TAGS.map(function(t){
+          return '<option value="' + esc(t) + '"' + (t === s.tag ? " selected" : "") + ">" + (t || "— none —") + "</option>";
+        }).join("") + "</select>"
+      : '<span class="v">' + (s.tag ? esc(s.tag) : "&mdash;") + "</span>";
+
+    body.innerHTML =
+      '<div class="cols"><div>' +
+        '<h4>Title</h4>' + ed("t", s.t, "p") +
+        '<h4>What happens</h4>' + ed("d", s.d || "…", "p") +
+      '</div><div>' +
+        '<div class="meta"><span class="k">Owner</span><span class="v">' + ed("own", s.own || "…") + '</span></div>' +
+        '<div class="meta"><span class="k">Creates</span><span class="v">' + ed("obj", s.obj || "…") + '</span></div>' +
+        '<div class="meta"><span class="k">Screen</span><span class="v">' + ed("scr", s.scr || "…") + '</span></div>' +
+        '<div class="meta"><span class="k">Phase</span>' + phaseSel + '</div>' +
+        '<div class="meta"><span class="k">Tag</span>' + tagSel + '</div>' +
+      "</div></div>";
+
+  } else if (tab === 1){
+    var chips = LAYERS.map(function(L, ix){
+      return '<span class="layer' + (s.lay[ix] ? " hit" : "") + '" data-lay="' + ix + '">' + L + "</span>";
+    }).join("");
+    body.innerHTML = "<h4>Context layer touched" + (editing ? " &middot; click to toggle" : "") + "</h4>" +
+      '<div class="layers">' + chips + "</div>" +
+      "<h4>Rule</h4>" + ed("ctx", s.ctx || "…", "div", "rule");
+
+  } else if (tab === 2){
+    var t = s.tools || [];
+    body.innerHTML = "<h4>Connected via MCP</h4>" +
+      (t.length
+        ? '<div class="tools">' + t.map(function(x, ix){
+            return '<div class="tool">' +
+              '<span class="dir ' + x.dir + '" data-dir="' + ix + '" title="' +
+                (editing ? "click to cycle read / write / sync" : "") + '">' + x.dir + "</span>" +
+              "<span>" +
+                '<span class="tn" data-t="' + ix + '" data-tf="tn" contenteditable="false">' + esc(x.tn) + "</span>" +
+                '<span class="tw" data-t="' + ix + '" data-tf="tw" contenteditable="false">' + esc(x.tw) + "</span>" +
+              "</span>" +
+              '<button class="rm" data-rmtool="' + ix + '" title="remove">&#10005;</button>' +
+            "</div>";
+          }).join("") + "</div>"
+        : '<p class="none">No external system in this step &mdash; the work happens inside Insivo.</p>') +
+      '<button class="addtool" data-addtool="1">+ system</button>';
+
+  } else {
+    var notes = s.notes.slice().sort(function(a,b){ return (a.done ? 1 : 0) - (b.done ? 1 : 0); });
+    body.innerHTML =
+      "<h4>Comments on &ldquo;" + esc(s.t) + "&rdquo;</h4>" +
+      (notes.length
+        ? '<div class="notes">' + notes.map(function(n){
+            return '<div class="note' + (n.done ? " done" : "") + '">' +
+              '<div class="nhead"><span class="nwho">' + esc(n.who) + "</span>" +
+              '<span class="nts">' + esc(fmtTs(n.ts)) + "</span>" +
+              '<span class="nacts">' +
+                '<button data-note="' + n.id + '" data-na="done">' + (n.done ? "reopen" : "resolve") + "</button>" +
+                '<button data-note="' + n.id + '" data-na="rm">delete</button>' +
+              "</span></div>" +
+              '<p class="ntxt">' + esc(n.txt) + "</p></div>";
+          }).join("") + "</div>"
+        : '<p class="none">No comments yet.</p>') +
+      '<div class="noteform">' +
+        '<textarea id="noteTxt" placeholder="Question, objection, open point&hellip;"></textarea>' +
+        '<div><button id="noteAdd">Add comment as ' + esc(me()) + "</button> " +
+        '<span class="hint">&#8984;/Ctrl + Enter</span></div>' +
+      "</div>";
+
+    var ta = document.getElementById("noteTxt");
+    ta.value = drafts[s.id] || "";
+    ta.addEventListener("input", function(){ drafts[s.id] = ta.value; });
+    ta.addEventListener("focus", stop);
+    ta.addEventListener("keydown", function(e){
+      if ((e.metaKey || e.ctrlKey) && e.key === "Enter") addNote();
+    });
+    document.getElementById("noteAdd").addEventListener("click", addNote);
+    body.querySelectorAll("[data-note]").forEach(function(b){
+      b.addEventListener("click", function(){ noteAction(b.dataset.note, b.dataset.na); });
+    });
+  }
+
+  wire();
+}
+
+function fmtTs(iso){
+  if (!iso) return "";
+  var d = new Date(iso);
+  if (isNaN(d)) return "";
+  return d.toLocaleDateString(undefined, {day:"2-digit", month:"short"}) + " " +
+         d.toLocaleTimeString(undefined, {hour:"2-digit", minute:"2-digit"});
+}
+
+function addNote(){
+  var s = STEPS[i], ta = document.getElementById("noteTxt");
+  var txt = ta.value.trim();
+  if (!txt) return;
+  s.notes.push({id:uid("n"), who:me(), txt:txt, ts:new Date().toISOString(), done:false});
+  drafts[s.id] = "";
+  save(); renderBoard(); paint();
+}
+
+function noteAction(nid, a){
+  var s = STEPS[i];
+  for (var k = 0; k < s.notes.length; k++){
+    if (s.notes[k].id !== nid) continue;
+    if (a === "rm"){ if (!confirm("Delete this comment?")) return; s.notes.splice(k, 1); }
+    else s.notes[k].done = !s.notes[k].done;
+    break;
+  }
+  save(); renderBoard(); paint();
+}
+
+function wire(){
+  body.querySelectorAll("[data-f],[data-tf]").forEach(function(el){
+    el.setAttribute("contenteditable", editing ? "true" : "false");
+    el.oninput = function(){
+      var s = STEPS[i];
+      if (el.dataset.f){
+        s[el.dataset.f] = el.textContent;
+        if (el.dataset.f === "t"){
+          ptitle.textContent = el.textContent;
+          var chip = stepEls[i] && stepEls[i].querySelector(".t");
+          if (chip) chip.textContent = el.textContent;
+        }
+      } else {
+        s.tools[+el.dataset.t][el.dataset.tf] = el.textContent;
+      }
+      save();
+    };
+  });
+
+  body.querySelectorAll("[data-sel]").forEach(function(sel){
+    sel.addEventListener("change", function(){
+      var s = STEPS[i];
+      if (sel.dataset.sel === "p"){ s.p = +sel.value; restructure(s.id); renderTab(); }
+      else { s.tag = sel.value; save(); renderBoard(); paint(); }
+    });
+  });
+
+  if (editing){
+    body.querySelectorAll("[data-lay]").forEach(function(el){
+      el.addEventListener("click", function(){
+        var s = STEPS[i], ix = +el.dataset.lay;
+        s.lay[ix] = s.lay[ix] ? 0 : 1;
+        save(); renderTab();
+      });
+    });
+    body.querySelectorAll("[data-dir]").forEach(function(el){
+      el.addEventListener("click", function(){
+        var s = STEPS[i], t = s.tools[+el.dataset.dir];
+        t.dir = DIRS[(DIRS.indexOf(t.dir) + 1) % DIRS.length];
+        save(); renderTab();
+      });
+    });
+  }
+  body.querySelectorAll("[data-rmtool]").forEach(function(b){
+    b.addEventListener("click", function(){
+      STEPS[i].tools.splice(+b.dataset.rmtool, 1);
+      save(); renderTab();
+    });
+  });
+  var at = body.querySelector("[data-addtool]");
+  if (at) at.addEventListener("click", function(){
+    STEPS[i].tools.push({dir:"read", tn:"New system", tw:"What it is used for"});
+    save(); renderTab();
+    var last = body.querySelectorAll('[data-tf="tn"]');
+    if (last.length) last[last.length - 1].focus();
+  });
+}
+
+function syncTabs(){
+  document.querySelectorAll(".tab").forEach(function(x){ x.classList.toggle("on", +x.dataset.tab === tab); });
+}
+
+/* ------------------------------------------------------------------- save */
+var saveTimer = null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    store.set(KEY, JSON.stringify({v:3, phases:PHASES, steps:STEPS}));
+    savedEl.textContent = "saved " + new Date().toLocaleTimeString();
+    savedEl.classList.add("flash");
+    setTimeout(function(){ savedEl.classList.remove("flash"); }, 900);
+  }, 400);
+}
+
+/* ------------------------------------------------------------------ paint */
+function paint(){
+  var s = STEPS[i];
+  var LOOP_START = loopStart();
+  stepEls.forEach(function(el, si){
+    if (!el) return;
+    el.classList.toggle("live", si === i);
+    el.classList.toggle("done", si < i || (wave > 1 && si < LOOP_START));
+  });
+  phaseEls.forEach(function(el, pi){
+    el.classList.toggle("on", pi === s.p);
+    el.classList.toggle("done", pi < s.p || (wave > 1 && pi === 0));
+  });
+  railfill.style.width = ((i + 1) / STEPS.length * 100).toFixed(2) + "%";
+  waveno.textContent = pad(wave);
+  wavekind.textContent = wave === 1 ? "Baseline" : "Follow-up";
+  pidx.textContent = "Step " + pad(i + 1) + " of " + STEPS.length + " · " + PHASES[s.p].name;
+  ptitle.textContent = s.t;
+
+  var here = s.notes.length;
+  cpill.style.display = here ? "" : "none";
+  cpill.textContent = here;
+
+  renderTab();
+}
+
+/* ---------------------------------------------------------------- autoplay */
+function schedule(ms, fn){ clearTimeout(timer); if (!playing) return; timer = setTimeout(fn || tick, ms); }
+function tick(){
+  if (i < STEPS.length - 1){ i++; paint(); schedule(BASE / speed); }
+  else {
+    arclive.classList.remove("go"); void arclive.offsetWidth; arclive.classList.add("go");
+    schedule(1250 / speed, function(){ wave++; i = loopStart(); paint(); schedule(BASE / speed); });
+  }
+}
+function jump(x){ clearTimeout(timer); i = Math.max(0, Math.min(x, STEPS.length - 1)); paint(); if (playing) schedule(BASE / speed); }
+function stop(){
+  if (!playing) return;
+  playing = false;
+  playBtn.textContent = "Play";
+  playBtn.classList.remove("on");
+  clearTimeout(timer);
+}
+
+playBtn.addEventListener("click", function(){
+  playing = !playing;
+  playBtn.textContent = playing ? "Pause" : "Play";
+  playBtn.classList.toggle("on", playing);
+  if (playing) schedule(BASE / speed); else clearTimeout(timer);
+});
+document.getElementById("reset").addEventListener("click", function(){
+  clearTimeout(timer); i = 0; wave = 1; paint(); if (playing) schedule(BASE / speed);
+});
+document.getElementById("speed").addEventListener("click", function(){
+  speed = speed === 1 ? 2 : (speed === 2 ? 0.5 : 1);
+  this.textContent = speed + "×";
+  if (playing) schedule(BASE / speed);
+});
+document.querySelectorAll(".tab").forEach(function(b){
+  b.addEventListener("click", function(){
+    stop(); tab = +b.dataset.tab; syncTabs(); renderTab();
+  });
+});
+
+/* ------------------------------------------------------------- edit toggle */
+document.getElementById("editBtn").addEventListener("click", function(){
+  editing = !editing;
+  document.body.classList.toggle("edit", editing);
+  this.textContent = editing ? "Done editing" : "Edit";
+  this.classList.toggle("on", editing);
+  if (editing) stop();
+  applyPhaseEdit();
+  renderTab();
+});
+
+/* ------------------------------------------------------------------ export */
+function toMarkdown(){
+  var out = ["# Golden path — Insivo × Now to Next", "", "_" + STEPS.length + " steps, " + PHASES.length + " phases._", ""];
+  PHASES.forEach(function(p, pi){
+    var mine = STEPS.filter(function(s){ return s.p === pi; });
+    if (!mine.length) return;
+    out.push("## " + p.name + " — " + p.de, "", "_Produces: " + p.art + "_", "");
+    mine.forEach(function(s){
+      out.push(stepMd(s, indexOf(s.id)), "");
+    });
+  });
+  return out.join("\n");
+}
+function stepMd(s, ix){
+  var lines = ["### " + pad(ix + 1) + " " + s.t + (s.tag ? "  `" + s.tag + "`" : ""), ""];
+  if (s.d) lines.push(s.d, "");
+  lines.push("- Owner: " + (s.own || "—"));
+  lines.push("- Creates: " + (s.obj || "—"));
+  lines.push("- Screen: " + (s.scr || "—"));
+  lines.push("- Context layer: " + (LAYERS.filter(function(L, k){ return s.lay[k]; }).join(", ") || "—"));
+  lines.push("");
+  if (s.ctx) lines.push("**Context rule.** " + s.ctx, "");
+  if (s.tools.length){
+    lines.push("**Connected via MCP**");
+    s.tools.forEach(function(x){ lines.push("- " + x.tn + " (" + x.dir + ") — " + x.tw); });
+    lines.push("");
+  }
+  if (s.notes.length){
+    lines.push("**Comments**");
+    s.notes.forEach(function(n){
+      lines.push("- " + (n.done ? "~~" : "") + n.who + " (" + fmtTs(n.ts) + "): " + n.txt + (n.done ? "~~" : ""));
+    });
+    lines.push("");
+  }
+  return lines.join("\n");
+}
+
+function copyText(txt, okMsg){
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){ savedEl.textContent = okMsg; },
+                                            function(){ legacyCopy(txt, okMsg); });
+  } else legacyCopy(txt, okMsg);
+}
+function legacyCopy(txt, okMsg){
+  var ta = document.createElement("textarea");
+  ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand("copy"); savedEl.textContent = okMsg; }
+  catch(e){ savedEl.textContent = "copy blocked by browser"; }
+  document.body.removeChild(ta);
+}
+function download(name, txt, type){
+  var blob = new Blob([txt], {type:type});
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 2000);
+}
+
+document.getElementById("copyBtn").addEventListener("click", function(){
+  copyText(stepMd(STEPS[i], i), "step copied as Markdown");
+});
+document.getElementById("mdBtn").addEventListener("click", function(){
+  download("golden-path.md", toMarkdown(), "text/markdown");
+  savedEl.textContent = "Markdown exported";
+});
+document.getElementById("exportBtn").addEventListener("click", function(){
+  download("golden-path.json", JSON.stringify({v:3, phases:PHASES, steps:STEPS}, null, 2), "application/json");
+  savedEl.textContent = "JSON exported";
+});
+document.getElementById("importBtn").addEventListener("click", function(){ document.getElementById("fileIn").click(); });
+document.getElementById("fileIn").addEventListener("change", function(e){
+  var f = e.target.files[0]; if (!f) return;
+  var r = new FileReader();
+  r.onload = function(){
+    try {
+      var o = JSON.parse(r.result);
+      if (!confirm("Replace the current version with the imported file?")) return;
+      readPhases(o);
+      STEPS = normalizeSteps(Array.isArray(o) ? o : o.steps);
+      i = 0; wave = 1;
+      restructure(STEPS[0].id);
+      savedEl.textContent = "imported";
+    } catch(err){ savedEl.textContent = "import failed — not valid JSON"; }
+  };
+  r.readAsText(f);
+  e.target.value = "";
+});
+document.getElementById("clearBtn").addEventListener("click", function(){
+  if (!confirm("Discard all edits and comments and restore the original 19 steps?")) return;
+  store.del(KEY); store.del(LEGACY_KEY);
+  DEFAULT_PHASES.forEach(function(p, ix){ PHASES[ix] = {name:p.name, de:p.de, art:p.art}; });
+  STEPS = blankSteps();
+  i = 0; wave = 1;
+  restructure(STEPS[0].id);
+  savedEl.textContent = "reset to defaults";
+});
+
+document.getElementById("shareBtn").addEventListener("click", function(){
+  var btn = this;
+  btn.textContent = "packing…";
+  packState().then(function(payload){
+    var url = location.origin + location.pathname + "#s=" + payload;
+    btn.textContent = "Copy share link";
+    if (url.length > 60000){
+      savedEl.textContent = "too large for a link — use Export JSON";
+      return;
+    }
+    copyText(url, "share link copied (" + Math.round(url.length / 1024) + " KB) — paste it to anyone");
+  }).catch(function(){
+    btn.textContent = "Copy share link";
+    savedEl.textContent = "link failed — use Export JSON";
+  });
+});
+
+/* --------------------------------------------------------------- incoming */
+function consumeHash(){
+  var m = /[#&]s=([^&]+)/.exec(location.hash);
+  if (!m) return Promise.resolve(false);
+  return unpackState(m[1]).then(function(o){
+    var hasLocal = !!store.get(KEY);
+    var ok = !hasLocal || confirm("This link contains a shared version.\n\nOpen it? Your own locally saved version will be replaced.\n\n(Cancel keeps yours — export it first if you want to keep both.)");
+    history.replaceState(null, "", location.pathname);
+    if (!ok) return false;
+    readPhases(o);
+    STEPS = normalizeSteps(Array.isArray(o) ? o : o.steps);
+    return true;
+  }).catch(function(){
+    history.replaceState(null, "", location.pathname);
+    savedEl.textContent = "shared link could not be read";
+    return false;
+  });
+}
+
+/* -------------------------------------------------------------------- arc */
+function drawArc(){
+  var svg = document.getElementById("arc"), box = svg.getBoundingClientRect();
+  if (box.width < 10 || phaseEls.length < 2) return;
+  var from = phaseEls[phaseEls.length - 1].getBoundingClientRect(), to = phaseEls[1].getBoundingClientRect();
+  var x1 = from.left + from.width / 2 - box.left, x2 = to.left + to.width / 2 - box.left;
+  var d = "M " + x1 + " 4 C " + x1 + " 72, " + x2 + " 72, " + x2 + " 8";
+  document.getElementById("arcpath").setAttribute("d", d);
+  arclive.setAttribute("d", d);
+  var len = arclive.getTotalLength();
+  arclive.style.strokeDasharray = len;
+  arclive.style.strokeDashoffset = len;
+}
+window.addEventListener("resize", drawArc);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawArc);
+
+/* ------------------------------------------------------------------- boot */
+function boot(shared){
+  renderBoard();
+  paint();
+  drawArc();
+  if (shared){ save(); savedEl.textContent = "opened a shared version"; }
+  else savedEl.textContent = store.get(KEY) ? "loaded your saved version" : "using defaults";
+  if (reduced){ playing = false; playBtn.textContent = "Play"; playBtn.classList.remove("on"); }
+  else schedule(900);
+}
+consumeHash().then(boot, function(){ boot(false); });
+</script>
+</body>
+</html>
