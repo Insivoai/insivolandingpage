@@ -3,10 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insivo × Now to Next — how one engagement runs, end to end</title>
+<meta name="description" content="The working model behind Insivo: the steps a transformation engagement moves through, who runs each one, and what comes out of it. Pre-read for the Now to Next session on 20 August.">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <meta name="googlebot" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
-<title>Golden path — Insivo × Now to Next</title>
+<meta property="og:type" content="article">
+<meta property="og:title" content="Insivo × Now to Next — how one engagement runs, end to end">
+<meta property="og:description" content="Who runs each step, what it produces, and what happens when it does not go to plan.">
 <link rel="icon" href="/favicon-32x32.png" sizes="32x32">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,12 +20,25 @@
   --canvas:#F6F6F9;--ink:#16161D;--ink-2:#4A4A57;--ink-3:#8A8A96;
   --line:#E4E4EB;--indigo:#695AEE;--indigo-soft:#EEEBFE;--indigo-line:#C9C2F8;--indigo-deep:#4B3ECB;
   --teal:#0E8F7E;--teal-soft:#E4F4F1;--teal-line:#A9DDD5;
-  --amber:#B4780C;--amber-soft:#FBF1DE;
   --radius:9px;
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--canvas);font-feature-settings:"cv05","ss01"}
 .stage{max-width:1240px;margin:0 auto;padding:34px 28px 52px}
+
+.hero{padding-bottom:30px;margin-bottom:28px;border-bottom:1px solid var(--line)}
+.hero .brow{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--indigo);font-weight:600;margin:0 0 13px}
+.hero h1{font-size:42px;line-height:1.06;font-weight:600;letter-spacing:-.034em;margin:0 0 19px;max-width:none}
+.hero .lead{font-size:17px;line-height:1.55;color:var(--ink-2);margin:0;max-width:92ch}
+.herometa{display:flex;flex-wrap:wrap;gap:7px;margin-top:23px}
+.hm{font-size:11.5px;color:var(--ink-3);background:#fff;border:1px solid var(--line);border-radius:20px;padding:5px 13px}
+.hm b{font-weight:500;color:var(--ink)}
+.howto{margin-top:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:14px 30px;font-size:12.5px;color:var(--ink-3);line-height:1.55}
+.howto b{display:block;font-weight:500;color:var(--ink-2);margin-bottom:2px}
+.hnote{margin:20px 0 0;font-size:11.5px;color:var(--ink-3);line-height:1.6;max-width:74ch}
+.pagefoot{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-3);line-height:1.6}
+.pagefoot p{margin:0 0 6px;max-width:76ch}
+.pagefoot b{font-weight:500;color:var(--ink-2)}
 
 .top{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between}
 h1{font-size:21px;font-weight:600;letter-spacing:-.022em;margin:0 0 3px}
@@ -39,9 +56,6 @@ button.on{background:var(--indigo);border-color:var(--indigo);color:#fff}
 .bar .spacer{flex:1}
 .saved{font-size:11.5px;color:var(--ink-3);transition:color .2s}
 .saved.flash{color:var(--teal)}
-.who{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:4px 6px 4px 12px;font-size:11.5px;color:var(--ink-3)}
-.who input{font:inherit;font-size:12.5px;color:var(--ink);border:0;background:none;outline:none;width:96px;padding:2px 4px;border-radius:12px}
-.who input:focus{background:var(--indigo-soft)}
 
 .board{position:relative;margin-top:24px}
 .rail{position:absolute;left:0;right:0;top:31px;height:2px;background:var(--line);border-radius:2px}
@@ -56,34 +70,43 @@ button.on{background:var(--indigo);border-color:var(--indigo);color:#fff}
 .phase.on .pname,.phase.done .pname{color:var(--ink)}
 .pde{font-size:11.5px;color:var(--ink-3);margin:0 0 14px;min-height:16px;line-height:1.35}
 .steps{display:flex;flex-direction:column;gap:6px;flex:1}
-.step{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:8px 9px;opacity:.42;transition:opacity .3s,background .3s,border-color .3s,transform .3s}
+.step{display:block;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:8px 9px 7px;opacity:.42;transition:opacity .3s,background .3s,border-color .3s,transform .3s;cursor:pointer}
+.srow{display:flex;align-items:center;gap:7px}
 .step .n{font-size:10px;font-variant-numeric:tabular-nums;color:var(--ink-3);min-width:14px}
 .step .t{font-size:12.5px;line-height:1.25;color:var(--ink-2);flex:1;min-width:0}
-.step .tag{font-size:9px;letter-spacing:.05em;text-transform:uppercase;font-weight:500;border-radius:4px;padding:2px 4px;background:#F1F0FB;color:var(--indigo-deep)}
+.sfoot{display:flex;align-items:baseline;gap:5px;margin-top:4px;padding-left:21px;font-size:10px;color:var(--ink-3)}
+.sfoot .du{font-variant-numeric:tabular-nums}
+.sfoot .sep{opacity:.5}
+.step .tag{font-size:9px;letter-spacing:.05em;text-transform:uppercase;font-weight:500;border-radius:4px;padding:2px 4px;background:#F1F0FB;color:var(--indigo-deep);border:0}
 .step .tag.gate{background:#fff;border:1px solid var(--indigo-line)}
 .step .tag.mcp{background:var(--teal-soft);color:var(--teal)}
-.step .cb{font-size:9.5px;font-weight:600;font-variant-numeric:tabular-nums;background:var(--amber-soft);color:var(--amber);border-radius:9px;padding:2px 6px}
 .step.done{opacity:1;border-color:var(--indigo-line);background:var(--indigo-soft)}
 .step.done .n{color:var(--indigo-deep)}
 .step.done .t{color:var(--ink)}
 .step.live{opacity:1;background:var(--indigo);border-color:var(--indigo);transform:translateX(3px)}
 .step.live .n{color:#fff;opacity:.65}
 .step.live .t{color:#fff;font-weight:500}
-.step.live .tag{background:rgba(255,255,255,.2);color:#fff;border-color:transparent}
-.step.live .cb{background:rgba(255,255,255,.24);color:#fff}
-.step.isnew{border-style:dashed}
-.acts{display:none;gap:2px;flex-shrink:0}
-body.edit .acts{display:inline-flex}
-.acts button{border:0;background:none;padding:1px 3px;font-size:11px;line-height:1;color:var(--ink-3);border-radius:4px}
-.acts button:hover{background:var(--indigo-soft);color:var(--indigo-deep)}
-.step.live .acts button{color:rgba(255,255,255,.75)}
-.step.live .acts button:hover{background:rgba(255,255,255,.2);color:#fff}
-.addstep{display:none;margin-top:2px;font-size:11.5px;padding:5px 9px;border-style:dashed;color:var(--ink-3);width:100%}
-body.edit .addstep{display:block}
-.artifact{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px;font-size:11px;color:var(--ink-3);opacity:.4;transition:opacity .35s}
+.step.live .sfoot{color:rgba(255,255,255,.72)}
+.step.live .tag{background:rgba(255,255,255,.18);color:#fff;border-color:transparent}
+.step.dim{opacity:.09}
+.artifact{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px;font-size:11px;color:var(--ink-3);opacity:.4;transition:.35s}
 .artifact b{display:block;font-size:12.5px;font-weight:500;color:var(--ink-2);margin-top:2px}
+.artifact .exit{display:block;margin-top:10px;font-size:11px;line-height:1.4}
+.artifact .exit em{display:block;font-style:normal;font-size:11.5px;color:var(--ink-2);margin-top:2px}
 .phase.done .artifact{opacity:1}
 .phase.done .artifact b{color:var(--indigo-deep)}
+
+/* ---------- legend ---------- */
+.legend{display:flex;flex-wrap:wrap;align-items:center;gap:7px 9px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.lgt{font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:600;color:var(--ink-3);margin-right:1px}
+.rf{padding:5px 12px}
+.rf.off{opacity:.4;text-decoration:line-through}
+.lgnote{font-size:11.5px;color:var(--ink-3)}
+.lgdiv{width:1px;align-self:stretch;background:var(--line);margin:0 5px}
+.lgb{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--ink-3)}
+.lgb .tag{font-size:9px;letter-spacing:.05em;text-transform:uppercase;font-weight:500;border-radius:4px;padding:2px 4px;background:#F1F0FB;color:var(--indigo-deep)}
+.lgb .tag.gate{background:#fff;border:1px solid var(--indigo-line)}
+.lgb .tag.mcp{background:var(--teal-soft);color:var(--teal)}
 
 .arcwrap{position:relative;height:88px;margin-top:2px}
 #arc{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
@@ -103,54 +126,27 @@ body.edit .addstep{display:block}
 .tab{font-size:12.5px;color:var(--ink-3);background:none;border:0;border-bottom:2px solid transparent;border-radius:0;padding:8px 12px;cursor:pointer}
 .tab:hover{color:var(--ink-2);border-color:transparent}
 .tab.on{color:var(--indigo-deep);border-bottom-color:var(--indigo);background:none}
-.tab .pill{font-size:9.5px;font-weight:600;background:var(--amber-soft);color:var(--amber);border-radius:9px;padding:1px 6px;margin-left:5px;vertical-align:1px}
 .tabbody{padding:20px 24px 22px;min-height:186px}
 .cols{display:grid;grid-template-columns:1.55fr 1fr;gap:28px}
 .tabbody p{margin:0 0 4px;font-size:13.5px;line-height:1.6;color:var(--ink-2);max-width:60ch}
-.meta{display:flex;gap:12px;padding:6px 0;border-bottom:1px solid #F1F1F5;font-size:12.5px;align-items:center}
+.meta{display:flex;gap:12px;padding:6px 0;border-bottom:1px solid #F1F1F5;font-size:12.5px}
 .meta:last-child{border-bottom:0}
 .meta .k{color:var(--ink-3);min-width:76px;flex-shrink:0}
 .meta .v{color:var(--ink);font-weight:500}
-.meta select{font:inherit;font-size:12.5px;color:var(--ink);background:#fff;border:1px solid var(--indigo-line);border-radius:6px;padding:3px 6px}
 h4{margin:0 0 9px;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
-h4 + h4,.rule + h4,.tools + h4{margin-top:18px}
 .layers{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
 .layer{font-size:11.5px;padding:4px 11px;border-radius:20px;border:1px solid var(--line);color:var(--ink-3)}
 .layer.hit{border-color:var(--indigo);background:var(--indigo-soft);color:var(--indigo-deep);font-weight:500}
-body.edit .layer{cursor:pointer}
-body.edit .layer:hover{border-color:var(--indigo-line)}
 .rule{border-left:2px solid var(--indigo);padding:2px 0 2px 13px;font-size:13px;line-height:1.6;color:var(--ink-2);max-width:62ch}
 .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px}
-.tool{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#FCFCFD;position:relative}
+.tool{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#FCFCFD}
 .dir{font-size:9px;letter-spacing:.05em;text-transform:uppercase;font-weight:500;border-radius:4px;padding:3px 5px;flex-shrink:0;margin-top:1px}
 .dir.read{background:var(--indigo-soft);color:var(--indigo-deep)}
 .dir.write{background:var(--teal-soft);color:var(--teal)}
 .dir.sync{background:#F3F3F7;color:var(--ink-2)}
-body.edit .dir{cursor:pointer}
 .tool .tn{font-size:12.5px;font-weight:500;display:block;line-height:1.3}
-.tool .tw{font-size:11.5px;color:var(--ink-3);line-height:1.4;display:block}
-.tool .rm{display:none;position:absolute;top:5px;right:5px;border:0;background:none;padding:2px 4px;font-size:11px;line-height:1;color:var(--ink-3);border-radius:4px}
-body.edit .tool .rm{display:block}
-.tool .rm:hover{background:var(--indigo-soft);color:var(--indigo-deep)}
-.addtool{display:none;margin-top:9px;font-size:11.5px;border-style:dashed;color:var(--ink-3)}
-body.edit .addtool{display:inline-block}
+.tool .tw{font-size:11.5px;color:var(--ink-3);line-height:1.4}
 .none{font-size:13px;color:var(--ink-3);font-style:normal}
-
-/* ---------- comments ---------- */
-.notes{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;max-width:74ch}
-.note{border:1px solid var(--line);border-left:2px solid var(--amber);border-radius:8px;padding:9px 11px;background:#FCFCFD}
-.note.done{border-left-color:var(--teal);opacity:.5}
-.nhead{display:flex;align-items:baseline;gap:8px;margin-bottom:3px}
-.nwho{font-size:12px;font-weight:600;color:var(--ink)}
-.nts{font-size:10.5px;color:var(--ink-3);font-variant-numeric:tabular-nums}
-.nacts{margin-left:auto;display:flex;gap:2px}
-.nacts button{border:0;background:none;padding:2px 6px;font-size:11px;line-height:1;color:var(--ink-3);border-radius:5px}
-.nacts button:hover{background:var(--indigo-soft);color:var(--indigo-deep)}
-.ntxt{font-size:13px;line-height:1.55;color:var(--ink-2);white-space:pre-wrap;margin:0}
-.noteform{display:flex;flex-direction:column;gap:8px;align-items:flex-start;max-width:74ch}
-.noteform textarea{font:inherit;font-size:13px;line-height:1.55;color:var(--ink);width:100%;min-height:70px;resize:vertical;border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#fff;outline:none;transition:border-color .15s}
-.noteform textarea:focus{border-color:var(--indigo)}
-.hint{font-size:11px;color:var(--ink-3)}
 
 [contenteditable="true"]{outline:none;border-radius:4px;transition:background .15s,box-shadow .15s}
 body.edit [contenteditable="true"]{background:#FBFAFF;box-shadow:inset 0 0 0 1px var(--indigo-line);padding:1px 4px;margin:0 -4px}
@@ -159,10 +155,105 @@ body.edit .panel{border-color:var(--indigo-line)}
 
 .foot{margin-top:22px;padding-top:16px;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px 30px;font-size:12px;color:var(--ink-3);line-height:1.55}
 .foot b{font-weight:500;color:var(--ink-2)}
-.foot .note-internal{grid-column:1/-1;margin-top:6px;padding-top:12px;border-top:1px dashed var(--line);font-size:11.5px}
+
+/* ---------- entry patterns ---------- */
+.split{margin:64px 0 28px;padding-top:30px;border-top:1px solid var(--line)}
+.split .eyebrow{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--indigo);font-weight:600;margin:0 0 8px}
+.split h2{font-size:24px;font-weight:600;letter-spacing:-.025em;margin:0 0 8px;max-width:24ch}
+.split p{margin:0;font-size:14px;line-height:1.6;color:var(--ink-2);max-width:68ch}
+
+.pat{background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:12px;overflow:hidden;transition:border-color .2s}
+.pat.open{border-color:var(--indigo-line)}
+.pathead{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) auto;gap:22px;align-items:center;padding:16px 22px;cursor:pointer}
+.pathead:hover{background:#FCFCFE}
+.pat-name{font-size:15px;font-weight:600;letter-spacing:-.012em;margin:0 0 3px}
+.pat-line{font-size:12.5px;color:var(--ink-3);line-height:1.45;margin:0}
+.strip{display:flex;gap:2px;align-items:flex-end;height:26px}
+.seg{flex:1;height:9px;border-radius:2px;background:#EDEDF2;transition:background .3s,height .3s}
+.seg.hit{background:var(--indigo);height:18px}
+.seg.soft{background:var(--indigo-line);height:13px}
+.range{font-size:10.5px;color:var(--ink-3);font-variant-numeric:tabular-nums;margin-top:5px;display:block}
+.range b{color:var(--indigo-deep);font-weight:500}
+.chev{font-size:16px;color:var(--ink-3);transition:transform .25s;line-height:1}
+.pat.open .chev{transform:rotate(90deg);color:var(--indigo)}
+
+.patbody{display:none;padding:4px 22px 22px;border-top:1px solid #F1F1F5;margin-top:2px}
+.pat.open .patbody{display:block}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:20px 30px;padding-top:18px}
+.pblock h5{margin:0 0 6px;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.pblock p{font-size:13px;line-height:1.6;color:var(--ink-2);margin:0;max-width:52ch}
+.pblock.flag h5{color:var(--indigo-deep)}
+.pblock.flag p{border-left:2px solid var(--indigo);padding-left:12px}
+.tagrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px dashed var(--line)}
+.mini{font-size:11.5px;padding:4px 11px;border-radius:20px;background:#F3F3F7;color:var(--ink-2)}
+.mini b{font-weight:500;color:var(--ink)}
+.mini.warn{background:var(--indigo-soft);color:var(--indigo-deep)}
+
+.sumtab{width:100%;border-collapse:collapse;margin-top:34px;font-size:12.5px}
+.sumtab th{text-align:left;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);font-weight:600;padding:0 12px 9px 0;border-bottom:1px solid var(--line)}
+.sumtab td{padding:11px 12px 11px 0;border-bottom:1px solid #F1F1F5;color:var(--ink-2);vertical-align:top;line-height:1.45}
+.sumtab td:first-child{color:var(--ink);font-weight:500;white-space:nowrap}
+.sumtab tr:last-child td{border-bottom:0}
+
+/* ---------- branches ---------- */
+.brgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:10px}
+.br{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px 18px 14px;border-left:3px solid var(--indigo-line)}
+.br.hard{border-left-color:var(--indigo)}
+.brtop{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:10px}
+.brfrom{font-size:10.5px;font-variant-numeric:tabular-nums;font-weight:600;letter-spacing:.04em;color:var(--indigo-deep);background:var(--indigo-soft);border-radius:4px;padding:3px 6px}
+.brname{font-size:14px;font-weight:600;letter-spacing:-.012em;margin:0;flex:1;min-width:150px}
+.brroute{font-size:11px;font-variant-numeric:tabular-nums;color:var(--ink-2);border:1px dashed var(--indigo-line);border-radius:20px;padding:3px 10px;white-space:nowrap}
+.brbody{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 22px}
+.brbody h5{margin:0 0 4px;font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.brbody p{margin:0;font-size:12.5px;line-height:1.5;color:var(--ink-2)}
+.routes{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:32px}
+.rt{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.rt .rth{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:6px}
+.rt b{font-size:14px;font-weight:600;letter-spacing:-.012em}
+.rt .to{font-size:10.5px;font-variant-numeric:tabular-nums;color:var(--indigo-deep);background:var(--indigo-soft);border-radius:4px;padding:3px 6px;white-space:nowrap}
+.rt p{margin:0;font-size:12.5px;line-height:1.5;color:var(--ink-2)}
+
+/* ---------- fail tab ---------- */
+.fail{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px 30px}
+.fail h4{margin-bottom:6px}
+.fail p{margin:0;font-size:13.5px;line-height:1.6;color:var(--ink-2);max-width:56ch}
+.frt{margin-top:16px;padding-top:13px;border-top:1px dashed var(--line)}
+.frt ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.frt li{display:flex;gap:9px;align-items:baseline;font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.frt .rl{font-style:normal;color:var(--ink-3)}
+.frt .jump{font-size:10.5px;font-variant-numeric:tabular-nums;color:var(--indigo-deep);background:var(--indigo-soft);border:0;border-radius:4px;padding:3px 7px;cursor:pointer;flex-shrink:0}
+.frt .jump:hover{background:var(--indigo);color:#fff}
+
+/* ---------- open questions ---------- */
+.qhead{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin-bottom:20px}
+.q{border:1px solid var(--line);background:#fff;border-radius:12px;padding:18px 22px 16px;margin-bottom:10px}
+.q.crit{border-left:3px solid var(--indigo)}
+.qtop{display:flex;gap:10px;align-items:baseline;margin-bottom:9px;flex-wrap:wrap}
+.qnum{font-size:10.5px;font-variant-numeric:tabular-nums;letter-spacing:.06em;color:var(--ink-3);text-transform:uppercase}
+.pill{font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;border-radius:4px;padding:3px 6px}
+.pill.a{background:var(--indigo-soft);color:var(--indigo-deep)}
+.pill.b{background:#F3F3F7;color:var(--ink-2)}
+.qask{font-size:15px;line-height:1.5;font-weight:500;letter-spacing:-.01em;margin:0 0 12px;max-width:70ch}
+.qask::before{content:"“";color:var(--indigo);margin-right:1px}
+.qask::after{content:"”";color:var(--indigo)}
+.qwhy{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px 28px;margin-bottom:14px}
+.qwhy h5{margin:0 0 5px;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.qwhy p{margin:0;font-size:13px;line-height:1.55;color:var(--ink-2)}
+.ans{border-top:1px dashed var(--line);padding-top:12px}
+.ans label{display:block;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--indigo-deep);margin-bottom:6px}
+.ansbox{min-height:40px;border:1px dashed var(--indigo-line);border-radius:7px;padding:9px 12px;font-size:13px;line-height:1.55;color:var(--ink);outline:none;background:#FCFCFE;transition:.15s}
+.ansbox:empty::before{content:attr(data-ph);color:#B4B4BE}
+.ansbox:focus{background:#fff;border-style:solid;border-color:var(--indigo)}
+.parkbox{margin-top:20px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 22px}
+.parkbox h4{margin-bottom:7px}
+.parkbox p{margin:0 0 8px;font-size:13px;line-height:1.6;color:var(--ink-2);max-width:70ch}
+.parkbox .said{border-left:2px solid var(--line);padding-left:12px;font-size:13px;color:var(--ink-3);line-height:1.6}
 
 @media (max-width:920px){
   .stage{padding:22px 16px 40px}
+  .hero h1{font-size:28px}
+  .hero .lead{font-size:15px}
+  .lgdiv{display:none}
   .rail{display:none}
   .phases{grid-template-columns:1fr;gap:22px}
   .dot{margin:0 0 10px}
@@ -178,31 +269,59 @@ body.edit .panel{border-color:var(--indigo-line)}
 <body>
 <div class="stage">
 
+  <div class="hero">
+    <p class="brow">Insivo × Now to Next</p>
+    <h1>How one engagement runs, end to end</h1>
+    <p class="lead">A walkthrough of one full engagement — from opening a client record to proving movement ninety days later. Each step shows who runs it, how long it takes, what it produces, and what happens when it does not go to plan. Below the path: the five shapes real engagements take, depending on how far into a transformation you get called in.</p>
+    <div class="herometa">
+      <span class="hm">Prepared for <b>Jason, Jess and Rachel</b></span>
+      <span class="hm">For the session on <b>20 August</b></span>
+      <span class="hm">About <b>ten minutes</b> to read</span>
+    </div>
+    <div class="howto">
+      <div><b>It plays itself.</b> Press Pause and click any step to stop where you want and read it properly.</div>
+      <div><b>Every step has four tabs.</b> What happens, which context layer it touches, which client systems it connects to, and what happens when it fails.</div>
+      <div><b>Filter by who runs it.</b> Now to Next, Insivo, or the client — the quickest way to see how much of the path is work for your people.</div>
+      <div><b>Phases end on a condition, not on a step.</b> Under each &ldquo;produces&rdquo; is the thing that has to be true before the phase can close.</div>
+    </div>
+    <p class="hnote">Durations are rough ranges to argue with, not commitments. Press <b>Edit</b> to change any wording in place — changes save to your own browser and go nowhere else.</p>
+  </div>
+
   <div class="top">
     <div>
       <h1>Golden path</h1>
-      <p class="sub" id="subline">19 steps, six phases, one loop that does not restart at the beginning.</p>
+      <p class="sub">19 steps, 6 phases, one loop that does not restart at the beginning.</p>
     </div>
     <div class="controls">
       <span class="wave"><span class="lbl">Wave</span><b id="waveno">01</b><span class="lbl" id="wavekind">Baseline</span></span>
       <button id="play" class="on">Pause</button>
       <button id="reset">Restart</button>
-      <button id="speed">1&times;</button>
+      <button id="speed">1×</button>
     </div>
   </div>
 
   <div class="bar">
     <button id="editBtn">Edit</button>
-    <span class="who">you <input id="whoIn" type="text" placeholder="your name" autocomplete="off" spellcheck="false"></span>
     <span class="saved" id="saved">saved locally</span>
     <span class="spacer"></span>
-    <button id="shareBtn">Copy share link</button>
     <button id="copyBtn">Copy step as Markdown</button>
-    <button id="mdBtn">Export Markdown</button>
     <button id="exportBtn">Export JSON</button>
     <button id="importBtn">Import JSON</button>
     <button id="clearBtn">Reset to defaults</button>
     <input type="file" id="fileIn" accept="application/json" style="display:none">
+  </div>
+
+  <div class="legend">
+    <span class="lgt">Who runs it</span>
+    <button class="rf on" data-role="n2n">Now to Next</button>
+    <button class="rf on" data-role="insivo">Insivo</button>
+    <button class="rf on" data-role="client">Client</button>
+    <span class="lgnote">most steps have two</span>
+    <span class="lgdiv"></span>
+    <span class="lgt">On the card</span>
+    <span class="lgb"><span class="tag gate">Gate</span>a person has to decide before it moves</span>
+    <span class="lgb"><span class="tag">AI</span>the system proposes, a human confirms</span>
+    <span class="lgb"><span class="tag mcp">MCP</span>reads from or writes into a client system</span>
   </div>
 
   <div class="board">
@@ -212,7 +331,7 @@ body.edit .panel{border-color:var(--indigo-line)}
 
   <div class="arcwrap">
     <svg id="arc" aria-hidden="true"><path id="arcpath"/><path id="arclive"/></svg>
-    <div class="arclabel">Follow-up wave &mdash; back to <b>Diagnose</b>, not back to the start</div>
+    <div class="arclabel">Most common route — back to <b>Diagnose</b>, not back to the start. Three others leave step 19.</div>
   </div>
 
   <div class="panel">
@@ -223,195 +342,258 @@ body.edit .panel{border-color:var(--indigo-line)}
       <button class="tab on" data-tab="0">What happens</button>
       <button class="tab" data-tab="1">Context</button>
       <button class="tab" data-tab="2">Tools &amp; MCP</button>
-      <button class="tab" data-tab="3">Comments<span class="pill" id="cpill" style="display:none">0</span></button>
+      <button class="tab" data-tab="3">If it fails</button>
     </div>
     <div class="tabbody" id="tabbody"></div>
   </div>
 
   <div class="foot">
-    <div><b>Why the return loop is short.</b> Client, program and context are built once. From wave two onward only Diagnose &rarr; Measure repeats.</div>
+    <div><b>Why the return loop is short.</b> Client, program and context are built once. From wave two onward only Diagnose → Measure repeats.</div>
     <div><b>Context has two homes.</b> Client context is inherited by every program read-only. Program context is scoped. Any program source can be promoted to client level in one click.</div>
     <div><b>Insivo is not the system of record.</b> Tasks, calendars and documents stay where the client already works. MCP moves evidence in and decisions out.</div>
     <div><b>Insivo runs as an MCP server too.</b> A consultant can query the evidence layer from their own AI tools: which findings moved, where is participation lagging, what did wave two change.</div>
-    <div class="note-internal"><b>Working doc.</b> Everything you type is stored in this browser only. To hand your version to someone else use <b>Copy share link</b> (whole state travels in the URL) or <b>Export JSON</b>. Nothing is sent to a server.</div>
+  </div>
+
+  <div class="split">
+    <p class="eyebrow">Deeper — engagement shapes</p>
+    <h2>The path always starts at 01. The engagement rarely does.</h2>
+    <p>Every engagement passes through steps 01 to 04 — the client, the program and its context have to exist before anything can be measured. What changes is whether those steps are built from conversations or reconstructed from documents someone else left behind, and where the work the client is paying for actually begins. Five shapes, and each one gives up something the full path takes for granted — usually the baseline.</p>
+  </div>
+
+  <div id="patterns"></div>
+
+  <table class="sumtab">
+    <thead><tr><th>Shape</th><th>Work spans</th><th>Baseline quality</th></tr></thead>
+    <tbody id="sumbody"></tbody>
+  </table>
+
+  <div class="foot" style="margin-top:30px">
+    <div><b>One product, five shapes.</b> Every shape is a slice of the same 19 steps against the same object model. Nothing here needs a second product — it needs steps 01 to 04 to be cheap when they are reconstruction rather than discovery.</div>
+    <div><b>Baseline quality is the real variable.</b> Only the co-start produces a true one. Everything else runs on a reconstructed or absent baseline, and the deliverable has to say so.</div>
+    <div><b>The shapes share one model.</b> A diagnostic that later becomes a program keeps its evidence rather than starting over, because both run against the same object chain.</div>
+    <div><b>Open question for the 20th.</b> Which of these five matches the engagement you have in design?</div>
+  </div>
+
+  <div class="pagefoot">
+    <p><b>This is a working draft.</b> The wording, the durations and the split of who runs what are all meant to be argued with, not signed off.</p>
   </div>
 
 </div>
 
 <script>
-/* ------------------------------------------------------------------ model */
 var PHASES = [
-  {name:"Understand", de:"Build the context",       art:"Program context"},
-  {name:"Diagnose",   de:"Assessment and evidence", art:"Evidence"},
-  {name:"Decide",     de:"Validate and interpret",  art:"Findings"},
-  {name:"Act",        de:"Deliver interventions",   art:"Interventions"},
-  {name:"Measure",    de:"Prove the movement",      art:"Outcome"},
-  {name:"Evolve",     de:"Choose the next move",    art:"Next wave"}
+  {name:"Understand", de:"Build the context",       art:"Program context", time:"3–5 days",
+   exit:"A named sponsor, an agreed scope, and context the interview can actually use."},
+  {name:"Diagnose",   de:"Assessment and evidence", art:"Evidence", time:"2–3 weeks",
+   exit:"Every group above the anonymity threshold, and the wave closed on target."},
+  {name:"Decide",     de:"Validate and interpret",  art:"Findings", time:"2–3 days",
+   exit:"Every theme included, excluded or sent back — by a named consultant."},
+  {name:"Act",        de:"Deliver interventions",   art:"Interventions", time:"30–60 days",
+   exit:"Every intervention has an owner in the client's tool and a measurement date."},
+  {name:"Measure",    de:"Prove the movement",      art:"Value evidence", time:"day 90", 
+   exit:"Every outcome claim carries its baseline and where that baseline came from."},
+  {name:"Evolve",     de:"Choose the next move",    art:"Next wave", time:"1 session",
+   exit:"One route per finding: scale, adapt, stop or re-diagnose. None left open."}
 ];
 
 var LAYERS = ["Client", "Program", "Assessment"];
-var TAGS   = ["", "MCP", "AI", "Gate"];
-var DIRS   = ["read", "write", "sync"];
+var ROLES = {n2n:"Now to Next", insivo:"Insivo", client:"Client"};
+function whoRuns(s){ return s.role.map(function(r){ return ROLES[r]; }).join(" + "); }
 
-var DEFAULT_STEPS = [
-{id:"s01",t:"Create client",p:0,tag:"",
+var DEFAULTS = [
+{n:"01",t:"Create client",p:0,tag:"",
+ role:["n2n"],dur:"10 min",
  d:"Register the organisation, the industry and the internal engagement owner. Everything downstream hangs off this record.",
  own:"Studio admin",obj:"Client",scr:"Create client workspace",
  lay:[1,0,0],
  ctx:"Nothing program-specific belongs here yet. The urge to attach a first assessment at this point is the most common modelling mistake — it strands the assessment outside any program.",
+ fail:{w:"The same organisation already exists under a different spelling.",t:"Merge, never create a second record. Two client records split the evidence layer permanently — it is the one mistake in this path that cannot be repaired later."},
  tools:[{dir:"read",tn:"HubSpot / Salesforce",tw:"Pull the company record and the account owner"},
         {dir:"read",tn:"Company website",tw:"Industry, size, public positioning"}]},
 
-{id:"s02",t:"Engagement intent",p:0,tag:"",
+{n:"02",t:"Engagement intent",p:0,tag:"",
+ role:["n2n"],dur:"30 min",
  d:"Capture what the client is actually trying to change and which business outcome would count as success.",
  own:"Studio admin",obj:"Client context",scr:"Client overview",
  lay:[1,0,0],
- ctx:"Intent stays true across every program under this client. If it only holds for one initiative, it is a program objective instead — record it in the next step.",
+ ctx:"Intent stays true across every program under this client. If it only holds for one initiative, it is a program objective instead — record it in step 03.",
+ fail:{w:"The intent only holds for one initiative.",t:"Then it is a program objective, not a client intent. Record it at step 03 instead, or every future program inherits a constraint that was never theirs."},
  tools:[{dir:"read",tn:"Google Drive / SharePoint",tw:"Read the signed SOW or proposal, extract the stated intent"},
         {dir:"read",tn:"Notion / Confluence",tw:"Prior engagement notes for this account"}]},
 
-{id:"s03",t:"Create program",p:0,tag:"",
+{n:"03",t:"Create program",p:0,tag:"",
+ role:["n2n"],dur:"1 hour",
  d:"Open the transformation program the work sits under: objective, scope, success definition, team. One client can run several in parallel.",
  own:"Consultant",obj:"Program",scr:"Program setup",
  lay:[1,1,0],
  ctx:"Reads client context, writes program context. From here on every object in the chain carries a program ID — that is what makes multi-client and multi-program reporting possible later.",
+ fail:{w:"The work has no program shape yet — one question, one budget, no mandate.",t:"Create the program silently anyway. The object model needs it; the interface should never ask the client for it."},
  tools:[{dir:"write",tn:"Asana / Monday / ClickUp",tw:"Mirror the program so the client sees it where they already work"},
         {dir:"sync",tn:"Slack / Teams",tw:"Create the program channel, post the kickoff summary"}]},
 
-{id:"s04",t:"Add context",p:0,tag:"MCP",
+{n:"04",t:"Add context",p:0,tag:"MCP",
+ role:["n2n","client"],dur:"2–4 days",
  d:"Load strategy, workflows, KPIs and existing initiatives. Context is input, not insight — the system reads it before it analyses anything.",
- own:"Consultant",obj:"Data sources",scr:"Program context and data",
+ own:"Consultant + client",obj:"Data sources",scr:"Program context and data",
  lay:[1,1,0],
  ctx:"Two destinations, one screen. The test: would a second program at this client want this file too? Yes → client context. No → program context. Client context appears inside the program read-only with an inherited badge, and any program source can be promoted to client level in one click. Without that promote action the two layers drift apart within a month.",
+ fail:{w:"The client will not, or cannot, hand over strategy, workflows or KPIs.",t:"The assessment still runs — on generic follow-ups and a thinner analysis. Show the gap as a context completeness score before launch, and state it in the deliverable rather than absorbing it quietly."},
  tools:[{dir:"sync",tn:"Google Drive / SharePoint",tw:"Live folder connection, re-reads on change"},
         {dir:"read",tn:"Notion / Confluence",tw:"Operating model, policies, org language"},
         {dir:"read",tn:"Workday / SuccessFactors",tw:"Org structure and workforce groups"},
         {dir:"read",tn:"Miro",tw:"Existing workflow and journey boards"}]},
 
-{id:"s05",t:"Create assessment",p:1,tag:"",
+{n:"05",t:"Create assessment",p:1,tag:"",
+ role:["n2n"],dur:"1 hour",
  d:"Name the decision this diagnosis has to inform. An assessment without a decision behind it produces a report nobody acts on.",
  own:"Consultant",obj:"Assessment",scr:"Create assessment · step 1",
  lay:[0,1,1],
- ctx:"Assessments never own context. They select from what the client and program already hold — which is why the Understand phase cannot be skipped on the first pass, and is skipped on every pass after it.",
+ ctx:"Assessments never own context. They select from what the client and program already hold — which is why steps 01 to 04 cannot be skipped on the first pass, and are skipped on every pass after it.",
+ fail:{w:"Nobody can name the decision this result will inform.",t:"Do not launch. An assessment without a decision behind it produces a report that gets read once and cited never."},
  tools:[{dir:"read",tn:"Prior assessments",tw:"Duplicate the config of an earlier wave or engagement"}]},
 
-{id:"s06",t:"Select methodology",p:1,tag:"",
+{n:"06",t:"Select methodology",p:1,tag:"",
+ role:["n2n"],dur:"1–2 hours",
  d:"Pick the framework and map it onto the client's own language. The methodology is preserved; the wording adapts.",
  own:"Consultant",obj:"Framework config",scr:"Create assessment · step 2",
  lay:[1,0,1],
  ctx:"The template stores the methodology at studio level. The assessment stores the client-specific application. Client context supplies the vocabulary — terms to use, terms to avoid.",
+ fail:{w:"The client's own language conflicts with the framework's terms.",t:"The client's language wins in the interview, the framework's terms win in the analysis. Both are stored; only one is ever spoken to a participant."},
  tools:[{dir:"read",tn:"Template library",tw:"Studio-level frameworks and interview blueprints"},
         {dir:"read",tn:"Notion",tw:"Methodology source of record, versioned"}]},
 
-{id:"s07",t:"Evidence sources",p:1,tag:"MCP",
+{n:"07",t:"Evidence sources",p:1,tag:"MCP",
+ role:["n2n","insivo"],dur:"1–3 days",
  d:"Decide what counts as evidence besides interviews — workflow maps, adoption data, tickets, prior surveys.",
- own:"Consultant",obj:"Evidence sources",scr:"Create assessment · step 3",
+ own:"Consultant selects, Insivo connects",obj:"Evidence sources",scr:"Create assessment · step 3",
  lay:[0,1,1],
  ctx:"Inclusion is set per source, per wave. A source can sit in program context and still be excluded from a specific analysis — the two decisions are separate on purpose.",
+ fail:{w:"A promised source turns out to be unusable, incomplete or politically blocked.",t:"Drop it from this wave and record the exclusion rather than delaying the launch. Wave two has to run on the same source set or the comparison is not a comparison."},
  tools:[{dir:"read",tn:"Jira / ServiceNow",tw:"Support and incident volume by process area"},
         {dir:"read",tn:"Microsoft Graph / Amplitude",tw:"Actual tool adoption and usage patterns"},
         {dir:"read",tn:"Qualtrics / Forms",tw:"Prior engagement or pulse surveys"}]},
 
-{id:"s08",t:"Invite participants",p:1,tag:"MCP",
+{n:"08",t:"Invite participants",p:1,tag:"MCP",
+ role:["insivo","n2n"],dur:"1 day",
  d:"Set audience groups and the anonymity threshold. The system warns on under-represented groups before launch, not after.",
- own:"Consultant",obj:"Participants",scr:"Create assessment · step 5",
+ own:"Consultant sets it, Insivo runs it",obj:"Participants",scr:"Create assessment · step 5",
  lay:[1,0,1],
  ctx:"Stakeholders live at client level and are reused across programs. Identity and interview answers are stored separately — the link is broken before analysis, not after.",
+ fail:{w:"An audience group sits below the anonymity threshold.",t:"Merge groups or widen the audience before launch, never after. Whose threshold policy applies — yours, Insivo's, or the client's — has to be settled before the first engagement."},
  tools:[{dir:"read",tn:"Entra ID / Google Workspace",tw:"Directory groups become audience groups"},
         {dir:"write",tn:"Slack / Teams / Outlook",tw:"Deliver invitations and reminders in their channel"}]},
 
-{id:"s09",t:"Conduct interviews",p:1,tag:"AI",
+{n:"09",t:"Conduct interviews",p:1,tag:"AI",
+ role:["insivo","client"],dur:"10–14 days",
  d:"Adaptive voice or chat, one question at a time. Follow-ups adjust to role, prior answer, framework and known workflows.",
- own:"Participant",obj:"Interviews",scr:"Participant interview experience",
+ own:"Insivo, with the participant",obj:"Interviews",scr:"Participant interview experience",
  lay:[0,1,1],
  ctx:"This is where context pays for itself. A generic follow-up asks what the barrier is; a context-aware one asks about the specific approval step the participant just described.",
+ fail:{w:"Completion sits below the agreed floor at the halfway date.",t:"Extend the window and re-invite through the sponsor, not through the platform. Closing a wave at 40% costs you every comparison later built on it."},
  tools:[{dir:"sync",tn:"Slack / Teams",tw:"Interview runs in the tool they already have open"},
         {dir:"write",tn:"Outlook / Gmail",tw:"Reminder cadence for non-starters"}]},
 
-{id:"s10",t:"Analyze evidence",p:2,tag:"AI",
+{n:"10",t:"Analyze evidence",p:2,tag:"AI",
+ role:["insivo"],dur:"2–4 hours",
  d:"Excerpts become codes, codes become themes, themes are cross-checked against the non-interview sources.",
- own:"AI proposal",obj:"Themes",scr:"Evidence explorer",
+ own:"Insivo proposes",obj:"Themes",scr:"Evidence explorer",
  lay:[0,1,1],
  ctx:"Analysis reads across all three layers: client language for phrasing, program KPIs for relevance, assessment evidence for substance. A theme with no supporting source outside interviews is flagged low-confidence.",
+ fail:{w:"A theme has no support outside the interviews.",t:"Flag it low-confidence rather than dropping it. Some real themes only exist in language — they get published with the limitation attached, not silently removed."},
  tools:[{dir:"read",tn:"Jira / ServiceNow",tw:"Does ticket volume corroborate the theme?"},
         {dir:"read",tn:"Microsoft Graph",tw:"Does usage data corroborate the theme?"}]},
 
-{id:"s11",t:"Consultant validation",p:2,tag:"Gate",
+{n:"11",t:"Consultant validation",p:2,tag:"Gate",
+ role:["n2n"],dur:"3–4 hours",
  d:"A proposed theme is not yet a client-ready finding. Include, exclude, recode, or send back for more evidence.",
  own:"Consultant",obj:"Findings",scr:"Analysis review",
  lay:[0,1,1],
  ctx:"The promotion point: an assessment-level theme becomes a program-level finding. Everything the client eventually sees crosses this line, and nothing crosses it automatically.",
+ fail:{w:"The evidence cannot answer the decision named at step 05.",t:"Send it back to step 07 for more sources, or extend the wave. A weaker finding is worse for the relationship than an honest second pass."},
  tools:[{dir:"write",tn:"Slack / Teams",tw:"Review queue notifications to the owning consultant"}]},
 
-{id:"s12",t:"Executive insights",p:2,tag:"",
+{n:"12",t:"Executive insights",p:2,tag:"",
+ role:["n2n"],dur:"1 day",
  d:"Three to five prioritised findings with evidence strength, business implication and a recommended next move.",
  own:"Consultant",obj:"Executive insights",scr:"Executive insights",
  lay:[0,1,0],
  ctx:"Lives at program level. Findings from several assessments in the same program can appear together here — that is the argument for programs existing at all.",
+ fail:{w:"Everything looks important.",t:"Three to five, ranked. A readout with nine priorities tells the executive that nobody decided — and moves the decision back onto their desk."},
  tools:[{dir:"write",tn:"Google Slides / PowerPoint",tw:"Draft the readout deck from approved findings"}]},
 
-{id:"s13",t:"Create intervention",p:3,tag:"",
- d:"Turn a finding into one concrete activity, with a desired outcome and a measurement plan attached from the start.",
+{n:"13",t:"Create intervention",p:3,tag:"",
+ role:["n2n"],dur:"1 day",
+ d:"Turn a finding into one concrete activity, with a desired outcome, a time to effect, and a measurement date attached from the start.",
  own:"Consultant",obj:"Intervention",scr:"Create intervention",
  lay:[0,1,0],
- ctx:"Interventions are program-scoped by design. A global intervention list without program context cannot answer the only question that matters: for which client, which program, and against which finding?",
+ ctx:"Interventions are program-scoped by design. A global intervention list without program context cannot answer the only question that matters: for which client, which program, and against which finding? The measurement date is not free text either — it snaps to the program's wave calendar. Four interventions must not produce four measurement dates.",
+ fail:{w:"The finding has no plausible intervention inside the client's control.",t:"Escalate it as a named constraint instead of inventing an activity. Stating what cannot be fixed is a finding in its own right."},
  tools:[{dir:"write",tn:"Google Calendar / Outlook",tw:"Hold the workshop slot with the right attendees"},
         {dir:"write",tn:"Miro",tw:"Generate the facilitation board from the intervention blueprint"}]},
 
-{id:"s14",t:"Publish deliverable",p:3,tag:"",
- d:"Package the selected findings and actions for a named audience — executive brief, workshop plan, 30/60/90 day plan.",
- own:"Consultant",obj:"Deliverable",scr:"Deliverable builder",
+{n:"14",t:"Align and approve with client",p:3,tag:"Gate",
+ role:["n2n","client"],dur:"3–5 days",
+ d:"Take the packaged findings and actions through review with the sponsor until they are agreed — an executive brief, a workshop plan, a 30/60/90 day plan. Sending is not the same as agreeing.",
+ own:"Consultant + client",obj:"Approved deliverable",scr:"Deliverable builder",
  lay:[1,1,0],
- ctx:"Publishing moves an object from program-internal to client-visible. The status chain — internal draft, consultant reviewed, approved, published — is the only thing standing between raw analysis and a client inbox.",
+ ctx:"Approval, not publication, is what moves an object from program-internal to client-visible. The status chain — internal draft, consultant reviewed, client approved, released — is the only thing standing between raw analysis and a client inbox. A disputed finding keeps its evidence trail and stays visible as disputed; it never quietly disappears.",
+ fail:{w:"The sponsor disputes a finding.",t:"Record the dispute against the finding together with its evidence trail. Disputed is a state, not a deletion — that distinction is what makes the evidence layer worth anything in year two."},
  tools:[{dir:"write",tn:"Google Slides / PowerPoint",tw:"Branded export in the studio template"},
         {dir:"write",tn:"Notion / Drive",tw:"File it where the client already keeps program documents"}]},
 
-{id:"s15",t:"Deliver action",p:3,tag:"MCP",
- d:"Run the workshop or activity and log the outputs. Task execution stays in the client's existing tools.",
+{n:"15",t:"Activate in client tools",p:3,tag:"MCP",
+ role:["n2n","client"],dur:"ongoing",
+ d:"Run the workshop or activity, then push the commitments into the tools the client already works in. Execution never moves into Insivo.",
  own:"Consultant + client",obj:"Delivery record",scr:"Intervention detail",
  lay:[0,1,0],
  ctx:"The boundary line. Insivo holds why the action exists and what it should change; the client's tool holds who does what by Friday. Duplicating the second one is how this becomes a worse Monday.com.",
+ fail:{w:"The measurement date arrives and one intervention has barely started.",t:"Do not move the whole wave. Mark that one finding as too early to measure and carry it into the next wave — the other interventions have accumulated their time to effect and still count. Only when nothing in the program has had long enough is moving the date the right call."},
  tools:[{dir:"sync",tn:"Asana / Monday / Jira",tw:"Commitments mirror out, completion mirrors back"},
         {dir:"read",tn:"Miro",tw:"Pull workshop outputs back in as evidence"},
         {dir:"write",tn:"Slack / Teams",tw:"Follow-up nudges against agreed owners"}]},
 
-{id:"s16",t:"Re-measure",p:4,tag:"",
- d:"Re-run the assessment as a follow-up wave against the same audiences. Same instrument, later point in time.",
- own:"Consultant",obj:"Follow-up wave",scr:"Assessments overview",
+{n:"16",t:"Re-measure",p:4,tag:"",
+ role:["insivo","n2n"],dur:"day 90",
+ d:"Re-run the assessment as a follow-up wave against the same audiences. Same instrument, later point in time — one wave for the whole program, never one per intervention.",
+ own:"Insivo, on the consultant's trigger",obj:"Follow-up wave",scr:"Assessments overview",
  lay:[0,1,1],
- ctx:"The wave inherits the assessment configuration unchanged. Any edit to the questions between waves makes the comparison worthless — the product should make changing it deliberately hard.",
- tools:[{dir:"read",tn:"Google Calendar",tw:"Trigger from the measurement date set with the intervention"},
+ ctx:"The wave inherits the assessment configuration unchanged; any edit to the questions between waves makes the comparison worthless, so changing it should be deliberately hard. Waves belong to the program and run on a fixed cadence, because interventions finish at different times but participants do not tolerate being asked three times in ninety days. Each finding instead carries its own time to effect: those whose intervention has had long enough are scored in this wave, the rest are marked too early and carry into the next. Between waves, movement is watched on the operational sources configured back at step 07 — they cost nobody an interview.",
+ fail:{w:"Someone edited the questions between waves.",t:"The comparison is void. The product should make changing a live instrument deliberately hard, and label the wave permanently if it happens anyway."},
+ tools:[{dir:"read",tn:"Google Calendar",tw:"Trigger from the measurement date set at step 13"},
         {dir:"write",tn:"Slack / Teams",tw:"Re-invite the original audience groups"}]},
 
-{id:"s17",t:"Compare movement",p:4,tag:"AI",
+{n:"17",t:"Compare movement",p:4,tag:"AI",
+ role:["insivo","n2n"],dur:"2–4 hours",
  d:"What weakened, what strengthened, what is new, what stayed unresolved — plus which interventions show no evidence of impact.",
- own:"AI + consultant",obj:"Comparison",scr:"Wave comparison",
+ own:"Insivo + consultant",obj:"Comparison",scr:"Wave comparison",
  lay:[0,1,1],
- ctx:"Compares the assessment layer across waves, and pulls the same operational sources configured in Evidence sources so the KPI delta sits beside the language delta.",
+ ctx:"Compares assessment layer across waves, and pulls the same operational sources configured back at step 07 so the KPI delta sits beside the language delta. The comparison is per finding, not per intervention — and a finding still inside its time to effect is shown as not yet measurable, never as no movement. Reporting too early as zero is how a working intervention gets cancelled.",
+ fail:{w:"A treated finding came back worse than baseline.",t:"Separate “the intervention failed” from “something else got worse” before the readout. Without that split, every regression in the business reads as yours."},
  tools:[{dir:"read",tn:"Jira / ServiceNow",tw:"Ticket volume delta against baseline"},
         {dir:"read",tn:"Microsoft Graph / Amplitude",tw:"Usage delta against baseline"}]},
 
-{id:"s18",t:"Publish value story",p:4,tag:"",
+{n:"18",t:"Publish value story",p:4,tag:"",
+ role:["n2n"],dur:"1 day",
  d:"Evidence-backed progress rather than a satisfaction score: baseline, action taken, observed change, business effect.",
  own:"Consultant",obj:"Outcome",scr:"Client program home",
  lay:[1,1,0],
  ctx:"Written at program level, published to client level. This is what replaces a standalone value evidence area — it is the output of the closed loop, not a separate data type.",
+ fail:{w:"No baseline provenance exists for a claim.",t:"Not publishable. Reconstructed and proxy baselines are both allowed; unlabelled ones are not, and this is the rule that survives contact with a procurement review."},
  tools:[{dir:"write",tn:"Slack / Teams",tw:"Executive digest to the sponsor channel"},
         {dir:"write",tn:"Google Slides",tw:"Progress update in the same template as the baseline readout"}]},
 
-{id:"s19",t:"Define next action",p:5,tag:"",
- d:"Continue, adapt, replace, escalate or close the intervention — and open the next wave from the same program.",
+{n:"19",t:"Decide next move",p:5,tag:"Gate",
+ role:["n2n","client"],dur:"1 session",
+ d:"One route per finding — scale, adapt, stop or re-diagnose — and the next wave opens from the same program.",
  own:"Consultant + client",obj:"Next wave",scr:"Program journey",
  lay:[0,1,0],
  ctx:"Client and program context persist untouched. Only the assessment layer resets. That asymmetry is the entire economic argument: the expensive setup happens once, the measurable loop happens repeatedly.",
+ fail:{w:"Nothing moved on any finding.",t:"The diagnosis, the intervention or the measurement window was wrong — say which. A retainer survives a bad wave; it does not survive an unexplained one."},
  tools:[{dir:"write",tn:"Asana / Monday",tw:"Next-wave milestone into the client plan"},
         {dir:"write",tn:"Google Calendar",tw:"Book the follow-up measurement date"}]}
 ];
 
-/* ---------------------------------------------------------------- storage */
-var KEY = "insivo.goldenpath.v3";
-var LEGACY_KEY = "insivo.goldenpath.v2";
-var WHO_KEY = "insivo.goldenpath.who";
+var KEY = "insivo.goldenpath.v4";
 var mem = {};
 var store = {
   get:function(k){ try{ return localStorage.getItem(k); }catch(e){ return mem[k] || null; } },
@@ -419,485 +601,170 @@ var store = {
   del:function(k){ try{ localStorage.removeItem(k); }catch(e){ delete mem[k]; } }
 };
 
-function clone(x){ return JSON.parse(JSON.stringify(x)); }
-var DEFAULT_PHASES = clone(PHASES);   /* captured before any saved state can overwrite PHASES */
-function uid(pfx){ seq++; return pfx + seq.toString(36) + "-" + (perfStamp + seq).toString(36); }
-var seq = 0;
-var perfStamp = Math.floor(performance.now() * 1000) + 100000;
-
-function blankSteps(){
-  var s = clone(DEFAULT_STEPS);
-  s.forEach(function(x){ x.notes = []; });
-  return s;
-}
-
-function normalizeSteps(arr){
-  if (!arr || !arr.length) return blankSteps();
-  var out = arr.map(function(s, ix){
-    return {
-      id:   typeof s.id === "string" && s.id ? s.id : "s" + (ix + 1),
-      t:    String(s.t || "Untitled step"),
-      p:    Math.max(0, Math.min(PHASES.length - 1, parseInt(s.p, 10) || 0)),
-      tag:  TAGS.indexOf(s.tag) >= 0 ? s.tag : "",
-      d:    String(s.d || ""),
-      own:  String(s.own || ""),
-      obj:  String(s.obj || ""),
-      scr:  String(s.scr || ""),
-      lay:  (Array.isArray(s.lay) && s.lay.length === 3) ? s.lay.map(function(v){ return v ? 1 : 0; }) : [0,0,0],
-      ctx:  String(s.ctx || ""),
-      tools:(Array.isArray(s.tools) ? s.tools : []).map(function(x){
-              return {dir: DIRS.indexOf(x && x.dir) >= 0 ? x.dir : "read",
-                      tn: String((x && x.tn) || ""), tw: String((x && x.tw) || "")};
-            }),
-      notes:(Array.isArray(s.notes) ? s.notes : []).map(function(n, ni){
-              return {id: (n && n.id) || ("n" + ix + "-" + ni),
-                      who: String((n && n.who) || "anon"),
-                      txt: String((n && n.txt) || ""),
-                      ts:  String((n && n.ts) || ""),
-                      done: !!(n && n.done)};
-            }).filter(function(n){ return n.txt; })
-    };
-  });
-  var seen = {};
-  out.forEach(function(s, ix){
-    while (seen[s.id]) s.id = s.id + "-" + ix;
-    seen[s.id] = 1;
-  });
-  return sortByPhase(out);
-}
-
-function sortByPhase(arr){ return arr.slice().sort(function(a,b){ return a.p - b.p; }); }
-
-function readPhases(o){
-  if (!o || !Array.isArray(o.phases) || o.phases.length !== PHASES.length) return;
-  o.phases.forEach(function(p, ix){
-    if (p && typeof p.name === "string") PHASES[ix].name = p.name;
-    if (p && typeof p.de   === "string") PHASES[ix].de   = p.de;
-    if (p && typeof p.art  === "string") PHASES[ix].art  = p.art;
-  });
-}
-
-function migrateLegacy(){
-  var raw = store.get(LEGACY_KEY);
-  if (!raw) return null;
-  try {
-    var old = JSON.parse(raw);
-    if (!Array.isArray(old)) return null;
-    var base = blankSteps();
-    old.forEach(function(s, ix){
-      if (!base[ix] || !s) return;
-      ["t","d","own","obj","scr","ctx"].forEach(function(k){ if (s[k]) base[ix][k] = s[k]; });
-      if (Array.isArray(s.tools)) base[ix].tools = s.tools;
-    });
-    return base;
-  } catch(e){ return null; }
-}
-
 function load(){
   var raw = store.get(KEY);
-  if (raw){
-    try {
-      var o = JSON.parse(raw);
-      readPhases(o);
-      return normalizeSteps(Array.isArray(o) ? o : o.steps);
-    } catch(e){ /* fall through */ }
-  }
-  var legacy = migrateLegacy();
-  if (legacy){
-    var migrated = normalizeSteps(legacy);
-    store.set(KEY, JSON.stringify({v:3, phases:PHASES, steps:migrated}));
-    return migrated;
-  }
-  return blankSteps();
+  if (!raw) return JSON.parse(JSON.stringify(DEFAULTS));
+  try {
+    var saved = JSON.parse(raw);
+    return DEFAULTS.map(function(d, ix){
+      var s = saved[ix] || {};
+      return {n:d.n, t:s.t||d.t, p:d.p, tag:d.tag, role:d.role, dur:s.dur||d.dur,
+              d:s.d||d.d, own:s.own||d.own, obj:s.obj||d.obj, scr:s.scr||d.scr,
+              lay:d.lay, ctx:s.ctx||d.ctx,
+              fail:{w:d.fail.w, t:(s.fail && s.fail.t) || d.fail.t},
+              tools:s.tools||d.tools};
+    });
+  } catch(e){ return JSON.parse(JSON.stringify(DEFAULTS)); }
 }
 
-/* ----------------------------------------------------------- share via url */
-function b64enc(bytes){
-  var s = "", CH = 0x8000;
-  for (var i = 0; i < bytes.length; i += CH) s += String.fromCharCode.apply(null, bytes.subarray(i, i + CH));
-  return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
-}
-function b64dec(str){
-  var s = str.replace(/-/g,"+").replace(/_/g,"/");
-  while (s.length % 4) s += "=";
-  var bin = atob(s), out = new Uint8Array(bin.length);
-  for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
-  return out;
-}
-function packState(){
-  var json = JSON.stringify({v:3, phases:PHASES, steps:STEPS});
-  var bytes = new TextEncoder().encode(json);
-  if (typeof CompressionStream === "undefined") return Promise.resolve("r" + b64enc(bytes));
-  var cs = new CompressionStream("gzip");
-  var w = cs.writable.getWriter();
-  w.write(bytes); w.close();
-  return new Response(cs.readable).arrayBuffer().then(function(buf){
-    return "g" + b64enc(new Uint8Array(buf));
-  });
-}
-function unpackState(payload){
-  var mode = payload.charAt(0), bytes = b64dec(payload.slice(1));
-  if (mode === "r") return Promise.resolve(JSON.parse(new TextDecoder().decode(bytes)));
-  if (typeof DecompressionStream === "undefined") return Promise.reject(new Error("no gzip"));
-  var ds = new DecompressionStream("gzip");
-  var w = ds.writable.getWriter();
-  w.write(bytes); w.close();
-  return new Response(ds.readable).arrayBuffer().then(function(buf){
-    return JSON.parse(new TextDecoder().decode(new Uint8Array(buf)));
-  });
-}
-
-/* ------------------------------------------------------------------ state */
 var STEPS = load();
+var LOOP_START = 4;
 var host = document.getElementById("phases");
 var phaseEls = [], stepEls = [];
+
+PHASES.forEach(function(p, pi){
+  var col = document.createElement("div");
+  col.className = "phase";
+  col.innerHTML = '<div class="dot"></div><p class="pname">' + p.name +
+    '</p><p class="pde">' + p.de + ' · ' + p.time + '</p><div class="steps"></div>' +
+    '<div class="artifact">produces<b>' + p.art + '</b>' +
+    '<span class="exit">cannot exit until<em>' + p.exit + '</em></span></div>';
+  host.appendChild(col);
+  phaseEls.push(col);
+  var box = col.querySelector(".steps");
+  STEPS.forEach(function(s, si){
+    if (s.p !== pi) return;
+    var el = document.createElement("div");
+    el.className = "step";
+    el.setAttribute("data-role", s.role[0]);
+    var cls = s.tag === "Gate" ? " gate" : (s.tag === "MCP" ? " mcp" : "");
+    var tag = s.tag ? '<span class="tag' + cls + '">' + s.tag + '</span>' : '';
+    el.innerHTML = '<div class="srow"><span class="n">' + s.n + '</span><span class="t"></span>' + tag +
+      '</div><div class="sfoot"><span class="ro">' + whoRuns(s) +
+      '</span><span class="sep">·</span><span class="du">' + s.dur + '</span></div>';
+    el.querySelector(".t").textContent = s.t;
+    el.addEventListener("click", function(e){ e.stopPropagation(); jump(si); });
+    box.appendChild(el);
+    stepEls[si] = el;
+  });
+});
+
+/* role filter */
+var offRoles = {};
+document.querySelectorAll(".rf").forEach(function(b){
+  b.addEventListener("click", function(){
+    var r = b.dataset.role;
+    offRoles[r] = !offRoles[r];
+    b.classList.toggle("off", !!offRoles[r]);
+    b.classList.toggle("on", !offRoles[r]);
+    stepEls.forEach(function(el, si){
+      var on = STEPS[si].role.some(function(x){ return !offRoles[x]; });
+      el.classList.toggle("dim", !on);
+    });
+  });
+});
+
+function repaintCards(){
+  STEPS.forEach(function(s, ix){
+    var el = stepEls[ix]; if (!el) return;
+    el.querySelector(".t").textContent = s.t;
+    el.querySelector(".du").textContent = s.dur;
+  });
+}
 
 var railfill = document.getElementById("railfill"), waveno = document.getElementById("waveno"),
     wavekind = document.getElementById("wavekind"), body = document.getElementById("tabbody"),
     pidx = document.getElementById("pidx"), ptitle = document.getElementById("ptitle"),
     playBtn = document.getElementById("play"), arclive = document.getElementById("arclive"),
-    savedEl = document.getElementById("saved"), cpill = document.getElementById("cpill"),
-    whoIn = document.getElementById("whoIn"), subline = document.getElementById("subline");
+    savedEl = document.getElementById("saved");
 
 var i = 0, wave = 1, playing = true, speed = 1, timer = null, tab = 0, editing = false;
 var BASE = 1500;
 var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-var drafts = {};
 
-whoIn.value = store.get(WHO_KEY) || "";
-whoIn.addEventListener("input", function(){ store.set(WHO_KEY, whoIn.value.trim()); });
-function me(){ return whoIn.value.trim() || "anon"; }
-
-function loopStart(){
-  for (var k = 0; k < STEPS.length; k++) if (STEPS[k].p >= 1) return k;
-  return 0;
-}
-function pad(n){ return (n < 10 ? "0" : "") + n; }
-function esc(x){ return String(x).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
-function open_(x){ return x.filter(function(n){ return !n.done; }).length; }
-
-/* ------------------------------------------------------------------ board */
-function renderBoard(){
-  host.innerHTML = "";
-  phaseEls = []; stepEls = [];
-  PHASES.forEach(function(p, pi){
-    var col = document.createElement("div");
-    col.className = "phase";
-    col.innerHTML =
-      '<div class="dot"></div>' +
-      '<p class="pname" data-p="' + pi + '" data-pf="name" contenteditable="false">' + esc(p.name) + '</p>' +
-      '<p class="pde" data-p="' + pi + '" data-pf="de" contenteditable="false">' + esc(p.de) + '</p>' +
-      '<div class="steps"></div>' +
-      '<button class="addstep" data-add="' + pi + '">+ step</button>' +
-      '<div class="artifact">produces<b data-p="' + pi + '" data-pf="art" contenteditable="false">' + esc(p.art) + '</b></div>';
-    host.appendChild(col);
-    phaseEls.push(col);
-    col.addEventListener("click", function(){ stop(); jump(firstOfPhase(pi)); });
-
-    var box = col.querySelector(".steps");
-    STEPS.forEach(function(s, si){
-      if (s.p !== pi) return;
-      var el = document.createElement("div");
-      el.className = "step";
-      var cls = s.tag === "Gate" ? " gate" : (s.tag === "MCP" ? " mcp" : "");
-      var openN = open_(s.notes);
-      el.innerHTML =
-        '<span class="n">' + pad(si + 1) + '</span>' +
-        '<span class="t"></span>' +
-        (s.tag ? '<span class="tag' + cls + '">' + esc(s.tag) + '</span>' : '') +
-        (openN ? '<span class="cb" title="open comments">' + openN + '</span>' : '') +
-        '<span class="acts">' +
-          '<button data-a="up" title="move up">&#9650;</button>' +
-          '<button data-a="dn" title="move down">&#9660;</button>' +
-          '<button data-a="rm" title="delete step">&#10005;</button>' +
-        '</span>';
-      el.querySelector(".t").textContent = s.t;
-      el.addEventListener("click", function(e){
-        var b = e.target.closest("button[data-a]");
-        e.stopPropagation();
-        stop();
-        if (b){ stepAction(s.id, b.dataset.a); return; }
-        jump(indexOf(s.id));
-      });
-      box.appendChild(el);
-      stepEls[si] = el;
-    });
-  });
-  host.querySelectorAll("[data-add]").forEach(function(b){
-    b.addEventListener("click", function(e){ e.stopPropagation(); stop(); addStep(+b.dataset.add); });
-  });
-  applyPhaseEdit();
-  subline.textContent = STEPS.length + " steps, " + PHASES.length +
-    " phases, one loop that does not restart at the beginning.";
-}
-
-function applyPhaseEdit(){
-  host.querySelectorAll("[data-pf]").forEach(function(el){
-    el.setAttribute("contenteditable", editing ? "true" : "false");
-    el.onclick = function(e){ if (editing) e.stopPropagation(); };
-    el.oninput = function(){ PHASES[+el.dataset.p][el.dataset.pf] = el.textContent; save(); };
-  });
-}
-
-function indexOf(id){ for (var k = 0; k < STEPS.length; k++) if (STEPS[k].id === id) return k; return 0; }
-function firstOfPhase(pi){
-  for (var k = 0; k < STEPS.length; k++) if (STEPS[k].p === pi) return k;
-  return Math.min(i, STEPS.length - 1);
-}
-
-/* ------------------------------------------------- structural edit actions */
-function restructure(keepId){
-  STEPS = sortByPhase(STEPS);
-  if (!STEPS.length) STEPS = blankSteps();
-  i = keepId ? indexOf(keepId) : Math.max(0, Math.min(i, STEPS.length - 1));
-  renderBoard(); paint(); save(); drawArc();
-}
-
-function addStep(pi){
-  var s = {id:uid("s"), t:"New step", p:pi, tag:"",
-           d:"", own:"", obj:"", scr:"", lay:[0,0,0], ctx:"", tools:[], notes:[]};
-  var at = STEPS.length;
-  for (var k = STEPS.length - 1; k >= 0; k--) if (STEPS[k].p === pi){ at = k + 1; break; }
-  STEPS.splice(at, 0, s);
-  restructure(s.id);
-  tab = 0;
-  syncTabs();
-  renderTab();
-  var f = body.querySelector('[data-f="d"]');
-  if (f) f.focus();
-}
-
-function stepAction(id, a){
-  var ix = indexOf(id), s = STEPS[ix];
-  if (a === "rm"){
-    if (STEPS.length < 2) return;
-    if (!confirm('Delete step "' + s.t + '"' + (s.notes.length ? " and its " + s.notes.length + " comment(s)" : "") + "?")) return;
-    STEPS.splice(ix, 1);
-    i = Math.max(0, Math.min(ix, STEPS.length - 1));
-    restructure(STEPS[i] && STEPS[i].id);
-    return;
-  }
-  var dir = a === "up" ? -1 : 1, j = ix + dir;
-  if (j < 0 || j >= STEPS.length){
-    var edge = s.p + dir;
-    if (edge < 0 || edge >= PHASES.length) return;
-    s.p = edge;
-  } else if (STEPS[j].p === s.p){
-    STEPS[ix] = STEPS[j]; STEPS[j] = s;
-  } else {
-    var np = s.p + dir;
-    if (np < 0 || np >= PHASES.length) return;
-    s.p = np;
-  }
-  restructure(id);
-}
-
-/* ------------------------------------------------------------ detail panel */
-function ed(field, val, tag, cls){
+function esc(x){ return String(x).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function ed(field, val, tag){
   tag = tag || "span";
-  return "<" + tag + (cls ? ' class="' + cls + '"' : "") +
-         ' data-f="' + field + '" contenteditable="false">' + esc(val) + "</" + tag + ">";
+  return '<' + tag + ' data-f="' + field + '" contenteditable="false">' + esc(val) + '</' + tag + '>';
 }
 
 function renderTab(){
   var s = STEPS[i];
-
   if (tab === 0){
-    var phaseSel = editing
-      ? '<select data-sel="p">' + PHASES.map(function(p, pi){
-          return '<option value="' + pi + '"' + (pi === s.p ? " selected" : "") + ">" + esc(p.name) + "</option>";
-        }).join("") + "</select>"
-      : '<span class="v">' + esc(PHASES[s.p].name) + "</span>";
-    var tagSel = editing
-      ? '<select data-sel="tag">' + TAGS.map(function(t){
-          return '<option value="' + esc(t) + '"' + (t === s.tag ? " selected" : "") + ">" + (t || "— none —") + "</option>";
-        }).join("") + "</select>"
-      : '<span class="v">' + (s.tag ? esc(s.tag) : "&mdash;") + "</span>";
-
-    body.innerHTML =
-      '<div class="cols"><div>' +
-        '<h4>Title</h4>' + ed("t", s.t, "p") +
-        '<h4>What happens</h4>' + ed("d", s.d || "…", "p") +
+    body.innerHTML = '<div class="cols"><div>' + ed("d","","p").replace("></p>", '>' + esc(s.d) + '</p>') +
       '</div><div>' +
-        '<div class="meta"><span class="k">Owner</span><span class="v">' + ed("own", s.own || "…") + '</span></div>' +
-        '<div class="meta"><span class="k">Creates</span><span class="v">' + ed("obj", s.obj || "…") + '</span></div>' +
-        '<div class="meta"><span class="k">Screen</span><span class="v">' + ed("scr", s.scr || "…") + '</span></div>' +
-        '<div class="meta"><span class="k">Phase</span>' + phaseSel + '</div>' +
-        '<div class="meta"><span class="k">Tag</span>' + tagSel + '</div>' +
-      "</div></div>";
-
+      '<div class="meta"><span class="k">Owner</span><span class="v">' + ed("own", s.own) + '</span></div>' +
+      '<div class="meta"><span class="k">Who runs it</span><span class="v">' + whoRuns(s) + '</span></div>' +
+      '<div class="meta"><span class="k">Typical</span><span class="v">' + ed("dur", s.dur) + '</span></div>' +
+      '<div class="meta"><span class="k">Creates</span><span class="v">' + ed("obj", s.obj) + '</span></div>' +
+      '<div class="meta"><span class="k">Screen</span><span class="v">' + ed("scr", s.scr) + '</span></div>' +
+      '</div></div>';
+  } else if (tab === 3){
+    var outs = BRANCHES.filter(function(b){ return b.from === s.n; });
+    body.innerHTML = '<div class="fail">' +
+      '<div><h4>What goes wrong here</h4><p>' + esc(s.fail.w) + '</p></div>' +
+      '<div><h4>What the product has to do about it</h4>' +
+        ed("failt", "", "p").replace("></p>", '>' + esc(s.fail.t) + '</p>') + '</div></div>' +
+      (outs.length ? '<div class="frt"><h4>Routes out of this step</h4><ul>' +
+        outs.map(function(b){
+          return '<li><button class="jump" data-go="' + b.to + '">\u2192 ' + b.to +
+                 '</button><span><b style="font-weight:600">' + b.name + '</b> — ' + b.trigger +
+                 ' <em class="rl">(' + b.route + ')</em></span></li>';
+        }).join("") + '</ul></div>' : '');
+    body.querySelectorAll(".jump").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var ix = -1;
+        STEPS.forEach(function(x, xi){ if (x.n === btn.dataset.go) ix = xi; });
+        if (ix > -1){ jump(ix); window.scrollTo({top:0, behavior:"smooth"}); }
+      });
+    });
   } else if (tab === 1){
     var chips = LAYERS.map(function(L, ix){
-      return '<span class="layer' + (s.lay[ix] ? " hit" : "") + '" data-lay="' + ix + '">' + L + "</span>";
+      return '<span class="layer' + (s.lay[ix] ? " hit" : "") + '">' + L + '</span>';
     }).join("");
-    body.innerHTML = "<h4>Context layer touched" + (editing ? " &middot; click to toggle" : "") + "</h4>" +
-      '<div class="layers">' + chips + "</div>" +
-      "<h4>Rule</h4>" + ed("ctx", s.ctx || "…", "div", "rule");
-
-  } else if (tab === 2){
-    var t = s.tools || [];
-    body.innerHTML = "<h4>Connected via MCP</h4>" +
-      (t.length
-        ? '<div class="tools">' + t.map(function(x, ix){
-            return '<div class="tool">' +
-              '<span class="dir ' + x.dir + '" data-dir="' + ix + '" title="' +
-                (editing ? "click to cycle read / write / sync" : "") + '">' + x.dir + "</span>" +
-              "<span>" +
-                '<span class="tn" data-t="' + ix + '" data-tf="tn" contenteditable="false">' + esc(x.tn) + "</span>" +
-                '<span class="tw" data-t="' + ix + '" data-tf="tw" contenteditable="false">' + esc(x.tw) + "</span>" +
-              "</span>" +
-              '<button class="rm" data-rmtool="' + ix + '" title="remove">&#10005;</button>' +
-            "</div>";
-          }).join("") + "</div>"
-        : '<p class="none">No external system in this step &mdash; the work happens inside Insivo.</p>') +
-      '<button class="addtool" data-addtool="1">+ system</button>';
-
+    body.innerHTML = '<h4>Context layer touched</h4><div class="layers">' + chips + '</div>' +
+      '<h4>Rule</h4><div class="rule">' + ed("ctx", s.ctx, "div").replace('class="rule"','') + '</div>';
+    body.querySelector('.rule [data-f]').className = "";
   } else {
-    var notes = s.notes.slice().sort(function(a,b){ return (a.done ? 1 : 0) - (b.done ? 1 : 0); });
-    body.innerHTML =
-      "<h4>Comments on &ldquo;" + esc(s.t) + "&rdquo;</h4>" +
-      (notes.length
-        ? '<div class="notes">' + notes.map(function(n){
-            return '<div class="note' + (n.done ? " done" : "") + '">' +
-              '<div class="nhead"><span class="nwho">' + esc(n.who) + "</span>" +
-              '<span class="nts">' + esc(fmtTs(n.ts)) + "</span>" +
-              '<span class="nacts">' +
-                '<button data-note="' + n.id + '" data-na="done">' + (n.done ? "reopen" : "resolve") + "</button>" +
-                '<button data-note="' + n.id + '" data-na="rm">delete</button>' +
-              "</span></div>" +
-              '<p class="ntxt">' + esc(n.txt) + "</p></div>";
-          }).join("") + "</div>"
-        : '<p class="none">No comments yet.</p>') +
-      '<div class="noteform">' +
-        '<textarea id="noteTxt" placeholder="Question, objection, open point&hellip;"></textarea>' +
-        '<div><button id="noteAdd">Add comment as ' + esc(me()) + "</button> " +
-        '<span class="hint">&#8984;/Ctrl + Enter</span></div>' +
-      "</div>";
-
-    var ta = document.getElementById("noteTxt");
-    ta.value = drafts[s.id] || "";
-    ta.addEventListener("input", function(){ drafts[s.id] = ta.value; });
-    ta.addEventListener("focus", stop);
-    ta.addEventListener("keydown", function(e){
-      if ((e.metaKey || e.ctrlKey) && e.key === "Enter") addNote();
-    });
-    document.getElementById("noteAdd").addEventListener("click", addNote);
-    body.querySelectorAll("[data-note]").forEach(function(b){
-      b.addEventListener("click", function(){ noteAction(b.dataset.note, b.dataset.na); });
-    });
+    var t = s.tools || [];
+    body.innerHTML = '<h4>Connected via MCP</h4>' + (t.length ?
+      '<div class="tools">' + t.map(function(x, ix){
+        return '<div class="tool"><span class="dir ' + x.dir + '">' + x.dir + '</span><span>' +
+          '<span class="tn" data-t="' + ix + '" data-tf="tn" contenteditable="false">' + esc(x.tn) + '</span>' +
+          '<span class="tw" data-t="' + ix + '" data-tf="tw" contenteditable="false">' + esc(x.tw) + '</span></span></div>';
+      }).join("") + '</div>'
+      : '<p class="none">No external system in this step — the work happens inside Insivo.</p>');
   }
-
-  wire();
+  applyEdit();
 }
 
-function fmtTs(iso){
-  if (!iso) return "";
-  var d = new Date(iso);
-  if (isNaN(d)) return "";
-  return d.toLocaleDateString(undefined, {day:"2-digit", month:"short"}) + " " +
-         d.toLocaleTimeString(undefined, {hour:"2-digit", minute:"2-digit"});
-}
-
-function addNote(){
-  var s = STEPS[i], ta = document.getElementById("noteTxt");
-  var txt = ta.value.trim();
-  if (!txt) return;
-  s.notes.push({id:uid("n"), who:me(), txt:txt, ts:new Date().toISOString(), done:false});
-  drafts[s.id] = "";
-  save(); renderBoard(); paint();
-}
-
-function noteAction(nid, a){
-  var s = STEPS[i];
-  for (var k = 0; k < s.notes.length; k++){
-    if (s.notes[k].id !== nid) continue;
-    if (a === "rm"){ if (!confirm("Delete this comment?")) return; s.notes.splice(k, 1); }
-    else s.notes[k].done = !s.notes[k].done;
-    break;
-  }
-  save(); renderBoard(); paint();
-}
-
-function wire(){
+function applyEdit(){
   body.querySelectorAll("[data-f],[data-tf]").forEach(function(el){
     el.setAttribute("contenteditable", editing ? "true" : "false");
     el.oninput = function(){
       var s = STEPS[i];
-      if (el.dataset.f){
-        s[el.dataset.f] = el.textContent;
-        if (el.dataset.f === "t"){
-          ptitle.textContent = el.textContent;
-          var chip = stepEls[i] && stepEls[i].querySelector(".t");
-          if (chip) chip.textContent = el.textContent;
-        }
-      } else {
-        s.tools[+el.dataset.t][el.dataset.tf] = el.textContent;
-      }
+      if (el.dataset.f === "failt") s.fail.t = el.textContent;
+      else if (el.dataset.f) s[el.dataset.f] = el.textContent;
+      else s.tools[+el.dataset.t][el.dataset.tf] = el.textContent;
       save();
     };
   });
-
-  body.querySelectorAll("[data-sel]").forEach(function(sel){
-    sel.addEventListener("change", function(){
-      var s = STEPS[i];
-      if (sel.dataset.sel === "p"){ s.p = +sel.value; restructure(s.id); renderTab(); }
-      else { s.tag = sel.value; save(); renderBoard(); paint(); }
-    });
-  });
-
-  if (editing){
-    body.querySelectorAll("[data-lay]").forEach(function(el){
-      el.addEventListener("click", function(){
-        var s = STEPS[i], ix = +el.dataset.lay;
-        s.lay[ix] = s.lay[ix] ? 0 : 1;
-        save(); renderTab();
-      });
-    });
-    body.querySelectorAll("[data-dir]").forEach(function(el){
-      el.addEventListener("click", function(){
-        var s = STEPS[i], t = s.tools[+el.dataset.dir];
-        t.dir = DIRS[(DIRS.indexOf(t.dir) + 1) % DIRS.length];
-        save(); renderTab();
-      });
-    });
-  }
-  body.querySelectorAll("[data-rmtool]").forEach(function(b){
-    b.addEventListener("click", function(){
-      STEPS[i].tools.splice(+b.dataset.rmtool, 1);
-      save(); renderTab();
-    });
-  });
-  var at = body.querySelector("[data-addtool]");
-  if (at) at.addEventListener("click", function(){
-    STEPS[i].tools.push({dir:"read", tn:"New system", tw:"What it is used for"});
-    save(); renderTab();
-    var last = body.querySelectorAll('[data-tf="tn"]');
-    if (last.length) last[last.length - 1].focus();
-  });
 }
 
-function syncTabs(){
-  document.querySelectorAll(".tab").forEach(function(x){ x.classList.toggle("on", +x.dataset.tab === tab); });
-}
-
-/* ------------------------------------------------------------------- save */
 var saveTimer = null;
 function save(){
   clearTimeout(saveTimer);
   saveTimer = setTimeout(function(){
-    store.set(KEY, JSON.stringify({v:3, phases:PHASES, steps:STEPS}));
+    store.set(KEY, JSON.stringify(STEPS));
     savedEl.textContent = "saved " + new Date().toLocaleTimeString();
     savedEl.classList.add("flash");
     setTimeout(function(){ savedEl.classList.remove("flash"); }, 900);
   }, 400);
 }
 
-/* ------------------------------------------------------------------ paint */
 function paint(){
   var s = STEPS[i];
-  var LOOP_START = loopStart();
   stepEls.forEach(function(el, si){
-    if (!el) return;
     el.classList.toggle("live", si === i);
     el.classList.toggle("done", si < i || (wave > 1 && si < LOOP_START));
   });
@@ -906,35 +773,22 @@ function paint(){
     el.classList.toggle("done", pi < s.p || (wave > 1 && pi === 0));
   });
   railfill.style.width = ((i + 1) / STEPS.length * 100).toFixed(2) + "%";
-  waveno.textContent = pad(wave);
+  waveno.textContent = String(wave).padStart(2,"0");
   wavekind.textContent = wave === 1 ? "Baseline" : "Follow-up";
-  pidx.textContent = "Step " + pad(i + 1) + " of " + STEPS.length + " · " + PHASES[s.p].name;
+  pidx.textContent = "Step " + s.n + " of 19 · " + PHASES[s.p].name;
   ptitle.textContent = s.t;
-
-  var here = s.notes.length;
-  cpill.style.display = here ? "" : "none";
-  cpill.textContent = here;
-
   renderTab();
 }
 
-/* ---------------------------------------------------------------- autoplay */
 function schedule(ms, fn){ clearTimeout(timer); if (!playing) return; timer = setTimeout(fn || tick, ms); }
 function tick(){
   if (i < STEPS.length - 1){ i++; paint(); schedule(BASE / speed); }
   else {
     arclive.classList.remove("go"); void arclive.offsetWidth; arclive.classList.add("go");
-    schedule(1250 / speed, function(){ wave++; i = loopStart(); paint(); schedule(BASE / speed); });
+    schedule(1250 / speed, function(){ wave++; i = LOOP_START; paint(); schedule(BASE / speed); });
   }
 }
-function jump(x){ clearTimeout(timer); i = Math.max(0, Math.min(x, STEPS.length - 1)); paint(); if (playing) schedule(BASE / speed); }
-function stop(){
-  if (!playing) return;
-  playing = false;
-  playBtn.textContent = "Play";
-  playBtn.classList.remove("on");
-  clearTimeout(timer);
-}
+function jump(x){ clearTimeout(timer); i = x; paint(); if (playing) schedule(BASE / speed); }
 
 playBtn.addEventListener("click", function(){
   playing = !playing;
@@ -952,91 +806,33 @@ document.getElementById("speed").addEventListener("click", function(){
 });
 document.querySelectorAll(".tab").forEach(function(b){
   b.addEventListener("click", function(){
-    stop(); tab = +b.dataset.tab; syncTabs(); renderTab();
+    document.querySelectorAll(".tab").forEach(function(x){ x.classList.remove("on"); });
+    b.classList.add("on"); tab = +b.dataset.tab; renderTab();
+  });
+});
+phaseEls.forEach(function(el, pi){
+  el.addEventListener("click", function(){
+    var first = -1;
+    STEPS.forEach(function(s, si){ if (first < 0 && s.p === pi) first = si; });
+    jump(first);
   });
 });
 
-/* ------------------------------------------------------------- edit toggle */
 document.getElementById("editBtn").addEventListener("click", function(){
   editing = !editing;
   document.body.classList.toggle("edit", editing);
   this.textContent = editing ? "Done editing" : "Edit";
   this.classList.toggle("on", editing);
-  if (editing) stop();
-  applyPhaseEdit();
-  renderTab();
+  if (editing && playing){ playing = false; playBtn.textContent = "Play"; playBtn.classList.remove("on"); clearTimeout(timer); }
+  applyEdit();
 });
 
-/* ------------------------------------------------------------------ export */
-function toMarkdown(){
-  var out = ["# Golden path — Insivo × Now to Next", "", "_" + STEPS.length + " steps, " + PHASES.length + " phases._", ""];
-  PHASES.forEach(function(p, pi){
-    var mine = STEPS.filter(function(s){ return s.p === pi; });
-    if (!mine.length) return;
-    out.push("## " + p.name + " — " + p.de, "", "_Produces: " + p.art + "_", "");
-    mine.forEach(function(s){
-      out.push(stepMd(s, indexOf(s.id)), "");
-    });
-  });
-  return out.join("\n");
-}
-function stepMd(s, ix){
-  var lines = ["### " + pad(ix + 1) + " " + s.t + (s.tag ? "  `" + s.tag + "`" : ""), ""];
-  if (s.d) lines.push(s.d, "");
-  lines.push("- Owner: " + (s.own || "—"));
-  lines.push("- Creates: " + (s.obj || "—"));
-  lines.push("- Screen: " + (s.scr || "—"));
-  lines.push("- Context layer: " + (LAYERS.filter(function(L, k){ return s.lay[k]; }).join(", ") || "—"));
-  lines.push("");
-  if (s.ctx) lines.push("**Context rule.** " + s.ctx, "");
-  if (s.tools.length){
-    lines.push("**Connected via MCP**");
-    s.tools.forEach(function(x){ lines.push("- " + x.tn + " (" + x.dir + ") — " + x.tw); });
-    lines.push("");
-  }
-  if (s.notes.length){
-    lines.push("**Comments**");
-    s.notes.forEach(function(n){
-      lines.push("- " + (n.done ? "~~" : "") + n.who + " (" + fmtTs(n.ts) + "): " + n.txt + (n.done ? "~~" : ""));
-    });
-    lines.push("");
-  }
-  return lines.join("\n");
-}
-
-function copyText(txt, okMsg){
-  if (navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(txt).then(function(){ savedEl.textContent = okMsg; },
-                                            function(){ legacyCopy(txt, okMsg); });
-  } else legacyCopy(txt, okMsg);
-}
-function legacyCopy(txt, okMsg){
-  var ta = document.createElement("textarea");
-  ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
-  document.body.appendChild(ta); ta.select();
-  try { document.execCommand("copy"); savedEl.textContent = okMsg; }
-  catch(e){ savedEl.textContent = "copy blocked by browser"; }
-  document.body.removeChild(ta);
-}
-function download(name, txt, type){
-  var blob = new Blob([txt], {type:type});
+document.getElementById("exportBtn").addEventListener("click", function(){
+  var blob = new Blob([JSON.stringify(STEPS, null, 2)], {type:"application/json"});
   var a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = name;
+  a.download = "golden-path.json";
   a.click();
-  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 2000);
-}
-
-document.getElementById("copyBtn").addEventListener("click", function(){
-  copyText(stepMd(STEPS[i], i), "step copied as Markdown");
-});
-document.getElementById("mdBtn").addEventListener("click", function(){
-  download("golden-path.md", toMarkdown(), "text/markdown");
-  savedEl.textContent = "Markdown exported";
-});
-document.getElementById("exportBtn").addEventListener("click", function(){
-  download("golden-path.json", JSON.stringify({v:3, phases:PHASES, steps:STEPS}, null, 2), "application/json");
-  savedEl.textContent = "JSON exported";
 });
 document.getElementById("importBtn").addEventListener("click", function(){ document.getElementById("fileIn").click(); });
 document.getElementById("fileIn").addEventListener("change", function(e){
@@ -1044,70 +840,229 @@ document.getElementById("fileIn").addEventListener("change", function(e){
   var r = new FileReader();
   r.onload = function(){
     try {
-      var o = JSON.parse(r.result);
-      if (!confirm("Replace the current version with the imported file?")) return;
-      readPhases(o);
-      STEPS = normalizeSteps(Array.isArray(o) ? o : o.steps);
-      i = 0; wave = 1;
-      restructure(STEPS[0].id);
+      var incoming = JSON.parse(r.result);
+      incoming.forEach(function(s, ix){ if (STEPS[ix]) ["t","d","own","obj","scr","ctx","dur","fail","tools"].forEach(function(k){ if (s[k]) STEPS[ix][k] = s[k]; }); });
+      store.set(KEY, JSON.stringify(STEPS));
+      repaintCards();
+      paint();
       savedEl.textContent = "imported";
     } catch(err){ savedEl.textContent = "import failed — not valid JSON"; }
   };
   r.readAsText(f);
-  e.target.value = "";
 });
 document.getElementById("clearBtn").addEventListener("click", function(){
-  if (!confirm("Discard all edits and comments and restore the original 19 steps?")) return;
-  store.del(KEY); store.del(LEGACY_KEY);
-  DEFAULT_PHASES.forEach(function(p, ix){ PHASES[ix] = {name:p.name, de:p.de, art:p.art}; });
-  STEPS = blankSteps();
-  i = 0; wave = 1;
-  restructure(STEPS[0].id);
+  if (!confirm("Discard all edits and restore the original text?")) return;
+  store.del(KEY);
+  STEPS = load();
+  repaintCards();
+  paint();
   savedEl.textContent = "reset to defaults";
 });
-
-document.getElementById("shareBtn").addEventListener("click", function(){
-  var btn = this;
-  btn.textContent = "packing…";
-  packState().then(function(payload){
-    var url = location.origin + location.pathname + "#s=" + payload;
-    btn.textContent = "Copy share link";
-    if (url.length > 60000){
-      savedEl.textContent = "too large for a link — use Export JSON";
-      return;
-    }
-    copyText(url, "share link copied (" + Math.round(url.length / 1024) + " KB) — paste it to anyone");
-  }).catch(function(){
-    btn.textContent = "Copy share link";
-    savedEl.textContent = "link failed — use Export JSON";
-  });
+document.getElementById("copyBtn").addEventListener("click", function(){
+  var s = STEPS[i];
+  var outs = BRANCHES.filter(function(b){ return b.from === s.n; });
+  var md = "## " + s.n + " " + s.t + "\n\n" + s.d + "\n\n" +
+    "- Owner: " + s.own + "\n- Who runs it: " + whoRuns(s) + "\n- Typical: " + s.dur +
+    "\n- Creates: " + s.obj + "\n- Screen: " + s.scr + "\n" +
+    "- Context layer: " + LAYERS.filter(function(L, ix){ return s.lay[ix]; }).join(", ") + "\n\n" +
+    "**Context rule.** " + s.ctx + "\n\n" +
+    "**If it fails.** " + s.fail.w + " → " + s.fail.t + "\n\n" +
+    (outs.length ? "**Routes out**\n" + outs.map(function(b){
+      return "- " + b.route + " · " + b.name + " — " + b.trigger; }).join("\n") + "\n\n" : "") +
+    (s.tools.length ? "**Connected via MCP**\n" + s.tools.map(function(x){
+      return "- " + x.tn + " (" + x.dir + ") — " + x.tw; }).join("\n") : "");
+  var ta = document.createElement("textarea");
+  ta.value = md; document.body.appendChild(ta); ta.select();
+  try { document.execCommand("copy"); savedEl.textContent = "step copied as Markdown"; }
+  catch(e){ savedEl.textContent = "copy blocked by browser"; }
+  document.body.removeChild(ta);
 });
 
-/* --------------------------------------------------------------- incoming */
-function consumeHash(){
-  var m = /[#&]s=([^&]+)/.exec(location.hash);
-  if (!m) return Promise.resolve(false);
-  return unpackState(m[1]).then(function(o){
-    var hasLocal = !!store.get(KEY);
-    var ok = !hasLocal || confirm("This link contains a shared version.\n\nOpen it? Your own locally saved version will be replaced.\n\n(Cancel keeps yours — export it first if you want to keep both.)");
-    history.replaceState(null, "", location.pathname);
-    if (!ok) return false;
-    readPhases(o);
-    STEPS = normalizeSteps(Array.isArray(o) ? o : o.steps);
-    return true;
-  }).catch(function(){
-    history.replaceState(null, "", location.pathname);
-    savedEl.textContent = "shared link could not be read";
-    return false;
-  });
-}
+/* ---------- branches ---------- */
+var BRANCHES = [
+{from:"04", to:"05", route:"forward, flagged", hard:false,
+ name:"Context is thin or withheld",
+ trigger:"The client will not share strategy documents, workflow maps or KPIs.",
+ who:"Consultant, with the sponsor informed in writing.",
+ need:"A context completeness score shown before launch, and a standing limitation line in the deliverable. The wave still runs — it just runs on generic follow-ups, and everyone knows it in advance."},
 
-/* -------------------------------------------------------------------- arc */
+{from:"05", to:"05", route:"hold here", hard:true,
+ name:"No decision behind the assessment",
+ trigger:"Nobody can name what would change as a result of the finding.",
+ who:"Consultant and sponsor together. Not a platform decision.",
+ need:"The decision field blocks launch. This single constraint is what separates a diagnostic product from a survey tool."},
+
+{from:"08", to:"08", route:"back to audience setup", hard:true,
+ name:"A group falls below the anonymity threshold",
+ trigger:"An audience group is too small to report on without exposing individuals.",
+ who:"Consultant, under whichever anonymity policy governs — and that is an open question.",
+ need:"Merge groups or widen the audience before launch, never after. The system warns at configuration time; the deliverable inherits the merged grouping so wave two matches."},
+
+{from:"09", to:"08", route:"08 → 09 again", hard:false,
+ name:"Participation stalls",
+ trigger:"Completion sits below the agreed floor at the halfway date.",
+ who:"Consultant escalating to the sponsor, not the platform sending more reminders.",
+ need:"A live completion view by group, and re-invitation through the sponsor's own channel. A wave closed at 40% cannot carry any comparison built on it later."},
+
+{from:"10", to:"10", route:"stays, marked", hard:false,
+ name:"A theme has no corroboration",
+ trigger:"No source outside the interviews supports what people are saying.",
+ who:"The system flags it. A consultant decides whether it survives.",
+ need:"Low-confidence as a first-class state rather than a deletion. Some true themes only exist in language — they publish with the limitation attached."},
+
+{from:"11", to:"10", route:"back to analysis", hard:false,
+ name:"Theme rejected or recoded",
+ trigger:"The consultant excludes, merges or recodes a proposed theme.",
+ who:"Consultant. Always named, always recorded.",
+ need:"Rejection stored as signal, not erased. Over a year of engagements this is the asset that makes the analysis better than a generic model."},
+
+{from:"11", to:"07", route:"back to evidence", hard:true,
+ name:"Evidence too thin to answer the decision",
+ trigger:"The decision named at step 05 still cannot be answered after analysis.",
+ who:"Consultant, before anything reaches the client.",
+ need:"Add sources or extend the wave. The honest branch is a second pass; the tempting one is a weaker finding, and that is the one that costs the account."},
+
+{from:"13", to:"16", route:"one shared wave date", hard:false,
+ name:"Interventions will finish weeks apart",
+ trigger:"One activity completes in week three, another not until week ten.",
+ who:"Consultant, at the moment the measurement plan is written.",
+ need:"One wave date for the program plus a time to effect on each intervention. The alternative — a wave per intervention — means asking the same 1,200 people three times in ninety days, and participation collapses long before the comparison does."},
+
+{from:"14", to:"11", route:"back to validation", hard:true,
+ name:"Client disputes a finding",
+ trigger:"The sponsor rejects a finding at the readout — sometimes on evidence, sometimes on politics.",
+ who:"Consultant and sponsor, on the record.",
+ need:"Disputed is a state on the finding, stored with its full evidence trail. Deleting a disputed finding is how the evidence layer quietly becomes worthless."},
+
+{from:"15", to:"16", route:"on to 16, findings held", hard:true,
+ name:"An intervention has not had time to work",
+ trigger:"The measurement date arrives with one or more activities incomplete or only just finished.",
+ who:"Consultant and the client's delivery owner.",
+ need:"Score the findings whose interventions have had their time to effect and mark the rest too early to measure. Only hold the whole wave when nothing in the program has had long enough — a false negative on one finding is cheaper than a delayed wave for everyone else."},
+
+{from:"17", to:"19", route:"adapt or re-diagnose at 19", hard:true,
+ name:"A treated finding regressed",
+ trigger:"Wave two is worse than baseline exactly where an intervention ran.",
+ who:"Consultant and client, before the readout is written.",
+ need:"The comparison has to separate a failed intervention from an unrelated deterioration. Without that split every regression in the business reads as the studio's fault."},
+
+{from:"17", to:"05", route:"back to a new assessment", hard:true,
+ name:"Nothing moved anywhere",
+ trigger:"A full cycle completes and no finding shows movement in either direction.",
+ who:"Studio lead. This one is above the engagement.",
+ need:"Three candidate causes — wrong diagnosis, wrong intervention, window too short — and evidence for which. A retainer survives a bad wave; it does not survive an unexplained one."}
+];
+
+/* ---------- entry patterns ---------- */
+var PATTERNS = [
+{
+  name:"Co-start",
+  line:"Client has an ambition and a budget, but no program design. You shape the transformation and the diagnosis at the same time.",
+  from:1, to:19, soft:[],
+  short:"01 → 19", base:"True baseline",
+  blocks:[
+    ["Context at entry","Nothing exists. Steps 01 to 04 build all of it, which is why this shape is the slowest to start and the cheapest to repeat."],
+    ["What it gives you","A real baseline. Every later claim of movement is defensible because wave one was taken before anything changed."],
+    ["The risk","The client wants findings in week two. Steps 01 to 04 read as admin to them, and the engagement feels stalled before it starts."],
+    ["How it is handled","Context is treated as a deliverable rather than as setup. A context map and an audience coverage view on day three buy the first three weeks."]
+  ],
+  flag:["Why this shape is rare","Most clients only call once something is already going wrong. Treat the co-start as the shape you design for and the exception you actually get."]
+},
+{
+  name:"Join in flight",
+  line:"Twelve to eighteen months into a transformation. Adoption is flat, leadership is impatient, nobody knows whether it is the tool, the process or the organisation.",
+  from:4, to:19, soft:[1,2,3],
+  short:"04 → 19", base:"Retrospective, reconstructed",
+  blocks:[
+    ["Context at entry","Rich but scattered. Roadmaps, steering decks, prior surveys, an existing PMO tool. Client context gets reconstructed from artefacts instead of built from conversations."],
+    ["The structural problem","There is no baseline. Wave one is taken mid-flight, so it measures a system already in motion — and any later comparison inherits that flaw."],
+    ["How the product handles it","Mark wave one as a retrospective baseline and pull operational history — ticket volume, usage curves, prior survey results — to reconstruct a before-picture. State the limitation in the deliverable rather than hiding it."],
+    ["The risk","They hand you a conclusion and ask you to confirm it. Evidence strength on every finding is the defence: a pre-baked conclusion either survives contact with the data or it does not."]
+  ],
+  flag:["Why this matters most","This is the most common inbound in transformation advisory. A model that only works from a clean start does not work for most of what actually comes in."]
+},
+{
+  name:"Single diagnostic",
+  line:"A defined budget for one question. Why is the rollout losing people? No mandate to intervene, no program, no follow-on agreed.",
+  from:5, to:14, soft:[15,16,17,18,19],
+  short:"05 → 14", base:"Single point, no comparison",
+  blocks:[
+    ["Context at entry","Minimal, and there is no appetite to build more. The assessment has to be productive on thin context, which is exactly where a strong framework earns its keep."],
+    ["The trap","It ends at the readout. No intervention, no measurement, no proof, no follow-on. The engagement is a report, and a report that changes nothing damages the studio more than no engagement at all."],
+    ["How to break the trap","Write the measurement plan at step 13 even when nobody has commissioned the intervention. The deliverable closes with a named re-measurement date, so there is something to compare against later."],
+    ["How it is handled","The object model still needs a program, so one is created implicitly — a lightweight program named after the diagnostic. The model stays intact and the interface never asks for it."]
+  ],
+  flag:["What it leaves behind","A diagnostic that ends without a named re-measurement date leaves nothing to compare against. That date is the difference between a report and a baseline."]
+},
+{
+  name:"Prove it worked",
+  line:"Someone else ran the change program. The client wants independent evidence that it landed, often just before renewing a budget or a vendor.",
+  from:16, to:19, soft:[9,10,11,12],
+  short:"16 → 19", base:"Proxy, constructed after the fact",
+  blocks:[
+    ["Context at entry","Whatever the previous party left behind. No comparable baseline exists — they almost certainly measured satisfaction rather than behaviour."],
+    ["How the product handles it","Build a proxy baseline from operational history plus retrospective interview questions: what did you do before, what do you do now, when did it change. Label every resulting outcome as reconstructed."],
+    ["The risk","You are ammunition in someone's internal argument. The approval gate on findings matters more here than anywhere else in the product."],
+    ["Why it is worth doing","The client has already spent heavily and still has no independent read on what it bought. The next conversation is usually about what to do with what you found."]
+  ],
+  flag:["Non-negotiable","An outcome claim without a stated baseline provenance is not publishable. This shape is where that rule gets tested."]
+},
+{
+  name:"Retained loop",
+  line:"The relationship is continuous. The client runs several programs and Now to Next holds the evidence layer across all of them.",
+  from:5, to:19, soft:[1,2,3,4],
+  short:"05 → 19, repeating", base:"Compounding across waves",
+  blocks:[
+    ["Context at entry","Everything exists and is maintained. Client context gets refreshed annually, program context continuously, and neither is ever rebuilt from scratch."],
+    ["What changes","The unit of work becomes a wave rather than an engagement. A portfolio view across programs becomes meaningful for the first time, because the instrument is finally the same everywhere."],
+    ["The risk","Without visible movement between waves there is no reason to keep the loop running. This shape lives or dies on the wave comparison screen."],
+    ["Why it is the hardest to fake","Nothing here works without a real baseline and an instrument that never changed. Every earlier shape is a step toward being able to run this one honestly."]
+  ],
+  flag:["What it assumes","That client and program context stay maintained rather than rebuilt. The moment someone re-creates the client record, the compounding stops."]
+}
+];
+
+var patHost = document.getElementById("patterns");
+var sumBody = document.getElementById("sumbody");
+
+PATTERNS.forEach(function(p, pi){
+  var segs = "";
+  for (var k = 1; k <= 19; k++){
+    var cls = (k >= p.from && k <= p.to) ? " hit" : (p.soft.indexOf(k) > -1 ? " soft" : "");
+    segs += '<span class="seg' + cls + '"></span>';
+  }
+  var blocks = p.blocks.map(function(b){
+    return '<div class="pblock"><h5>' + b[0] + '</h5><p>' + b[1] + '</p></div>';
+  }).join("");
+  var el = document.createElement("div");
+  el.className = "pat" + (pi === 0 ? " open" : "");
+  el.innerHTML =
+    '<div class="pathead">' +
+      '<div><p class="pat-name">' + p.name + '</p><p class="pat-line">' + p.line + '</p></div>' +
+      '<div><div class="strip">' + segs + '</div><span class="range">work spans <b>' + p.short + '</b></span></div>' +
+      '<span class="chev">›</span>' +
+    '</div>' +
+    '<div class="patbody">' +
+      '<div class="pgrid">' + blocks +
+        '<div class="pblock flag"><h5>' + p.flag[0] + '</h5><p>' + p.flag[1] + '</p></div>' +
+      '</div>' +
+      '<div class="tagrow">' +
+        '<span class="mini">Baseline: <b>' + p.base + '</b></span>' +
+      '</div>' +
+    '</div>';
+  el.querySelector(".pathead").addEventListener("click", function(){ el.classList.toggle("open"); });
+  patHost.appendChild(el);
+
+  var tr = document.createElement("tr");
+  tr.innerHTML = '<td>' + p.name + '</td><td>' + p.short + '</td><td>' + p.base + '</td>';
+  sumBody.appendChild(tr);
+});
+
 function drawArc(){
   var svg = document.getElementById("arc"), box = svg.getBoundingClientRect();
-  if (box.width < 10 || phaseEls.length < 2) return;
-  var from = phaseEls[phaseEls.length - 1].getBoundingClientRect(), to = phaseEls[1].getBoundingClientRect();
-  var x1 = from.left + from.width / 2 - box.left, x2 = to.left + to.width / 2 - box.left;
+  if (box.width < 10) return;
+  var from = phaseEls[5].getBoundingClientRect(), to = phaseEls[1].getBoundingClientRect();
+  var x1 = from.left + from.width/2 - box.left, x2 = to.left + to.width/2 - box.left;
   var d = "M " + x1 + " 4 C " + x1 + " 72, " + x2 + " 72, " + x2 + " 8";
   document.getElementById("arcpath").setAttribute("d", d);
   arclive.setAttribute("d", d);
@@ -1117,18 +1072,12 @@ function drawArc(){
 }
 window.addEventListener("resize", drawArc);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawArc);
+drawArc();
+paint();
+savedEl.textContent = store.get(KEY) ? "loaded your saved version" : "using defaults";
 
-/* ------------------------------------------------------------------- boot */
-function boot(shared){
-  renderBoard();
-  paint();
-  drawArc();
-  if (shared){ save(); savedEl.textContent = "opened a shared version"; }
-  else savedEl.textContent = store.get(KEY) ? "loaded your saved version" : "using defaults";
-  if (reduced){ playing = false; playBtn.textContent = "Play"; playBtn.classList.remove("on"); }
-  else schedule(900);
-}
-consumeHash().then(boot, function(){ boot(false); });
+if (reduced){ playing = false; playBtn.textContent = "Play"; playBtn.classList.remove("on"); }
+else { schedule(900); }
 </script>
 </body>
 </html>
