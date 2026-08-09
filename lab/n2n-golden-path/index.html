@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Insivo × Now to Next — how one engagement runs, end to end</title>
-<meta name="description" content="The working model behind Insivo: the steps a transformation engagement moves through, who runs each one, and what comes out of it. Pre-read for the Now to Next session on 20 August.">
+<title>Insivo × Now to Next</title>
+<meta name="description" content="How one engagement runs from first client record to proven movement, and the client profile it lands best in. Working draft ahead of the session on 20 August.">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <meta name="googlebot" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Insivo × Now to Next — how one engagement runs, end to end">
-<meta property="og:description" content="Who runs each step, what it produces, and what happens when it does not go to plan.">
+<meta property="og:title" content="Insivo × Now to Next">
+<meta property="og:description" content="How one engagement runs end to end, and where it lands best.">
 <link rel="icon" href="/favicon-32x32.png" sizes="32x32">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,6 +35,12 @@ body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans
 .hm b{font-weight:500;color:var(--ink)}
 .howto{margin-top:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:14px 30px;font-size:12.5px;color:var(--ink-3);line-height:1.55}
 .howto b{display:block;font-weight:500;color:var(--ink-2);margin-bottom:2px}
+.pnav{position:sticky;top:12px;z-index:40;display:inline-flex;gap:7px;flex-wrap:wrap;margin-bottom:26px;padding:6px;border-radius:28px;background:rgba(255,255,255,0);border:1px solid transparent;transition:background .3s,border-color .3s,box-shadow .3s,backdrop-filter .3s}
+.pnav.stuck{background:rgba(255,255,255,.74);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line);box-shadow:0 10px 26px -14px rgba(24,25,32,.24)}
+.pt{font-family:inherit;font-size:13.5px;letter-spacing:-.005em;padding:9px 17px;border-radius:22px;border:1px solid var(--line);background:#fff;color:var(--ink-3);cursor:pointer;transition:.22s}
+.pt:hover{border-color:var(--indigo-line);color:var(--ink-2)}
+.pt.on{background:var(--indigo);border-color:var(--indigo);color:#fff;font-weight:500}
+.page[hidden]{display:none}
 .hnote{margin:20px 0 0;font-size:11.5px;color:var(--ink-3);line-height:1.6;max-width:74ch}
 .pagefoot{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-3);line-height:1.6}
 .pagefoot p{margin:0 0 6px;max-width:76ch}
@@ -224,6 +230,81 @@ body.edit .panel{border-color:var(--indigo-line)}
 .frt .jump{font-size:10.5px;font-variant-numeric:tabular-nums;color:var(--indigo-deep);background:var(--indigo-soft);border:0;border-radius:4px;padding:3px 7px;cursor:pointer;flex-shrink:0}
 .frt .jump:hover{background:var(--indigo);color:#fff}
 
+
+/* ---------- icp ---------- */
+.sub3{font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:600;color:var(--ink-3);margin:34px 0 12px}
+.snapwrap{margin-bottom:26px}
+.snapgrid{display:grid;grid-template-columns:1.55fr .85fr;gap:12px;align-items:stretch}
+.asks{background:var(--indigo-soft);border:1px solid var(--indigo-line);border-radius:14px;padding:17px 17px 15px;display:flex;flex-direction:column}
+.asksh{margin:0 0 12px;font-size:10px;letter-spacing:.09em;text-transform:uppercase;font-weight:600;color:var(--indigo)}
+.askbubbles{display:flex;flex-direction:column;gap:8px}
+.ask{background:#fff;border:1px solid var(--indigo-line);border-radius:14px 14px 14px 5px;padding:9px 12px;font-size:12.5px;line-height:1.45;color:var(--ink)}
+.askwho{display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:15px}
+.askwho svg{width:26px;height:29px;flex-shrink:0}
+.askwho span{font-size:11px;line-height:1.35;color:var(--ink-3)}
+.rv.in .ask{animation:fadeIn .5s ease both}
+.rv.in .ask:nth-child(1){animation-delay:.16s}
+.rv.in .ask:nth-child(2){animation-delay:.32s}
+.rv.in .ask:nth-child(3){animation-delay:.48s}
+.rv.in .ask:nth-child(4){animation-delay:.64s}
+@media (max-width:900px){.snapgrid{grid-template-columns:1fr}}
+.snap{background:#fff;border:1px solid var(--line);border-radius:14px;padding:4px 22px}
+.snaprow{display:grid;grid-template-columns:132px 1fr;gap:8px 22px;padding:13px 0;border-top:1px solid var(--line)}
+.snaprow:first-child{border-top:0}
+.snaprow k{font-size:10px;letter-spacing:.09em;text-transform:uppercase;font-weight:600;color:var(--ink-3);padding-top:3px}
+.snaprow p{margin:0;font-size:14px;line-height:1.45;color:var(--ink);max-width:62ch}
+.snaprow em{font-style:normal;color:var(--ink-3)}
+.exwrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.ex{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 16px 15px;text-align:center}
+.ex.good{border-color:var(--indigo-line)}
+.ex svg{width:100%;max-width:190px;height:auto;display:block;margin:0 auto 10px}
+.exbig{margin:0;font-size:22px;font-weight:600;letter-spacing:-.024em;line-height:1.1}
+.exsub{margin:4px 0 0;font-size:12px;color:var(--ink-3)}
+.exchip{display:inline-block;margin-top:12px;font-size:10px;letter-spacing:.07em;text-transform:uppercase;font-weight:600;padding:4px 11px;border-radius:20px}
+.exchip.no{background:#fff;border:1px solid var(--line);color:var(--ink-3)}
+.exchip.yes{background:var(--indigo);color:#fff}
+.exwarn{margin:11px 0 0;font-size:11px;line-height:1.5;color:var(--ink-3);max-width:34ch;margin-left:auto;margin-right:auto}
+.exlegend{display:flex;flex-wrap:wrap;gap:7px 20px;margin-top:13px;font-size:11.5px;color:var(--ink-3)}
+.exlegend span{display:inline-flex;align-items:center;gap:7px}
+.exlegend i{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.exlegend .i1{border:1.5px solid var(--ink-3)}
+.exlegend .i2{background:var(--indigo)}
+.exlegend .i3{border:1.5px dashed var(--indigo)}
+.gates{display:grid;grid-template-columns:1fr 1fr;gap:14px 26px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;line-height:1.55;color:var(--ink-3)}
+.gates b{display:block;font-weight:500;color:var(--ink-2);margin-bottom:3px}
+@media (max-width:700px){.gates{grid-template-columns:1fr}}
+@media (max-width:700px){.exwrap{grid-template-columns:1fr}}
+.snapnote{margin:13px 0 0;font-size:12.5px;line-height:1.6;color:var(--ink-3);max-width:76ch}
+.s3lead{margin:-3px 0 14px;font-size:13px;line-height:1.6;color:var(--ink-3);max-width:78ch}
+@media (max-width:900px){.snaprow{grid-template-columns:1fr;gap:3px}}
+.primary{background:#fff;border:1px solid var(--indigo-line);border-radius:14px;padding:26px 28px 24px}
+.ptag{margin:0 0 13px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--indigo)}
+.primary h3{margin:0 0 13px;font-size:24px;line-height:1.2;font-weight:600;letter-spacing:-.026em;max-width:32ch}
+.plead{margin:0 0 20px;font-size:14.5px;line-height:1.6;color:var(--ink-2);max-width:68ch}
+.pnote{margin:18px 0 0;padding-top:15px;border-top:1px solid var(--line);font-size:12.5px;line-height:1.6;color:var(--ink-3);max-width:74ch}
+.pnote b{font-weight:500;color:var(--ink-2)}
+.icpwrap{display:grid;grid-template-columns:.85fr 1.6fr;gap:12px;align-items:start}
+.icpnav{display:flex;flex-direction:column;gap:6px}
+.icpb{text-align:left;background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 13px;cursor:pointer;transition:.22s;font-family:inherit}
+.icpb:hover{border-color:var(--indigo-line)}
+.icpb b{display:block;font-size:13px;font-weight:500;color:var(--ink);line-height:1.3}
+.icpb span{display:block;font-size:11px;color:var(--ink-3);margin-top:3px;line-height:1.4}
+.icpb.on{background:var(--indigo);border-color:var(--indigo)}
+.icpb.on b{color:#fff;font-weight:600}
+.icpb.on span{color:rgba(255,255,255,.72)}
+.icppanel{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;position:sticky;top:14px}
+.icppanel h4{margin:0 0 9px;font-size:19px;font-weight:600;letter-spacing:-.02em}
+.icppanel .what{margin:0 0 18px;font-size:14px;line-height:1.6;color:var(--ink-2);max-width:62ch}
+.icprow{display:grid;grid-template-columns:150px 1fr;gap:8px 20px;padding:11px 0;border-top:1px solid var(--line)}
+.icprow k{font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-3);padding-top:2px}
+.icprow p{margin:0;font-size:13px;line-height:1.55;color:var(--ink-2);max-width:58ch}
+.icprow.key p{color:var(--ink)}
+@media (max-width:900px){.icpwrap{grid-template-columns:1fr}.icppanel{position:static}.icprow{grid-template-columns:1fr;gap:3px}}
+.listen{margin-top:32px;background:var(--indigo-soft);border:1px solid var(--indigo-line);border-radius:12px;padding:22px 24px}
+.listen .lq{margin:0;font-size:19px;line-height:1.4;font-weight:500;letter-spacing:-.018em;color:var(--ink);max-width:62ch}
+.listen .lqn{margin:10px 0 0;font-size:12.5px;color:var(--ink-2)}
+@media (max-width:900px){.icpgrid{grid-template-columns:1fr}.vcard{position:static}}
+
 /* ---------- open questions ---------- */
 .qhead{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin-bottom:20px}
 .q{border:1px solid var(--line);background:#fff;border-radius:12px;padding:18px 22px 16px;margin-bottom:10px}
@@ -263,21 +344,40 @@ body.edit .panel{border-color:var(--indigo-line)}
   .cols{grid-template-columns:1fr;gap:18px}
   .tabs{overflow-x:auto}
 }
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.rv{opacity:0;transform:translateY(16px);transition:opacity .62s cubic-bezier(.22,.61,.36,1),transform .62s cubic-bezier(.22,.61,.36,1)}
+.rv.in{opacity:1;transform:none}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.page.shown{animation:fadeIn .4s ease both}
+.tabbody.fresh{animation:fadeIn .24s ease both}
+.step:hover{border-color:var(--indigo-line)}
+.ex{transition:border-color .25s,box-shadow .25s}
+.ex:hover{box-shadow:0 10px 26px -18px rgba(24,25,32,.3)}
+.icppanel,.primary,.snap{transition:box-shadow .3s}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1!important;transform:none!important}}
 </style>
 </head>
 <body>
 <div class="stage">
 
   <div class="hero">
-    <p class="brow">Insivo × Now to Next</p>
-    <h1>How one engagement runs, end to end</h1>
-    <p class="lead">A walkthrough of one full engagement — from opening a client record to proving movement ninety days later. Each step shows who runs it, how long it takes, what it produces, and what happens when it does not go to plan. Below the path: the five shapes real engagements take, depending on how far into a transformation you get called in.</p>
+    <p class="brow">Working documents</p>
+    <h1>Insivo × Now to Next</h1>
+    <p class="lead">Two things in one place: how a single engagement runs from opening a client record to proving movement ninety days later, and the client profile that engagement lands best in.</p>
     <div class="herometa">
       <span class="hm">Prepared for <b>Jason, Jess and Rachel</b></span>
       <span class="hm">For the session on <b>20 August</b></span>
-      <span class="hm">About <b>ten minutes</b> to read</span>
+      <span class="hm">Two sections, about <b>fifteen minutes</b></span>
     </div>
+  </div>
+
+  <div class="pnav">
+    <button class="pt on" data-p="0" data-h="engagement">How one engagement runs, end to end</button>
+    <button class="pt" data-p="1" data-h="icp">Insivo ICP</button>
+  </div>
+
+  <section id="p0" class="page">
+
+  <p class="sub3" style="margin-top:0">How to read this</p>
     <div class="howto">
       <div><b>It plays itself.</b> Press Pause and click any step to stop where you want and read it properly.</div>
       <div><b>Every step has four tabs.</b> What happens, which context layer it touches, which client systems it connects to, and what happens when it fails.</div>
@@ -285,7 +385,6 @@ body.edit .panel{border-color:var(--indigo-line)}
       <div><b>Phases end on a condition, not on a step.</b> Under each &ldquo;produces&rdquo; is the thing that has to be true before the phase can close.</div>
     </div>
     <p class="hnote">Durations are rough ranges to argue with, not commitments. Press <b>Edit</b> to change any wording in place — changes save to your own browser and go nowhere else.</p>
-  </div>
 
   <div class="top">
     <div>
@@ -373,6 +472,106 @@ body.edit .panel{border-color:var(--indigo-line)}
     <div><b>The shapes share one model.</b> A diagnostic that later becomes a program keeps its evidence rather than starting over, because both run against the same object chain.</div>
     <div><b>Open question for the 20th.</b> Which of these five matches the engagement you have in design?</div>
   </div>
+
+
+  </section>
+
+  <section id="p1" class="page" hidden>
+
+  <div class="split" style="margin-top:0;padding-top:0;border-top:0">
+    <p class="eyebrow">Client fit</p>
+    <h2>The best client, and the ones next to it</h2>
+  </div>
+
+  <div class="snapwrap">
+    <p class="ptag">Best fit</p>
+    <div class="snapgrid">
+    <div class="snap">
+      <div class="snaprow"><k>Organisation</k><p>Mid-market to enterprise</p></div>
+      <div class="snaprow"><k>Transformation</k><p>AI moving out of pilot and strategy into real workflow and role change</p></div>
+      <div class="snaprow"><k>Scale</k><p>150+ people actually affected <em>— not 150+ employees</em></p></div>
+      <div class="snaprow"><k>Buyer</k><p>AI or Transformation lead, CHRO or People Transformation lead, senior programme lead</p></div>
+      <div class="snaprow"><k>Trigger</k><p>Something is not landing, and nobody senior can say what or why</p></div>
+      <div class="snaprow"><k>Need</k><p>Understand &rarr; act &rarr; re-measure</p></div>
+    </div>
+    <div class="asks">
+      <p class="asksh">What they are asking</p>
+      <div class="askbubbles">
+        <div class="ask">Where does AI actually fit into how we really work?</div>
+        <div class="ask">How ready is our workforce, really?</div>
+        <div class="ask">Where is the transformation getting stuck?</div>
+        <div class="ask">How do we know whether our interventions are actually working?</div>
+      </div>
+      <div class="askwho">
+        <svg viewBox="0 0 40 44" fill="none" aria-hidden="true">
+          <circle cx="20" cy="12" r="8" stroke="var(--indigo)" stroke-width="2"/>
+          <path d="M4 42v-4c0-8.8 7.2-16 16-16s16 7.2 16 16v4" stroke="var(--indigo)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span>The one person accountable for proving the transformation worked</span>
+      </div>
+    </div>
+    </div>
+    <p class="snapnote">Headcount tells you whether they can afford it. The number of people the change actually reaches tells you whether the method works at all. Both have to hold. The circles below are drawn to the same scale.</p>
+    <div class="exwrap">
+      <div class="ex">
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="88.0" fill="#FAFAFB" stroke="var(--line)" stroke-width="1"/>
+        <circle cx="100" cy="100" r="15.2" fill="none" stroke="var(--indigo-line)" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <circle cx="100" cy="100" r="7.9" fill="var(--ink-3)"/>
+      </svg>
+        <p class="exbig"><span class="cnt" data-to="40">40</span> affected</p>
+        <p class="exsub">out of 5,000 employees</p>
+        <p class="exchip no">Poor fit</p>
+      </div>
+      <div class="ex good">
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="30.5" fill="#FAFAFB" stroke="var(--line)" stroke-width="1"/>
+        <circle cx="100" cy="100" r="26.4" fill="var(--indigo)"/>
+        <circle cx="100" cy="100" r="15.2" fill="none" stroke="#fff" stroke-width="1.5" stroke-dasharray="4 4" opacity=".5"/>
+      </svg>
+        <p class="exbig"><span class="cnt" data-to="450">450</span> affected</p>
+        <p class="exsub">out of 600 employees</p>
+        <p class="exchip yes">Strong fit</p>
+        <p class="exwarn">Methodically, yes. Still check that a named owner and a budget exist.</p>
+      </div>
+    </div>
+    <div class="exlegend">
+      <span><i class="i1"></i>Everyone employed</span>
+      <span><i class="i2"></i>People the change actually reaches</span>
+      <span><i class="i3"></i>150 affected — where a wave starts paying for itself</span>
+    </div>
+    <div class="gates">
+      <div><b>Does the method work?</b> Decided by the number of people the change reaches. Below fifty, a consultant can simply talk to everyone and the groups are too small to report on. Above a hundred and fifty, neither is true any more.</div>
+      <div><b>Can they actually run it?</b> Decided by the organisation. A named owner with a budget, a change portfolio that keeps producing waves, and leadership far enough from the floor that they cannot see it by walking around. That one does correlate with size.</div>
+    </div>
+  </div>
+
+  <div class="primary">
+    <p class="ptag">What that looks like from inside</p>
+    <h3>An organisation redesigning work because of AI, with one person accountable for proving it worked</h3>
+    <p class="plead">Past the pilot stage. Roles, processes and decision rights actually changing, across enough of the workforce that leadership cannot see it by walking around. There is a business case with expected outcomes in it, and no independent read on whether any of them are landing.</p>
+    <div class="icprow"><k>What they cannot see</k><p>Status reports show milestones and dashboards show logins. Neither shows which teams kept the old process running next to the new one, which roles feel displaced rather than augmented, or where middle management is absorbing the change instead of passing it on.</p></div>
+    <div class="icprow key"><k>What a first wave answers</k><p>How ready the workforce actually is, how the work is changing in practice rather than on paper, where friction is concentrating, and which parts of the organisation have quietly disengaged — with a second wave ninety days later showing whether the interventions moved anything.</p></div>
+    <p class="pnote"><b>Why this one.</b> It is the same diagnostic problem as a core system rollout, which is where our evidence base is strongest: the distance between what leadership is told and what is actually happening. The method does not change, only the label on the programme — and this is the label it carries in AI transformation work.</p>
+  </div>
+
+  <p class="sub3">Same problem, other names</p>
+  <p class="s3lead">AI transformation is where an engagement lands. The evidence problem underneath it is not specific to AI — it turns up under these names too, and the method does not change with the label.</p>
+
+  <div class="icpwrap">
+    <div class="icpnav" id="icpnav"></div>
+    <div class="icppanel" id="icppanel"></div>
+  </div>
+
+  <div class="listen">
+    <p class="lq">&ldquo;How do we understand what is really happening across the workforce, act on it, and prove it improved?&rdquo;</p>
+    <p class="lqn">If a client is asking a version of that sentence, that is the moment. It is the one question a survey cannot finish answering.</p>
+  </div>
+
+  <p class="sub3">Where it does not fit</p>
+  <div class="foot" style="margin-top:0;padding-top:0;border-top:0" id="antifit"></div>
+
+  </section>
 
   <div class="pagefoot">
     <p><b>This is a working draft.</b> The wording, the durations and the split of who runs what are all meant to be argued with, not signed off.</p>
@@ -593,7 +792,7 @@ var DEFAULTS = [
         {dir:"write",tn:"Google Calendar",tw:"Book the follow-up measurement date"}]}
 ];
 
-var KEY = "insivo.goldenpath.v4";
+var KEY = "insivo.goldenpath.v5";
 var mem = {};
 var store = {
   get:function(k){ try{ return localStorage.getItem(k); }catch(e){ return mem[k] || null; } },
@@ -690,6 +889,7 @@ function ed(field, val, tag){
 
 function renderTab(){
   var s = STEPS[i];
+  if (!reduced){ body.classList.remove("fresh"); void body.offsetWidth; body.classList.add("fresh"); }
   if (tab === 0){
     body.innerHTML = '<div class="cols"><div>' + ed("d","","p").replace("></p>", '>' + esc(s.d) + '</p>') +
       '</div><div>' +
@@ -970,7 +1170,7 @@ var PATTERNS = [
 },
 {
   name:"Join in flight",
-  line:"Twelve to eighteen months into a transformation. Adoption is flat, leadership is impatient, nobody knows whether it is the tool, the process or the organisation.",
+  line:"Twelve to eighteen months into a transformation. Progress has stalled, leadership is impatient, nobody knows whether it is the tool, the process or the organisation.",
   from:4, to:19, soft:[1,2,3],
   short:"04 → 19", base:"Retrospective, reconstructed",
   blocks:[
@@ -1058,7 +1258,169 @@ PATTERNS.forEach(function(p, pi){
   sumBody.appendChild(tr);
 });
 
+/* ---------- icp ---------- */
+var ICPS = [
+{n:"Culture transformation", k:"Values and behaviours, post-launch",
+ what:"New values, new leadership behaviours, a new operating culture being rolled out across the organisation.",
+ when:"Six to twelve months in, when the launch energy is gone and nobody can say whether anything actually changed.",
+ who:"CHRO or People Transformation lead.",
+ blind:"Engagement scores move a point and nobody can explain it. The gap between the stated culture and the lived one exists almost entirely in language.",
+ wave:"Which behaviours are practised rather than posted, where stated and lived culture diverge by function and by level, and which leaders people actually cite as the example."},
+
+{n:"Operating model redesign", k:"Restructuring, spans and layers",
+ what:"A new structure with new accountabilities, new handovers and a new answer to who decides what.",
+ when:"Once the new chart is live and people have worked inside it for a quarter.",
+ who:"COO or transformation lead.",
+ blind:"The chart says who decides. It does not say whether anyone is deciding that way.",
+ wave:"Where the new model is being worked around, which handovers are broken, and where accountability has become ambiguous enough that nothing moves at all."},
+
+{n:"Workforce and capability", k:"Reskilling, new ways of working",
+ what:"The workforce side of a larger change — reskilling, hybrid models, new ways of working.",
+ when:"When the learning budget is spent and leadership wants to know what it bought.",
+ who:"CHRO or People Transformation lead.",
+ blind:"Completion rates prove attendance. They prove nothing about whether the capability is being used in the work.",
+ wave:"Where new skills are actually applied, which roles have changed in practice rather than on paper, and where capability gaps are blocking the rest of the programme."},
+
+{n:"Core system rollout", k:"S/4HANA, Workday, Salesforce",
+ what:"A system replacement that changes how thousands of people work, not just which software they open. This is the shape the method was originally built against, and where the evidence base is deepest.",
+ when:"Between go-live and stabilisation, when tickets rise and usage flattens out.",
+ who:"Programme director, with the process owners.",
+ blind:"The ticket system records what broke. It does not record the workarounds people built instead of raising a ticket.",
+ wave:"Where the process is being worked around, which training gaps are real rather than assumed, and which sites are months behind the rollout plan without having said so."},
+
+{n:"Post-merger integration", k:"Two organisations, one model",
+ what:"Two organisations becoming one operating model, one set of processes, one way of deciding.",
+ when:"After legal close, once the integration workstreams meet the actual people.",
+ who:"Integration lead, with the CHRO on the people side.",
+ blind:"The integration plan tracks structure. It does not track whether the acquired side has stopped running its old decision path.",
+ wave:"Where the two organisations are still operating separately, how trust in the new leadership sits by legacy entity, and which integration decisions have been announced but not accepted."}
+];
+
+var icpNav = document.getElementById("icpnav"), icpPanel = document.getElementById("icppanel"), icpBtns = [];
+function showIcp(i){
+  var c = ICPS[i];
+  icpBtns.forEach(function(b, bi){ b.classList.toggle("on", bi === i); });
+  icpPanel.innerHTML = '<h4>' + c.n + '</h4><p class="what">' + c.what + '</p>' +
+    '<div class="icprow"><k>When they call</k><p>' + c.when + '</p></div>' +
+    '<div class="icprow"><k>Who owns it</k><p>' + c.who + '</p></div>' +
+    '<div class="icprow"><k>What they cannot see</k><p>' + c.blind + '</p></div>' +
+    '<div class="icprow key"><k>What a first wave answers</k><p>' + c.wave + '</p></div>';
+}
+ICPS.forEach(function(c, i){
+  var b = document.createElement("button");
+  b.className = "icpb";
+  b.innerHTML = '<b>' + c.n + '</b><span>' + c.k + '</span>';
+  b.addEventListener("click", function(){ showIcp(i); });
+  icpNav.appendChild(b); icpBtns.push(b);
+});
+showIcp(0);
+
+var ANTIFIT = [
+["No owner yet.","If the sponsor is a committee, findings have nowhere to land and the engagement stalls at validation."],
+["The question is a tooling decision.","Which platform to buy is not an organisational question. We read how work is changing, not which vendor wins."],
+["Small enough to just ask.","Under roughly fifty affected people, a consultant can talk to everyone directly — and the groups are too small to report on without exposing individuals."],
+["Leadership already knows the answer.","If the brief is to confirm a decision already made, an evidence layer becomes a liability the moment it disagrees."]
+];
+
+var aHost = document.getElementById("antifit");
+ANTIFIT.forEach(function(a){
+  var el = document.createElement("div");
+  el.innerHTML = '<b>' + a[0] + '</b> ' + a[1];
+  aHost.appendChild(el);
+});
+
+function goPage(n, push){
+  document.getElementById("p0").hidden = (n !== 0);
+  document.getElementById("p1").hidden = (n !== 1);
+  document.querySelectorAll(".pt").forEach(function(b){ b.classList.toggle("on", +b.dataset.p === n); });
+  var shown = document.getElementById("p" + n);
+  if (!reduced){ shown.classList.remove("shown"); void shown.offsetWidth; shown.classList.add("shown"); }
+  if (push) { try { history.replaceState(null, "", "#" + (n === 1 ? "icp" : "engagement")); } catch (e) {} }
+  if (n === 0) drawArc();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+document.querySelectorAll(".pt").forEach(function(b){
+  b.addEventListener("click", function(){ goPage(+b.dataset.p, true); });
+});
+try { if (location.hash.replace("#","") === "icp") goPage(1, false); } catch (e) {}
+
+
+/* ---------- motion polish ---------- */
+(function(){
+  var nav = document.querySelector(".pnav");
+  var ticking = false;
+  function onScroll(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){
+      nav.classList.toggle("stuck", nav.getBoundingClientRect().top <= 13);
+      ticking = false;
+    });
+  }
+  window.addEventListener("scroll", onScroll, {passive:true});
+  onScroll();
+
+  if (reduced || !("IntersectionObserver" in window)) return;
+
+  var ease = function(t){ return 1 - Math.pow(1 - t, 3); };
+
+  /* grow the comparison circles and count the numbers up */
+  var circles = [].slice.call(document.querySelectorAll(".ex circle"));
+  circles.forEach(function(c){ c.dataset.r = c.getAttribute("r"); c.setAttribute("r", 0); });
+  var counters = [].slice.call(document.querySelectorAll(".cnt"));
+  counters.forEach(function(c){ c.textContent = "0"; });
+  function runExample(){
+    var start = null, dur = 950;
+    function frame(ts){
+      if (!start) start = ts;
+      var t = Math.min(1, (ts - start) / dur), e = ease(t);
+      circles.forEach(function(c, ix){
+        var delay = (ix % 3) * 0.12;
+        var lt = Math.max(0, Math.min(1, (t - delay) / (1 - delay)));
+        c.setAttribute("r", (+c.dataset.r * ease(lt)).toFixed(2));
+      });
+      counters.forEach(function(c){ c.textContent = Math.round(+c.dataset.to * e); });
+      if (t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* staggered reveal for the static blocks */
+  var targets = [];
+  [".hero .brow",".hero h1",".hero .lead",".herometa",".sub3",".howto",".hnote",
+   ".top",".legend",".panel",".foot",".split","#patterns",".sumtab",
+   ".snapwrap .ptag",".snap",".asks",".snapnote",".ex",".exlegend",".gates",
+   ".primary",".s3lead",".icpwrap",".listen","#antifit",".pagefoot"
+  ].forEach(function(sel){
+    [].slice.call(document.querySelectorAll(sel)).forEach(function(el){
+      if (targets.indexOf(el) === -1) targets.push(el);
+    });
+  });
+  targets.forEach(function(el){ el.classList.add("rv"); });
+
+  var seen = 0, fired = false;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      var el = en.target;
+      setTimeout(function(){ el.classList.add("in"); }, Math.min(seen, 4) * 55);
+      seen++;
+      setTimeout(function(){ seen = 0; }, 400);
+      io.unobserve(el);
+      if (!fired && el.classList.contains("ex")){ fired = true; setTimeout(runExample, 220); }
+    });
+  }, {rootMargin:"0px 0px -8% 0px", threshold:0.08});
+  targets.forEach(function(el){ io.observe(el); });
+
+  /* safety net: never leave anything hidden */
+  setTimeout(function(){
+    targets.forEach(function(el){ el.classList.add("in"); });
+    if (!fired){ fired = true; runExample(); }
+  }, 6000);
+})();
+
 function drawArc(){
+  if (document.getElementById("p0").hidden) return;
   var svg = document.getElementById("arc"), box = svg.getBoundingClientRect();
   if (box.width < 10) return;
   var from = phaseEls[5].getBoundingClientRect(), to = phaseEls[1].getBoundingClientRect();
