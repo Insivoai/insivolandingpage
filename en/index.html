@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <title>insivo · Project Intelligence for IT and Transformation Projects</title>
+    <title>insivo · Spot Go-Live Risks Early — S/4HANA Adoption Diagnostics</title>
     <meta name="description" content="Insivo diagnoses live IT and transformation projects. In 3 to 5 days you get root causes, prioritized actions and missing documents - straight from hundreds of interviews with your project stakeholders. GDPR-compliant, works-council-ready, EU-hosted." />
     <meta name="keywords" content="Project Intelligence, IT Project Diagnostics, SAP S/4HANA Migration, Go-Live Readiness Check, Transformation Diagnostics, Project Audit DACH" />
     <link rel="canonical" href="https://insivo.ai/en/" />
@@ -227,16 +227,31 @@
             padding: 8px 16px; border-radius: 20px;
             cursor: pointer; transition: all 0.2s;
             user-select: none;
+            background: none; border: 0; font-family: inherit;
         }
-        .nav-dropdown-trigger:hover,
-        .nav-dropdown:hover .nav-dropdown-trigger {
+        /* Hover only on real pointing devices, otherwise touch fires twice */
+        @media (hover: hover) and (pointer: fine) {
+            .nav-dropdown-trigger:hover,
+            .nav-dropdown:hover .nav-dropdown-trigger {
+                color: var(--text-dark); background: rgba(0,0,0,0.03);
+            }
+        }
+        .nav-dropdown-trigger[aria-expanded="true"] {
             color: var(--text-dark); background: rgba(0,0,0,0.03);
+        }
+        .nav-dropdown-trigger.active {
+            color: var(--text-dark); background: rgba(0,0,0,0.06);
         }
         .nav-dropdown-trigger svg {
             transition: transform 0.2s ease;
             flex-shrink: 0;
         }
-        .nav-dropdown:hover .nav-dropdown-trigger svg {
+        @media (hover: hover) and (pointer: fine) {
+            .nav-dropdown:hover .nav-dropdown-trigger svg {
+                transform: rotate(180deg);
+            }
+        }
+        .nav-dropdown-trigger[aria-expanded="true"] svg {
             transform: rotate(180deg);
         }
         .nav-dropdown-menu {
@@ -251,7 +266,13 @@
             transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
             z-index: 200;
         }
-        .nav-dropdown:hover .nav-dropdown-menu {
+        @media (hover: hover) and (pointer: fine) {
+            .nav-dropdown:hover .nav-dropdown-menu {
+                opacity: 1; visibility: visible; pointer-events: auto;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+        .nav-dropdown-trigger[aria-expanded="true"] + .nav-dropdown-menu {
             opacity: 1; visibility: visible; pointer-events: auto;
             transform: translateX(-50%) translateY(0);
         }
@@ -280,6 +301,19 @@
         }
         .nav-dd-divider {
             height: 1px; background: rgba(0,0,0,0.05); margin: 4px 0;
+        }
+        /* .nav-links a (0,1,1) would otherwise beat .nav-dd-item (0,1,0) */
+        .nav-links .nav-dd-item {
+            padding: 10px 12px; border-radius: 10px;
+            font-size: inherit; color: inherit; background: none;
+        }
+        .nav-links .nav-dd-item:hover { background: rgba(0,0,0,0.03); }
+        /* Anchor offset below the fixed navbar + announce bar */
+        #anwendungsbereiche, .uc-case[id] { scroll-margin-top: 130px; }
+        /* Between the mobile breakpoint and desktop the 6-item nav gets tight -> compact it */
+        @media (max-width: 1120px) and (min-width: 961px) {
+            .nav-links { gap: 2px; }
+            .nav-links a, .nav-dropdown-trigger { padding: 8px 9px; white-space: nowrap; }
         }
         .nav-right {
             display: flex;
@@ -2424,6 +2458,33 @@
             .faq-item { padding: 20px 24px; }
         }
 
+        /* Below 960px the 6 nav items + logo + CTA no longer fit side by side -> burger menu */
+        @media (max-width: 960px) {
+            .navbar { padding: 10px 16px !important; }
+            .navbar.scrolled { top: 10px !important; padding: 10px 16px !important; border-radius: 20px !important; left: 24px !important; right: 24px !important; max-width: none !important; }
+            .mobile-menu-header { display: flex !important; width: 100%; justify-content: space-between; align-items: center; }
+            .mobile-menu-btn { display: flex !important; align-items: center; justify-content: center; width: 44px; height: 44px; background: transparent; border: none; cursor: pointer; color: var(--text-dark); margin-left: auto; }
+            .nav-logo { flex: unset; }
+            .nav-links, .nav-right { display: none; width: 100%; text-align: left; }
+            .nav-links { flex-direction: column; align-items: stretch; padding: 20px 0 10px; border-top: 1px solid var(--border-color); margin-top: 10px; gap: 0; }
+            .nav-right { padding-bottom: 20px; justify-content: flex-start; }
+            .navbar.nav-open { flex-direction: column; align-items: flex-start; background: #fff; bottom: auto; padding-bottom: 0;
+                max-height: calc(100vh - 32px); overflow-y: auto; }
+            .navbar.nav-open .nav-links { display: flex; }
+            .navbar.nav-open .nav-right { display: flex; }
+            .nav-links a { padding: 12px 16px; min-height: 44px; display: flex; align-items: center; white-space: normal; }
+            .nav-link { font-size: 16px; }
+            .nav-dropdown { width: 100%; }
+            .nav-dropdown-trigger { width: 100%; justify-content: space-between; padding: 12px 16px; min-height: 44px; font-size: 16px; }
+            .nav-dropdown-menu {
+                position: static; transform: none; opacity: 1; visibility: visible;
+                pointer-events: auto; display: none; background: transparent;
+                box-shadow: none; border: 0; border-radius: 0;
+                min-width: 0; width: 100%; margin: 0; padding: 0 0 4px 12px;
+            }
+            .nav-dropdown-trigger[aria-expanded="true"] + .nav-dropdown-menu { display: block; transform: none; }
+            .nav-links .nav-dd-item { padding: 10px 12px; min-height: 40px; align-items: center; }
+        }
         @media (max-width: 768px) {
             /* Layout & Spacing */
             .hero { padding: 120px 20px 40px; }
@@ -2455,12 +2516,25 @@
             .nav-links, .nav-right { display: none; width: 100%; text-align: left; }
             .nav-links { flex-direction: column; padding: 20px 0 10px; border-top: 1px solid var(--border-color); margin-top: 10px; }
             .nav-right { padding-bottom: 20px; justify-content: flex-start; }
-            .navbar.nav-open { flex-direction: column; align-items: flex-start; background: #fff; bottom: auto; padding-bottom: 0; }
+            .navbar.nav-open { flex-direction: column; align-items: flex-start; background: #fff; bottom: auto; padding-bottom: 0;
+                max-height: calc(100vh - 32px); overflow-y: auto; }
             .navbar.nav-open .nav-links { display: flex; }
             .navbar.nav-open .nav-right { display: flex; }
             .nav-logo { flex: unset; }
             .nav-links a { padding: 12px 16px; min-height: 44px; display: flex; align-items: center; }
             .nav-link { font-size: 16px; }
+            /* Dropdown inside the mobile menu: indented inline sub-list, not an overlay */
+            .nav-dropdown { width: 100%; }
+            .nav-dropdown-trigger { width: 100%; justify-content: space-between; padding: 12px 16px; min-height: 44px; font-size: 16px; }
+            .nav-dropdown-menu {
+                position: static; transform: none; opacity: 1; visibility: visible;
+                pointer-events: auto; display: none; background: transparent;
+                box-shadow: none; border: 0; border-radius: 0;
+                min-width: 0; width: 100%; margin: 0; padding: 0 0 4px 12px;
+            }
+            .nav-dropdown-trigger[aria-expanded="true"] + .nav-dropdown-menu { display: block; transform: none; }
+            .nav-links .nav-dd-item { padding: 10px 12px; min-height: 40px; align-items: center; }
+            #anwendungsbereiche, .uc-case[id] { scroll-margin-top: 125px; }
 
             /* Tap Targets */
             .btn, .footer-link, .faq-header { min-height: 44px; display: flex; align-items: center; justify-content: flex-start; }
@@ -3191,10 +3265,52 @@
         </div>
         <div class="nav-links">
             <a href="#home" class="nav-link active">Home</a>
-            <a href="#usecases" class="nav-link">Diagnostics</a>
-            <a href="/en/blog/index.html" class="nav-link">Blog</a>
+            <a href="#how-it-works" class="nav-link">How it works</a>
+            <div class="nav-dropdown">
+                <button type="button" class="nav-link nav-dropdown-trigger" aria-expanded="false" aria-controls="navDdAb" data-spy="anwendungsbereiche">
+                    Use Cases
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <div class="nav-dropdown-menu" id="navDdAb">
+                    <a class="nav-dd-item" href="#ab-mitarbeiterfeedback">
+                        <span class="nav-dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#695AEE" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg></span>
+                        <span class="nav-dd-body">
+                            <span class="nav-dd-title">Employee Feedback</span>
+                            <span class="nav-dd-desc">What blocks the working day</span>
+                        </span>
+                    </a>
+                    <a class="nav-dd-item" href="#ab-transformation">
+                        <span class="nav-dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#695AEE" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg></span>
+                        <span class="nav-dd-body">
+                            <span class="nav-dd-title">Transformation &amp; Change</span>
+                            <span class="nav-dd-desc">Where the switch stalls on the front line</span>
+                        </span>
+                    </a>
+                    <a class="nav-dd-item" href="#ab-organisation">
+                        <span class="nav-dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#695AEE" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M6.5 10v4a3 3 0 0 0 3 3H14"/></svg></span>
+                        <span class="nav-dd-body">
+                            <span class="nav-dd-title">Organization &amp; Processes</span>
+                            <span class="nav-dd-desc">Friction in day-to-day work</span>
+                        </span>
+                    </a>
+                    <a class="nav-dd-item" href="#usecases">
+                        <span class="nav-dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#695AEE" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></svg></span>
+                        <span class="nav-dd-body">
+                            <span class="nav-dd-title">ERP &amp; SAP Rollouts</span>
+                            <span class="nav-dd-desc">Readiness, key users and adoption</span>
+                        </span>
+                    </a>
+                    <a class="nav-dd-item" href="#ab-ai-adoption">
+                        <span class="nav-dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#695AEE" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9L12 3z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8.8-2z"/></svg></span>
+                        <span class="nav-dd-body">
+                            <span class="nav-dd-title">AI Adoption</span>
+                            <span class="nav-dd-desc">Where AI is actually used</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
             <a href="#features-animated" class="nav-link">Benefits</a>
-            <a href="#" class="nav-link" data-pk-open>Quick Check</a>
+            <a href="/en/blog/index.html" class="nav-link">Blog</a>
             <a href="#faq" class="nav-link">FAQ</a>
         </div>
         <div class="nav-right">
@@ -3233,12 +3349,59 @@
                 EU AI Act compliant
             </span>
         </div>
-        <h1 class="hero-title">What will make your S/4HANA rollout fail?<br><span style="color: var(--accent);">You'll know in 5 days, not at go-live.</span></h1>
+        <h1 class="hero-title">What’s really slowing your organization down isn’t in any status report.<br><span style="color: var(--accent);">insivo makes it visible — before it gets expensive.</span></h1>
         <div class="hero-rotator" id="heroRotator"></div>
         <div class="hero-rotator-dots" id="heroRotatorDots"></div>
         <div class="hero-buttons">
             <a href="https://cal.com/szattalov-valerio/30min" target="_blank" class="btn btn-solid">Book a call</a>
             <a href="#" class="btn btn-solid btn-schnellcheck" data-pk-open>Project Quick Check · 60 sec</a>
+        </div>
+    </section>
+
+    <!-- Use cases / application areas -->
+    <section class="uc-section fade-in-up" id="anwendungsbereiche">
+        <div class="uc-eyebrow">Use Cases</div>
+        <h2>Where insivo is used.<span class="uc-soft">Wherever people decide whether it works.</span></h2>
+        <p class="uc-lede">insivo runs confidential conversations with your teams, condenses the answers and shows you within 3 to 5 days what is actually holding things up. That works wherever success depends on people and the status report tells only half the story.</p>
+
+        <div class="uc-grid">
+
+            <div class="uc-case" id="ab-mitarbeiterfeedback">
+                <svg class="uc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg>
+                <div class="uc-cat">Employee Feedback</div>
+                <h3>Employee Feedback</h3>
+                <p>What actually blocks people day to day &mdash; first-hand, confidential, in their own words.</p>
+            </div>
+
+            <div class="uc-case" id="ab-transformation">
+                <svg class="uc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                <div class="uc-cat">Transformation</div>
+                <h3>Transformation &amp; Change</h3>
+                <p>Where the switch stalls on the front line and which units are falling behind &mdash; before the deadline shows it.</p>
+            </div>
+
+            <div class="uc-case" id="ab-organisation">
+                <svg class="uc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M6.5 10v4a3 3 0 0 0 3 3H14"/></svg>
+                <div class="uc-cat">Organization</div>
+                <h3>Organization &amp; Processes</h3>
+                <p>Where duplicate work, media breaks and workarounds cost throughput and productivity.</p>
+            </div>
+
+            <div class="uc-case" id="ab-erp-sap">
+                <svg class="uc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></svg>
+                <div class="uc-cat">ERP &amp; SAP</div>
+                <h3>ERP &amp; SAP Rollouts</h3>
+                <p>Go-live readiness, key-user load and actual adoption after cutover.</p>
+                <a href="#usecases" style="display:inline-block;margin-top:10px;font-size:14px;font-weight:600;color:var(--accent);text-decoration:none;">See the SAP use case &rarr;</a>
+            </div>
+
+            <div class="uc-case" id="ab-ai-adoption">
+                <svg class="uc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9L12 3z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8.8-2z"/></svg>
+                <div class="uc-cat">AI Adoption</div>
+                <h3>AI Adoption</h3>
+                <p>Where AI tools are genuinely in use, where they stall, and why.</p>
+            </div>
+
         </div>
     </section>
 
@@ -3484,7 +3647,7 @@
 
 <div class="wrap">
 
-  <div class="eyebrow">How insivo works &middot; S/4HANA &amp; ERP rollouts</div>
+  <div class="eyebrow">How insivo works</div>
   <h2 class="lede">One AI runs every conversation in your rollout.<br><span class="dim">You get the answer, not the effort.</span></h2>
 
   <div class="timeline">
@@ -4429,9 +4592,10 @@
                 <!-- Col 1 -->
                 <div class="footer-col" style="flex: 1;">
                     <h4 class="footer-heading">Quick Links</h4>
-                    <a href="#usecases" class="footer-link">Diagnostics</a>
-                    <a href="/en/blog/index.html" class="footer-link">Blog</a>
+                    <a href="#how-it-works" class="footer-link">How it works</a>
+                    <a href="#anwendungsbereiche" class="footer-link">Use Cases</a>
                     <a href="#features-animated" class="footer-link">Benefits</a>
+                    <a href="/en/blog/index.html" class="footer-link">Blog</a>
                     <a href="#faq" class="footer-link">FAQ</a>
                 </div>
                 <!-- Col 2 -->
@@ -4516,9 +4680,9 @@
                 const slides = [
                     "Your steering report shows green. But are the business units actually using the new system — or have they long been working around it?",
                     "How much productivity are your teams quietly losing right now — because the workaround is faster than the new standard process?",
-                    "Are your key users really ready for go-live — or will you only find out when the support tickets explode?",
+                    "Your new AI software is rolled out. But who is actually working with it — and who stopped after two weeks?",
                     "Are 4–5 people carrying the entire weight of your rollout — and what happens when one of them drops out?",
-                    "Do you walk into the next steering meeting with data — or with a gut feeling that gets expensive at go-live?"
+                    "Do you walk into the next decision with data — or with a gut feeling that gets expensive later?"
                 ];
                 const container = document.getElementById("heroRotator");
                 const dotsWrap = document.getElementById("heroRotatorDots");
@@ -4718,7 +4882,8 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         navLinks.forEach(link => link.classList.remove("active"));
-                        const activeLink = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+                        const activeLink = document.querySelector(`.nav-link[href="#${entry.target.id}"]`)
+                            || document.querySelector(`.nav-dropdown-trigger[data-spy="${entry.target.id}"]`);
                         if (activeLink) {
                             activeLink.classList.add("active");
                         }
@@ -4830,6 +4995,35 @@
                     navbarEl.classList.toggle('nav-open');
                 });
             }
+
+            // Use Cases dropdown
+            (function () {
+                const dd = document.querySelector('.nav-dropdown');
+                if (!dd) return;
+                const trigger = dd.querySelector('.nav-dropdown-trigger');
+                const menu = dd.querySelector('.nav-dropdown-menu');
+                if (!trigger || !menu) return;
+
+                const isOpen = () => trigger.getAttribute('aria-expanded') === 'true';
+                const close = () => trigger.setAttribute('aria-expanded', 'false');
+
+                // Enter/Space fire click natively on <button>
+                trigger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    trigger.setAttribute('aria-expanded', isOpen() ? 'false' : 'true');
+                });
+                menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+                    close();
+                    if (navbarEl) navbarEl.classList.remove('nav-open');
+                }));
+                document.addEventListener('click', (e) => {
+                    if (isOpen() && !dd.contains(e.target)) close();
+                });
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && isOpen()) { close(); trigger.focus(); }
+                });
+                window.addEventListener('resize', close);
+            })();
         });
     </script>
     <script>

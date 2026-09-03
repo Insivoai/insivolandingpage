@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <title>insivo · Project Intelligence für IT- und Transformationsprojekte</title>
+    <title>insivo · Go-Live-Risiken früh erkennen — S/4HANA Adoption Diagnostik</title>
     <meta name="description" content="Insivo diagnostiziert laufende IT- und Transformationsprojekte. In 3 bis 5 Tagen Ursachen, priorisierte Maßnahmen und fehlende Dokumente – direkt aus hunderten Interviews mit Ihren Projektbeteiligten. DSGVO-konform, betriebsratgeprüft, EU-gehostet." />
     <meta name="keywords" content="Project Intelligence, IT Projekt Diagnose, SAP S/4HANA Migration, Go-Live Readiness Check, Transformationsdiagnostik, Projekt Audit DACH" />
     <link rel="canonical" href="https://insivo.ai/" />
@@ -227,16 +227,31 @@
             padding: 8px 16px; border-radius: 20px;
             cursor: pointer; transition: all 0.2s;
             user-select: none;
+            background: none; border: 0; font-family: inherit;
         }
-        .nav-dropdown-trigger:hover,
-        .nav-dropdown:hover .nav-dropdown-trigger {
+        /* Hover nur auf echten Zeigegeraeten, sonst loest Touch doppelt aus */
+        @media (hover: hover) and (pointer: fine) {
+            .nav-dropdown-trigger:hover,
+            .nav-dropdown:hover .nav-dropdown-trigger {
+                color: var(--text-dark); background: rgba(0,0,0,0.03);
+            }
+        }
+        .nav-dropdown-trigger[aria-expanded="true"] {
             color: var(--text-dark); background: rgba(0,0,0,0.03);
+        }
+        .nav-dropdown-trigger.active {
+            color: var(--text-dark); background: rgba(0,0,0,0.06);
         }
         .nav-dropdown-trigger svg {
             transition: transform 0.2s ease;
             flex-shrink: 0;
         }
-        .nav-dropdown:hover .nav-dropdown-trigger svg {
+        @media (hover: hover) and (pointer: fine) {
+            .nav-dropdown:hover .nav-dropdown-trigger svg {
+                transform: rotate(180deg);
+            }
+        }
+        .nav-dropdown-trigger[aria-expanded="true"] svg {
             transform: rotate(180deg);
         }
         .nav-dropdown-menu {
@@ -251,7 +266,13 @@
             transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
             z-index: 200;
         }
-        .nav-dropdown:hover .nav-dropdown-menu {
+        @media (hover: hover) and (pointer: fine) {
+            .nav-dropdown:hover .nav-dropdown-menu {
+                opacity: 1; visibility: visible; pointer-events: auto;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+        .nav-dropdown-trigger[aria-expanded="true"] + .nav-dropdown-menu {
             opacity: 1; visibility: visible; pointer-events: auto;
             transform: translateX(-50%) translateY(0);
         }
@@ -280,6 +301,19 @@
         }
         .nav-dd-divider {
             height: 1px; background: rgba(0,0,0,0.05); margin: 4px 0;
+        }
+        /* .nav-links a (0,1,1) wuerde .nav-dd-item (0,1,0) sonst ueberstimmen */
+        .nav-links .nav-dd-item {
+            padding: 10px 12px; border-radius: 10px;
+            font-size: inherit; color: inherit; background: none;
+        }
+        .nav-links .nav-dd-item:hover { background: rgba(0,0,0,0.03); }
+        /* Anker-Offset unter der fixierten Navbar + Announce-Bar */
+        #anwendungsbereiche, .uc-case[id] { scroll-margin-top: 130px; }
+        /* Zwischen Mobile-Breakpoint und Desktop wird die 6er-Nav eng -> kompakter setzen */
+        @media (max-width: 1120px) and (min-width: 961px) {
+            .nav-links { gap: 2px; }
+            .nav-links a, .nav-dropdown-trigger { padding: 8px 9px; white-space: nowrap; }
         }
         .nav-right {
             display: flex;
@@ -2543,6 +2577,33 @@
             .faq-item { padding: 20px 24px; }
         }
 
+        /* Unter 960px passen 6 Nav-Punkte + Logo + CTA nicht mehr nebeneinander -> Burger-Menue */
+        @media (max-width: 960px) {
+            .navbar { padding: 10px 16px !important; }
+            .navbar.scrolled { top: 10px !important; padding: 10px 16px !important; border-radius: 20px !important; left: 24px !important; right: 24px !important; max-width: none !important; }
+            .mobile-menu-header { display: flex !important; width: 100%; justify-content: space-between; align-items: center; }
+            .mobile-menu-btn { display: flex !important; align-items: center; justify-content: center; width: 44px; height: 44px; background: transparent; border: none; cursor: pointer; color: var(--text-dark); margin-left: auto; }
+            .nav-logo { flex: unset; }
+            .nav-links, .nav-right { display: none; width: 100%; text-align: left; }
+            .nav-links { flex-direction: column; align-items: stretch; padding: 20px 0 10px; border-top: 1px solid var(--border-color); margin-top: 10px; gap: 0; }
+            .nav-right { padding-bottom: 20px; justify-content: flex-start; }
+            .navbar.nav-open { flex-direction: column; align-items: flex-start; background: #fff; bottom: auto; padding-bottom: 0;
+                max-height: calc(100vh - 32px); overflow-y: auto; }
+            .navbar.nav-open .nav-links { display: flex; }
+            .navbar.nav-open .nav-right { display: flex; }
+            .nav-links a { padding: 12px 16px; min-height: 44px; display: flex; align-items: center; white-space: normal; }
+            .nav-link { font-size: 16px; }
+            .nav-dropdown { width: 100%; }
+            .nav-dropdown-trigger { width: 100%; justify-content: space-between; padding: 12px 16px; min-height: 44px; font-size: 16px; }
+            .nav-dropdown-menu {
+                position: static; transform: none; opacity: 1; visibility: visible;
+                pointer-events: auto; display: none; background: transparent;
+                box-shadow: none; border: 0; border-radius: 0;
+                min-width: 0; width: 100%; margin: 0; padding: 0 0 4px 12px;
+            }
+            .nav-dropdown-trigger[aria-expanded="true"] + .nav-dropdown-menu { display: block; transform: none; }
+            .nav-links .nav-dd-item { padding: 10px 12px; min-height: 40px; align-items: center; }
+        }
         @media (max-width: 768px) {
             /* Layout & Spacing */
             .hero { padding: 120px 20px 40px; }
@@ -2574,12 +2635,25 @@
             .nav-links, .nav-right { display: none; width: 100%; text-align: left; }
             .nav-links { flex-direction: column; padding: 20px 0 10px; border-top: 1px solid var(--border-color); margin-top: 10px; }
             .nav-right { padding-bottom: 20px; justify-content: flex-start; }
-            .navbar.nav-open { flex-direction: column; align-items: flex-start; background: #fff; bottom: auto; padding-bottom: 0; }
+            .navbar.nav-open { flex-direction: column; align-items: flex-start; background: #fff; bottom: auto; padding-bottom: 0;
+                max-height: calc(100vh - 32px); overflow-y: auto; }
             .navbar.nav-open .nav-links { display: flex; }
             .navbar.nav-open .nav-right { display: flex; }
             .nav-logo { flex: unset; }
             .nav-links a { padding: 12px 16px; min-height: 44px; display: flex; align-items: center; }
             .nav-link { font-size: 16px; }
+            /* Dropdown im Mobile-Menue: eingerueckte Unterliste im Fluss statt Overlay */
+            .nav-dropdown { width: 100%; }
+            .nav-dropdown-trigger { width: 100%; justify-content: space-between; padding: 12px 16px; min-height: 44px; font-size: 16px; }
+            .nav-dropdown-menu {
+                position: static; transform: none; opacity: 1; visibility: visible;
+                pointer-events: auto; display: none; background: transparent;
+                box-shadow: none; border: 0; border-radius: 0;
+                min-width: 0; width: 100%; margin: 0; padding: 0 0 4px 12px;
+            }
+            .nav-dropdown-trigger[aria-expanded="true"] + .nav-dropdown-menu { display: block; transform: none; }
+            .nav-links .nav-dd-item { padding: 10px 12px; min-height: 40px; align-items: center; }
+            #anwendungsbereiche, .uc-case[id] { scroll-margin-top: 125px; }
 
             /* Tap Targets */
             .btn, .footer-link, .faq-header { min-height: 44px; display: flex; align-items: center; justify-content: flex-start; }
@@ -3238,10 +3312,52 @@
         </div>
         <div class="nav-links">
             <a href="#home" class="nav-link active">Home</a>
-            <a href="#usecases" class="nav-link">Diagnose</a>
-            <a href="blog/index.html" class="nav-link">Blog</a>
+            <a href="#how-it-works" class="nav-link">So funktioniert&rsquo;s</a>
+            <div class="nav-dropdown">
+                <button type="button" class="nav-link nav-dropdown-trigger" aria-expanded="false" aria-controls="navDdAb" data-spy="anwendungsbereiche">
+                    Anwendungsbereiche
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <div class="nav-dropdown-menu" id="navDdAb">
+                    <a class="nav-dd-item" href="#ab-mitarbeiterfeedback">
+                        <span class="nav-dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#695AEE" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg></span>
+                        <span class="nav-dd-body">
+                            <span class="nav-dd-title">Mitarbeiterfeedback</span>
+                            <span class="nav-dd-desc">Was den Arbeitsalltag blockiert</span>
+                        </span>
+                    </a>
+                    <a class="nav-dd-item" href="#ab-transformation">
+                        <span class="nav-dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#695AEE" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg></span>
+                        <span class="nav-dd-body">
+                            <span class="nav-dd-title">Transformation &amp; Change</span>
+                            <span class="nav-dd-desc">Wo die Umstellung in der Linie hakt</span>
+                        </span>
+                    </a>
+                    <a class="nav-dd-item" href="#ab-organisation">
+                        <span class="nav-dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#695AEE" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M6.5 10v4a3 3 0 0 0 3 3H14"/></svg></span>
+                        <span class="nav-dd-body">
+                            <span class="nav-dd-title">Organisation &amp; Prozesse</span>
+                            <span class="nav-dd-desc">Reibungsverluste im Ablauf</span>
+                        </span>
+                    </a>
+                    <a class="nav-dd-item" href="#usecases">
+                        <span class="nav-dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#695AEE" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></svg></span>
+                        <span class="nav-dd-body">
+                            <span class="nav-dd-title">ERP &amp; SAP Rollouts</span>
+                            <span class="nav-dd-desc">Readiness, Key User und Adoption</span>
+                        </span>
+                    </a>
+                    <a class="nav-dd-item" href="#ab-ai-adoption">
+                        <span class="nav-dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#695AEE" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9L12 3z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8.8-2z"/></svg></span>
+                        <span class="nav-dd-body">
+                            <span class="nav-dd-title">AI Adoption</span>
+                            <span class="nav-dd-desc">Wo KI wirklich genutzt wird</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
             <a href="#features-animated" class="nav-link">Vorteile</a>
-            <a href="#" class="nav-link" data-pk-open>Schnellcheck</a>
+            <a href="blog/index.html" class="nav-link">Blog</a>
             <a href="#faq" class="nav-link">FAQ</a>
         </div>
         <div class="nav-right">
@@ -3280,12 +3396,59 @@
                 EU AI Act konform
             </span>
         </div>
-        <h1 class="hero-title">Was bringt Ihren S/4HANA-Rollout zum Scheitern?<br><span style="color: var(--accent);">Sie wissen es in 5 Tagen, nicht beim Go-Live.</span></h1>
+        <h1 class="hero-title">Was Ihre Organisation wirklich bremst, steht in keinem Statusbericht.<br><span style="color: var(--accent);">insivo macht es sichtbar, bevor es teuer wird.</span></h1>
         <div class="hero-rotator" id="heroRotator"></div>
         <div class="hero-rotator-dots" id="heroRotatorDots"></div>
         <div class="hero-buttons">
             <a href="https://cal.com/szattalov-valerio/30min" target="_blank" class="btn btn-solid">Gespräch buchen</a>
             <a href="#" class="btn btn-solid btn-schnellcheck" data-pk-open>Projekt-Schnellcheck · 60 Sek</a>
+        </div>
+    </section>
+
+    <!-- Anwendungsbereiche -->
+    <section class="uc-section fade-in-up" id="anwendungsbereiche">
+        <div class="uc-eyebrow">Anwendungsbereiche</div>
+        <h2>Wo insivo eingesetzt wird.<span class="uc-soft">&Uuml;berall dort, wo Menschen &uuml;ber den Erfolg entscheiden.</span></h2>
+        <p class="uc-lede">insivo f&uuml;hrt vertrauliche Gespr&auml;che mit Ihren Teams, verdichtet die Antworten und zeigt Ihnen in 3 bis 5 Tagen, woran es tats&auml;chlich h&auml;ngt. Das funktioniert &uuml;berall dort, wo der Erfolg von Menschen abh&auml;ngt und der Statusbericht nur die halbe Wahrheit erz&auml;hlt.</p>
+
+        <div class="uc-grid">
+
+            <div class="uc-case" id="ab-mitarbeiterfeedback">
+                <svg class="uc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg>
+                <div class="uc-cat">Mitarbeiterfeedback</div>
+                <h3>Mitarbeiterfeedback</h3>
+                <p>Was im Arbeitsalltag wirklich blockiert &mdash; aus erster Hand, vertraulich, in der Sprache der Mitarbeitenden.</p>
+            </div>
+
+            <div class="uc-case" id="ab-transformation">
+                <svg class="uc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                <div class="uc-cat">Transformation</div>
+                <h3>Transformation &amp; Change</h3>
+                <p>Wo die Umstellung in der Linie hakt und welche Einheiten den Anschluss verlieren &mdash; bevor der Termin es zeigt.</p>
+            </div>
+
+            <div class="uc-case" id="ab-organisation">
+                <svg class="uc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M6.5 10v4a3 3 0 0 0 3 3H14"/></svg>
+                <div class="uc-cat">Organisation</div>
+                <h3>Organisation &amp; Prozesse</h3>
+                <p>Wo Doppelarbeit, Medienbr&uuml;che und Workarounds Durchlaufzeit und Produktivit&auml;t kosten.</p>
+            </div>
+
+            <div class="uc-case" id="ab-erp-sap">
+                <svg class="uc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></svg>
+                <div class="uc-cat">ERP &amp; SAP</div>
+                <h3>ERP &amp; SAP Rollouts</h3>
+                <p>Go-Live-Readiness, Key-User-Auslastung und die tats&auml;chliche Adoption nach dem Cutover.</p>
+                <a href="#usecases" style="display:inline-block;margin-top:10px;font-size:14px;font-weight:600;color:var(--accent);text-decoration:none;">Zum SAP-Anwendungsfall &rarr;</a>
+            </div>
+
+            <div class="uc-case" id="ab-ai-adoption">
+                <svg class="uc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9L12 3z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8.8-2z"/></svg>
+                <div class="uc-cat">AI Adoption</div>
+                <h3>AI Adoption</h3>
+                <p>Wo KI-Tools produktiv im Einsatz sind, wo sie liegen bleiben und woran das liegt.</p>
+            </div>
+
         </div>
     </section>
 
@@ -3535,7 +3698,7 @@
 
 <div class="wrap">
 
-  <div class="eyebrow">So funktioniert insivo &middot; S/4HANA &amp; ERP-Rollouts</div>
+  <div class="eyebrow">So funktioniert insivo</div>
   <h2 class="lede">Eine KI führt jedes Gespräch in Ihrem Rollout.<br><span class="dim">Sie bekommen die Antwort, nicht den Aufwand.</span></h2>
 
   <div class="timeline">
@@ -4343,9 +4506,10 @@
                 <!-- Col 1 -->
                 <div class="footer-col" style="flex: 1;">
                     <h4 class="footer-heading">Quick Links</h4>
-                    <a href="#usecases" class="footer-link">Diagnose</a>
-                    <a href="blog/index.html" class="footer-link">Blog</a>
+                    <a href="#how-it-works" class="footer-link">So funktioniert&rsquo;s</a>
+                    <a href="#anwendungsbereiche" class="footer-link">Anwendungsbereiche</a>
                     <a href="#features-animated" class="footer-link">Vorteile</a>
+                    <a href="blog/index.html" class="footer-link">Blog</a>
                     <a href="#faq" class="footer-link">FAQ</a>
                 </div>
                 <!-- Col 2 -->
@@ -4430,9 +4594,9 @@
                 const slides = [
                     "Ihr Steering-Report steht auf grün. Aber nutzen die Fachbereiche das neue System — oder arbeiten sie längst daran vorbei?",
                     "Wie viel Produktivität verlieren Ihre Teams gerade still — weil der Workaround schneller ist als der neue Standardprozess?",
-                    "Sind Ihre Key-User wirklich bereit für den Go-Live — oder merken Sie das erst, wenn die Support-Tickets explodieren?",
+                    "Ihre neue KI-Software ist ausgerollt. Aber wer arbeitet wirklich damit — und wer hat nach zwei Wochen wieder aufgehört?",
                     "Tragen 4–5 Leute die gesamte Last Ihres Rollouts — und was passiert, wenn einer davon ausfällt?",
-                    "Gehen Sie mit Daten ins nächste Steering — oder mit einem Bauchgefühl, das beim Go-Live teuer wird?"
+                    "Gehen Sie mit Daten in die nächste Entscheidung — oder mit einem Bauchgefühl, das später teuer wird?"
                 ];
                 const container = document.getElementById("heroRotator");
                 const dotsWrap = document.getElementById("heroRotatorDots");
@@ -4632,7 +4796,8 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         navLinks.forEach(link => link.classList.remove("active"));
-                        const activeLink = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+                        const activeLink = document.querySelector(`.nav-link[href="#${entry.target.id}"]`)
+                            || document.querySelector(`.nav-dropdown-trigger[data-spy="${entry.target.id}"]`);
                         if (activeLink) {
                             activeLink.classList.add("active");
                         }
@@ -4744,6 +4909,35 @@
                     navbarEl.classList.toggle('nav-open');
                 });
             }
+
+            // Anwendungsbereiche-Dropdown
+            (function () {
+                const dd = document.querySelector('.nav-dropdown');
+                if (!dd) return;
+                const trigger = dd.querySelector('.nav-dropdown-trigger');
+                const menu = dd.querySelector('.nav-dropdown-menu');
+                if (!trigger || !menu) return;
+
+                const isOpen = () => trigger.getAttribute('aria-expanded') === 'true';
+                const close = () => trigger.setAttribute('aria-expanded', 'false');
+
+                // Enter/Space loesen bei <button> nativ click aus
+                trigger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    trigger.setAttribute('aria-expanded', isOpen() ? 'false' : 'true');
+                });
+                menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+                    close();
+                    if (navbarEl) navbarEl.classList.remove('nav-open');
+                }));
+                document.addEventListener('click', (e) => {
+                    if (isOpen() && !dd.contains(e.target)) close();
+                });
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && isOpen()) { close(); trigger.focus(); }
+                });
+                window.addEventListener('resize', close);
+            })();
         });
     </script>
     <script>
