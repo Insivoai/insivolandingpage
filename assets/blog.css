@@ -41,7 +41,7 @@ img{max-width:100%;display:block;}
 .bnav-spacer{height:96px;}
 .bnav{
   position:fixed;top:18px;left:50%;transform:translateX(-50%);
-  width:calc(100% - 40px);max-width:1080px;z-index:120;
+  width:calc(100% - 40px);max-width:1320px;z-index:120;
   display:flex;align-items:center;justify-content:space-between;
   padding:12px 14px 12px 24px;
   background:rgba(255,255,255,0.92);

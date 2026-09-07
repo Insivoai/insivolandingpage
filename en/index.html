@@ -80,7 +80,7 @@
             transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         .navbar.scrolled {
-            max-width: 1060px;
+            max-width: 1320px;
             box-sizing: border-box;
             top: 20px;
             border-radius: 60px;
@@ -316,6 +316,8 @@
         @media (max-width: 1120px) and (min-width: 961px) {
             .nav-links { gap: 2px; }
             .nav-links a, .nav-dropdown-trigger { padding: 8px 9px; white-space: nowrap; }
+            /* Pille ist hier so breit wie das Fenster - Innenabstand zurueknehmen, sonst ragt der CTA raus */
+            .navbar.scrolled { padding-left: 16px; padding-right: 16px; }
         }
         .nav-right {
             display: flex;
@@ -3267,11 +3269,10 @@
             </button>
         </div>
         <div class="nav-links">
-            <a href="#home" class="nav-link active">Home</a>
             <a href="#how-it-works" class="nav-link">How it works</a>
             <div class="nav-dropdown">
                 <button type="button" class="nav-link nav-dropdown-trigger" aria-expanded="false" aria-controls="navDdAb" data-spy="anwendungsbereiche">
-                    Use Cases
+                    Solutions
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
                 </button>
                 <div class="nav-dropdown-menu" id="navDdAb">
@@ -3312,6 +3313,7 @@
                     </a>
                 </div>
             </div>
+            <a href="/en/for-consultancies.html" class="nav-link">For consultancies</a>
             <a href="#features-animated" class="nav-link">Benefits</a>
             <a href="/en/blog/index.html" class="nav-link">Blog</a>
             <a href="#faq" class="nav-link">FAQ</a>
@@ -3363,7 +3365,7 @@
 
     <!-- Use cases / application areas -->
     <section class="uc-section fade-in-up" id="anwendungsbereiche">
-        <div class="uc-eyebrow">Use Cases</div>
+        <div class="uc-eyebrow">Solutions</div>
         <h2>Where insivo is used.<span class="uc-soft">Wherever people decide whether it works.</span></h2>
         <p class="uc-lede">insivo runs confidential conversations with your teams, condenses the answers and shows you within 3 to 5 days what is actually holding things up. That works wherever success depends on people and the status report tells only half the story.</p>
 
@@ -3589,6 +3591,35 @@
 .hiw .logo, .hiw .synhub, .hiw .orbit .core{overflow:hidden}
 .hiw .logoimg{width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit}
     </style>
+
+    <!-- Teaser: for consultancies -->
+    <section class="uc-section fade-in-up" id="fuer-beratungen">
+        <div class="uc-eyebrow">For consultancies</div>
+        <h2>Your methodology.<span class="uc-soft">Continuous evidence underneath it.</span></h2>
+        <p class="uc-lede">Transformation consultancies hold the mandate, the trust and the teams. What is missing is the layer underneath: evidence from across the organization instead of twenty interviews, prioritised risks with named owners, and a remeasurement that shows whether the intervention worked. The client keeps it after you leave.</p>
+        <div class="uc-grid">
+            <div class="uc-case">
+                <svg class="uc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+                <div class="uc-cat">Portfolio</div>
+                <h3>Every engagement in one place</h3>
+                <p>Multi-client workspace, cleanly separated, with a view across every engagement.</p>
+            </div>
+            <div class="uc-case">
+                <svg class="uc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.4-3 8.3-7 9.4C8 19.3 5 15.4 5 11V6l7-3z"/></svg>
+                <div class="uc-cat">White-label</div>
+                <h3>Your name on the result</h3>
+                <p>What reaches the client carries your brand and your format — not ours.</p>
+            </div>
+            <div class="uc-case">
+                <svg class="uc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-6 4 4 5-7 4 5"/><path d="M3 21h18"/></svg>
+                <div class="uc-cat">Benchmark</div>
+                <h3>A comparison nobody else has</h3>
+                <p>Every wave feeds a benchmark that belongs only to your practice.</p>
+                <a href="/en/for-consultancies.html" style="display:inline-block;margin-top:10px;font-size:14px;font-weight:600;color:var(--accent);text-decoration:none;">See the partner model &rarr;</a>
+            </div>
+        </div>
+    </section>
+
     <section class="hiw" id="how-it-works">
 <!-- insivo spiral glyph reused inline -->
 <svg width="0" height="0" style="position:absolute"><defs>
@@ -3603,7 +3634,7 @@
 <div class="wrap">
 
   <div class="eyebrow">How insivo works</div>
-  <h2 class="lede">One AI runs every conversation in your rollout.<br><span class="dim">You get the answer, not the effort.</span></h2>
+  <h2 class="lede">Your project tools show what is being done.<br><span class="dim">insivo shows whether the organization is following.</span></h2>
 
   <div class="timeline">
 
@@ -3612,7 +3643,7 @@
       <div class="spine"><div class="node">01</div></div>
       <div class="pane">
         <div class="steptag">Step 01</div>
-        <h2>Every stakeholder gets their own conversation</h2>
+        <h2>Everyone is heard, not just the loudest</h2>
         <p>From key users across the business units to external consultants: every stakeholder has a confidential one-on-one with the insivo voice agent. It listens, asks targeted follow-up questions and captures how the rollout really runs day to day. No questionnaire, no form, no effort for your team.</p>
         <div class="stats">
           <div><div class="n">100+</div><div class="l">conversations at once</div></div>
@@ -3653,7 +3684,7 @@
       <div class="spine"><div class="node">02</div></div>
       <div class="pane">
         <div class="steptag">Step 02</div>
-        <h2>insivo distills what's putting the rollout at risk</h2>
+        <h2>insivo connects signals nobody brings together today</h2>
         <p>insivo pulls context from across your entire organization: S/4HANA and usage data, KPIs from reporting, support tickets, project plans and documents. Every conversation is linked to it. That is how bottlenecks, broken handovers and recurring patterns become visible where they hide across sites and business units.</p>
       </div>
       <div class="card">
@@ -3706,7 +3737,7 @@
       <div class="spine"><div class="node">03</div></div>
       <div class="pane">
         <div class="steptag">Step 03</div>
-        <h2>Act before go-live forces you to</h2>
+        <h2>Every finding gets an accountable owner</h2>
         <p>Project leadership receives distilled insights, root-cause analysis and a prioritized action list with owner and deadline. You immediately see where go-live is wobbling and what to do next.</p>
       </div>
       <div class="card">
@@ -3849,7 +3880,7 @@
     <section id="features-animated" class="features-animated-section">
         <div class="features-animated-header">
             <div class="features-animated-pill">Why <span>insivo</span></div>
-            <h2>The difference is in the detail.<br><span class="dim">Project diagnostics, the way they should really work.</span></h2>
+            <h2>The difference is in the detail.<br><span class="dim">Transformation diagnostics, the way they should work.</span></h2>
         </div>
 
         <div class="animated-cards-grid">
@@ -4458,7 +4489,7 @@
         <div class="book-container">
             <div class="book-left">
                 <div class="book-eyebrow">Book a call</div>
-                <h2 class="book-title">Discuss your<br>project diagnosis.</h2>
+                <h2 class="book-title">Discuss your<br>transformation.</h2>
                 <p class="book-sub">30 minutes with the founder. Together we look at your current project situation and you see where insivo specifically comes in.</p>
                 <ul class="book-bullets">
                     <li>An honest assessment of where your project really stands</li>
@@ -4551,7 +4582,8 @@
                 <div class="footer-col" style="flex: 1;">
                     <h4 class="footer-heading">Quick Links</h4>
                     <a href="#how-it-works" class="footer-link">How it works</a>
-                    <a href="#anwendungsbereiche" class="footer-link">Use Cases</a>
+                    <a href="#anwendungsbereiche" class="footer-link">Solutions</a>
+                    <a href="/en/for-consultancies.html" class="footer-link">For consultancies</a>
                     <a href="#features-animated" class="footer-link">Benefits</a>
                     <a href="/en/blog/index.html" class="footer-link">Blog</a>
                     <a href="#faq" class="footer-link">FAQ</a>
@@ -4639,7 +4671,7 @@
                     "Your steering report shows green. But are the business units actually using the new system — or have they long been working around it?",
                     "How much productivity are your teams quietly losing right now — because the workaround is faster than the new standard process?",
                     "Your new AI software is rolled out. But who is actually working with it — and who stopped after two weeks?",
-                    "Are 4–5 people carrying the entire weight of your rollout — and what happens when one of them drops out?",
+                    "How many of your critical blockers currently have nobody accountable for them?",
                     "Do you walk into the next decision with data — or with a gut feeling that gets expensive later?"
                 ];
                 const container = document.getElementById("heroRotator");

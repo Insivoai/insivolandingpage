@@ -72,7 +72,7 @@
             transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         .navbar.scrolled {
-            max-width: 1060px;
+            max-width: 1320px;
             box-sizing: border-box;
             top: 20px;
             border-radius: 60px;
@@ -308,6 +308,8 @@
         @media (max-width: 1120px) and (min-width: 961px) {
             .nav-links { gap: 2px; }
             .nav-links a, .nav-dropdown-trigger { padding: 8px 9px; white-space: nowrap; }
+            /* Pille ist hier so breit wie das Fenster - Innenabstand zurueknehmen, sonst ragt der CTA raus */
+            .navbar.scrolled { padding-left: 16px; padding-right: 16px; }
         }
         .nav-right {
             display: flex;
@@ -678,11 +680,10 @@
             </button>
         </div>
         <div class="nav-links">
-            <a href="index.html#home" class="nav-link">Home</a>
             <a href="index.html#how-it-works" class="nav-link">So funktioniert’s</a>
             <div class="nav-dropdown">
                 <button type="button" class="nav-link nav-dropdown-trigger active" aria-expanded="false" aria-controls="navDdAb">
-                    Anwendungsbereiche
+                    Solutions
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
                 </button>
                 <div class="nav-dropdown-menu" id="navDdAb">
@@ -723,6 +724,7 @@
                     </a>
                 </div>
             </div>
+            <a href="/for-consultancies.html" class="nav-link">For consultancies</a>
             <a href="index.html#features-animated" class="nav-link">Vorteile</a>
             <a href="blog/index.html" class="nav-link">Blog</a>
             <a href="#faq" class="nav-link">FAQ</a>
@@ -979,7 +981,8 @@
                 <div class="footer-col" style="flex: 1;">
                     <h4 class="footer-heading">Quick Links</h4>
                     <a href="index.html#how-it-works" class="footer-link">So funktioniert’s</a>
-                    <a href="index.html#anwendungsbereiche" class="footer-link">Anwendungsbereiche</a>
+                    <a href="index.html#anwendungsbereiche" class="footer-link">Solutions</a>
+                    <a href="/for-consultancies.html" class="footer-link">For consultancies</a>
                     <a href="index.html#features-animated" class="footer-link">Vorteile</a>
                     <a href="blog/index.html" class="footer-link">Blog</a>
                     <a href="#faq" class="footer-link">FAQ</a>

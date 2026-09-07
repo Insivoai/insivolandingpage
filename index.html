@@ -80,7 +80,7 @@
             transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         .navbar.scrolled {
-            max-width: 1060px;
+            max-width: 1320px;
             box-sizing: border-box;
             top: 20px;
             border-radius: 60px;
@@ -316,6 +316,8 @@
         @media (max-width: 1120px) and (min-width: 961px) {
             .nav-links { gap: 2px; }
             .nav-links a, .nav-dropdown-trigger { padding: 8px 9px; white-space: nowrap; }
+            /* Pille ist hier so breit wie das Fenster - Innenabstand zurueknehmen, sonst ragt der CTA raus */
+            .navbar.scrolled { padding-left: 16px; padding-right: 16px; }
         }
         .nav-right {
             display: flex;
@@ -3314,11 +3316,10 @@
             </button>
         </div>
         <div class="nav-links">
-            <a href="#home" class="nav-link active">Home</a>
             <a href="#how-it-works" class="nav-link">So funktioniert&rsquo;s</a>
             <div class="nav-dropdown">
                 <button type="button" class="nav-link nav-dropdown-trigger" aria-expanded="false" aria-controls="navDdAb" data-spy="anwendungsbereiche">
-                    Anwendungsbereiche
+                    Solutions
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
                 </button>
                 <div class="nav-dropdown-menu" id="navDdAb">
@@ -3359,6 +3360,7 @@
                     </a>
                 </div>
             </div>
+            <a href="for-consultancies.html" class="nav-link">For consultancies</a>
             <a href="#features-animated" class="nav-link">Vorteile</a>
             <a href="blog/index.html" class="nav-link">Blog</a>
             <a href="#faq" class="nav-link">FAQ</a>
@@ -3410,7 +3412,7 @@
 
     <!-- Anwendungsbereiche -->
     <section class="uc-section fade-in-up" id="anwendungsbereiche">
-        <div class="uc-eyebrow">Anwendungsbereiche</div>
+        <div class="uc-eyebrow">Solutions</div>
         <h2>Wo insivo eingesetzt wird.<span class="uc-soft">&Uuml;berall dort, wo Menschen &uuml;ber den Erfolg entscheiden.</span></h2>
         <p class="uc-lede">insivo f&uuml;hrt vertrauliche Gespr&auml;che mit Ihren Teams, verdichtet die Antworten und zeigt Ihnen in 3 bis 5 Tagen, woran es tats&auml;chlich h&auml;ngt. Das funktioniert &uuml;berall dort, wo der Erfolg von Menschen abh&auml;ngt und der Statusbericht nur die halbe Wahrheit erz&auml;hlt.</p>
 
@@ -3640,6 +3642,35 @@
 .hiw .logo, .hiw .synhub, .hiw .orbit .core{overflow:hidden}
 .hiw .logoimg{width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit}
     </style>
+
+    <!-- Teaser: Für Beratungen -->
+    <section class="uc-section fade-in-up" id="fuer-beratungen">
+        <div class="uc-eyebrow">For consultancies</div>
+        <h2>Ihre Methodik.<span class="uc-soft">Kontinuierliche Evidenz darunter.</span></h2>
+        <p class="uc-lede">Transformationsberatungen haben Mandat, Vertrauen und Teams. Was fehlt, ist die Ebene darunter: Evidenz aus der gesamten Organisation statt aus zwanzig Interviews, priorisierte Risiken mit benannten Verantwortlichen, und eine Wiedermessung, die zeigt, ob die Maßnahme gewirkt hat. Der Kunde behält sie, wenn Sie gehen.</p>
+        <div class="uc-grid">
+            <div class="uc-case">
+                <svg class="uc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+                <div class="uc-cat">Portfolio</div>
+                <h3>Jedes Mandat an einem Ort</h3>
+                <p>Multi-Client-Workspace, sauber getrennt, mit einer Sicht über alle Engagements hinweg.</p>
+            </div>
+            <div class="uc-case">
+                <svg class="uc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.4-3 8.3-7 9.4C8 19.3 5 15.4 5 11V6l7-3z"/></svg>
+                <div class="uc-cat">White-Label</div>
+                <h3>Ihr Name auf dem Ergebnis</h3>
+                <p>Was beim Kunden ankommt, trägt Ihre Marke und Ihr Format — nicht unseres.</p>
+            </div>
+            <div class="uc-case">
+                <svg class="uc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-6 4 4 5-7 4 5"/><path d="M3 21h18"/></svg>
+                <div class="uc-cat">Benchmark</div>
+                <h3>Ein Vergleich, den sonst niemand hat</h3>
+                <p>Jede Welle füllt einen Benchmark, der nur Ihrer Praxis gehört.</p>
+                <a href="for-consultancies.html" style="display:inline-block;margin-top:10px;font-size:14px;font-weight:600;color:var(--accent);text-decoration:none;">Zum Partnermodell &rarr;</a>
+            </div>
+        </div>
+    </section>
+
     <section class="hiw" id="how-it-works">
 <!-- insivo spiral glyph reused inline -->
 <svg width="0" height="0" style="position:absolute"><defs>
@@ -3654,7 +3685,7 @@
 <div class="wrap">
 
   <div class="eyebrow">So funktioniert insivo</div>
-  <h2 class="lede">Eine KI führt jedes Gespräch in Ihrem Rollout.<br><span class="dim">Sie bekommen die Antwort, nicht den Aufwand.</span></h2>
+  <h2 class="lede">Ihre Projektwerkzeuge zeigen, was getan wird.<br><span class="dim">insivo zeigt, ob die Organisation nachzieht.</span></h2>
 
   <div class="timeline">
 
@@ -3663,7 +3694,7 @@
       <div class="spine"><div class="node">01</div></div>
       <div class="pane">
         <div class="steptag">Schritt 01</div>
-        <h2>Jeder Projektbeteiligte bekommt sein eigenes Gespräch</h2>
+        <h2>Jeder Beteiligte wird gehört, nicht nur die Lauten</h2>
         <p>Vom Key User über die Fachbereiche bis zu den externen Beratern: Jeder Projektbeteiligte führt ein vertrauliches Eins-zu-eins mit dem insivo Sprach-Agent. Er hört zu, fragt gezielt nach und erfasst, wie der Rollout im Alltag wirklich läuft. Kein Fragebogen, kein Formular, kein Aufwand für Ihr Team.</p>
         <div class="stats">
           <div><div class="n">100+</div><div class="l">Gespräche gleichzeitig</div></div>
@@ -3704,7 +3735,7 @@
       <div class="spine"><div class="node">02</div></div>
       <div class="pane">
         <div class="steptag">Schritt 02</div>
-        <h2>insivo verdichtet, was den Rollout gefährdet</h2>
+        <h2>insivo verbindet Signale, die heute niemand zusammenführt</h2>
         <p>insivo zieht den Kontext aus Ihrer gesamten Organisation: S/4HANA- und Nutzungsdaten, KPIs aus dem Reporting, Tickets aus dem Support, Projektpläne und Dokumente. Jedes Gespräch wird damit verknüpft. So werden Engpässe, gebrochene Übergaben und wiederkehrende Muster sichtbar, die quer durch Standorte und Fachbereiche verborgen liegen.</p>
       </div>
       <div class="card">
@@ -3757,7 +3788,7 @@
       <div class="spine"><div class="node">03</div></div>
       <div class="pane">
         <div class="steptag">Schritt 03</div>
-        <h2>Handeln Sie, bevor der Go-Live es erzwingt</h2>
+        <h2>Jede Erkenntnis bekommt einen Verantwortlichen</h2>
         <p>Die Projektsteuerung erhält verdichtete Erkenntnisse, Ursachenanalyse und eine priorisierte Maßnahmenliste mit Owner und Frist. Sie sehen sofort, wo der Go-Live wackelt und was als Nächstes zu tun ist.</p>
       </div>
       <div class="card">
@@ -3900,7 +3931,7 @@
     <section id="features-animated" class="features-animated-section">
         <div class="features-animated-header">
             <div class="features-animated-pill">Warum <span>insivo</span></div>
-            <h2>Der Unterschied liegt im Detail.<br><span class="dim">Projekt-Diagnostik, wie sie wirklich funktionieren sollte.</span></h2>
+            <h2>Der Unterschied liegt im Detail.<br><span class="dim">Transformations-Diagnostik, wie sie funktionieren sollte.</span></h2>
         </div>
 
         <div class="animated-cards-grid">
@@ -4372,7 +4403,7 @@
         <div class="book-container">
             <div class="book-left">
                 <div class="book-eyebrow">Gespräch buchen</div>
-                <h2 class="book-title">Projekt-Diagnose<br>besprechen.</h2>
+                <h2 class="book-title">Transformation<br>besprechen.</h2>
                 <p class="book-sub">30 Minuten mit dem Gründer. Wir schauen gemeinsam auf Ihre aktuelle Projektsituation und Sie sehen, wo insivo konkret ansetzt.</p>
                 <ul class="book-bullets">
                     <li>Ehrliche Einschätzung, wo Ihr Projekt wirklich steht</li>
@@ -4465,7 +4496,8 @@
                 <div class="footer-col" style="flex: 1;">
                     <h4 class="footer-heading">Quick Links</h4>
                     <a href="#how-it-works" class="footer-link">So funktioniert&rsquo;s</a>
-                    <a href="#anwendungsbereiche" class="footer-link">Anwendungsbereiche</a>
+                    <a href="#anwendungsbereiche" class="footer-link">Solutions</a>
+                    <a href="for-consultancies.html" class="footer-link">For consultancies</a>
                     <a href="#features-animated" class="footer-link">Vorteile</a>
                     <a href="blog/index.html" class="footer-link">Blog</a>
                     <a href="#faq" class="footer-link">FAQ</a>
@@ -4553,7 +4585,7 @@
                     "Ihr Steering-Report steht auf grün. Aber nutzen die Fachbereiche das neue System — oder arbeiten sie längst daran vorbei?",
                     "Wie viel Produktivität verlieren Ihre Teams gerade still — weil der Workaround schneller ist als der neue Standardprozess?",
                     "Ihre neue KI-Software ist ausgerollt. Aber wer arbeitet wirklich damit — und wer hat nach zwei Wochen wieder aufgehört?",
-                    "Tragen 4–5 Leute die gesamte Last Ihres Rollouts — und was passiert, wenn einer davon ausfällt?",
+                    "Wie viele Ihrer kritischen Blocker haben gerade niemanden, der dafür verantwortlich ist?",
                     "Gehen Sie mit Daten in die nächste Entscheidung — oder mit einem Bauchgefühl, das später teuer wird?"
                 ];
                 const container = document.getElementById("heroRotator");
