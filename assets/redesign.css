@@ -649,8 +649,8 @@ a.post:hover { border-color:var(--indigo-200); box-shadow:var(--shadow); transfo
   .wrap, .nav-in { padding:0 var(--s5); }
   .section { padding:var(--s8) 0; }
   .section-lg { padding:var(--s8) 0; }
-  h1,.h1 { font-size:32px; }
-  h2,.h2 { font-size:26px; }
+  h1,.h1 { font-size:38px; }
+  h2,.h2 { font-size:30px; }
   .hero { padding:var(--s7) 0 var(--s7); }
   .hero .lede { font-size:17px; }
   .cc-stats { grid-template-columns:1fr; }
