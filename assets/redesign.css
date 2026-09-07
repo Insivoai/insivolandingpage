@@ -178,6 +178,15 @@ h4,.h4 { font-size:16px; font-weight:600; letter-spacing:-.01em;  line-height:1.
 .nav-link:hover { color:var(--black); background:var(--gray-100); }
 .nav-link[aria-current="page"] { color:var(--black); font-weight:600; }
 .nav-cta { margin-left:var(--s3); }
+
+/* ── Sprachumschalter ─────────────────────────────────────────── */
+.nav-lang { display:inline-flex; align-items:center; gap:2px; margin-left:var(--s4);
+  padding:3px; border:1px solid var(--gray-300); border-radius:2px; font-size:12px;
+  font-weight:600; letter-spacing:.04em; }
+.nav-lang b, .nav-lang a { display:block; padding:3px 7px; border-radius:1px; line-height:1; }
+.nav-lang b { background:var(--black); color:var(--white); font-weight:600; }
+.nav-lang a { color:var(--gray-600); text-decoration:none; transition:color .15s ease, background .15s ease; }
+.nav-lang a:hover { color:var(--black); background:var(--gray-100); }
 .nav-burger { display:none; margin-left:auto; padding:8px; background:none; border:0; cursor:pointer; color:var(--black); }
 
 /* Dropdown */
@@ -509,6 +518,8 @@ a.uc:hover .link-arrow span { transform:translateX(3px); }
 @media (max-width:640px) {
   /* Hero: nur die Beschriftungsgruppe groesser, das Layer-Label bleibt */
   .hero-diagram g[font-size="13"] text { font-size:19px; }
+  /* Die deutschen Beschriftungen sind laenger, bei 19 stossen sie aneinander */
+  html[lang="de"] .hero-diagram g[font-size="13"] text { font-size:16px; }
   .hero-diagram text[font-size="16"] { font-size:18px; }   /* Layer-Label, passt noch in das 260er Feld */
 
   /* At scale ist zu dicht zum Vergroessern -> seitlich schiebbar */
@@ -624,6 +635,7 @@ a.post:hover { border-color:var(--indigo-200); box-shadow:var(--shadow); transfo
   }
   .nav.open .nav-link { justify-content:space-between; padding:12px; min-height:44px; }
   .nav.open .nav-cta { margin-left:0; margin-top:var(--s3); }
+  .nav.open .nav-lang { margin-left:0; margin-top:var(--s3); align-self:flex-start; }
   .nav-dd { width:100%; }
   .nav-dd-menu { position:static; transform:none; opacity:1; visibility:visible; pointer-events:auto;
     display:none; min-width:0; box-shadow:none; border:0; border-radius:0; padding:0 0 0 var(--s3); }
