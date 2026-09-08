@@ -619,6 +619,18 @@ a.post:hover { border-color:var(--indigo-200); box-shadow:var(--shadow); transfo
   .section-head { grid-template-columns:1fr; row-gap:var(--s4); margin-bottom:var(--s7); }
   .hero > .wrap { grid-template-columns:1fr; row-gap:var(--s5); }
   .hero .lede, .hero-cta, .hero-note, .hero .hero-diagram { grid-column:1; grid-row:auto; }
+  /* Auf schmalen Schirmen zuerst das Diagramm, danach die Schaltflaechen */
+  .hero .hero-diagram { order:1; margin-top:var(--s5); }
+  .hero-cta { order:2; margin-top:var(--s6); }
+  .hero-note { order:3; }
+  /* Leiste: Wortmarke etwas groesser */
+  .nav-brand { font-size:22px; }
+  .spiral { width:34px; height:28px; }
+  .spiral i:nth-child(1){ width:34px; height:9px;   top:0; }
+  .spiral i:nth-child(2){ width:26px; height:7.4px; top:5.4px; }
+  .spiral i:nth-child(3){ width:19px; height:6.8px; top:10.2px; }
+  .spiral i:nth-child(4){ width:14px; height:5.7px; top:14.3px; }
+  .spiral i:nth-child(5){ width:9px;  height:4px;   top:17.7px; }
   .hero .lede { max-width:none; }
   .section-head > h2, .section-head > .lede { grid-column:1; }
   .cards, .grid3, .grid2, .stages { column-gap:var(--s6); row-gap:var(--s7); }
