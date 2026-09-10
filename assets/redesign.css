@@ -663,7 +663,11 @@ a.post:hover { border-color:var(--indigo-200); box-shadow:var(--shadow); transfo
   .section-lg { padding:var(--s8) 0; }
   h1,.h1 { font-size:38px; }
   h2,.h2 { font-size:30px; }
-  .hero { padding:var(--s7) 0 var(--s7); }
+  /* Handy: Text dichter unter die Leiste, sonst klafft oben eine Luecke */
+  .hero { padding:var(--s5) 0 var(--s7); }
+  /* Eyebrow: margin-bottom und row-gap addieren sich sonst zu 48px */
+  /* "The Execution Layer for Transformation" bricht bei 360px sonst um */
+  .hero .eyebrow { margin-bottom:0; font-size:10px; letter-spacing:.13em; }
   .hero .lede { font-size:17px; }
   .cc-stats { grid-template-columns:1fr; }
   .cc-body { padding:var(--s4); gap:var(--s4); }
@@ -955,3 +959,47 @@ a.post:hover { border-color:var(--indigo-200); box-shadow:var(--shadow); transfo
 @media (prefers-reduced-motion: reduce) { .signals { display:none; } }
 
 
+
+/* ── Startseite: heller Grund mit feinem Raster ──────────────────
+   Zwei Ebenen: nur das Raster braucht eine Maske, der Verlauf nicht.
+   Beide reichen um --nav-h nach oben unter die transparente
+   Navigation, sonst steht dort ein Streifen flaches --page. */
+.home .hero::before,
+.home .hero::after {
+  content:""; position:absolute; pointer-events:none;
+  top:calc(var(--nav-h) * -1); left:0; right:0; bottom:0;
+}
+
+/* Verlauf. Letzter Stop ist exakt --page, damit das Partnerband
+   direkt darunter nahtlos anschliesst. */
+.home .hero::before {
+  z-index:0;
+  background:
+    radial-gradient(72% 58% at 16% 4%,  rgba(148,133,240,.15), transparent 62%),
+    radial-gradient(58% 52% at 90% 26%, rgba(200,191,248,.22), transparent 64%),
+    linear-gradient(180deg, #FBFAFE 0%, #F7F5FD 40%, #F1F0F8 72%, var(--page) 100%);
+}
+
+/* Millimeterpapier. Die Maske laesst es zu den Raendern und nach
+   unten ausklingen, damit keine Rasterkante gegen --page steht. */
+.home .hero::after {
+  z-index:1;
+  background-image:
+    linear-gradient(90deg,  rgba(105,90,238,.075) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(105,90,238,.075) 1px, transparent 1px);
+  background-size:44px 44px;
+  background-position:center top;
+  -webkit-mask-image:radial-gradient(118% 92% at 50% 18%, #000 30%, rgba(0,0,0,.4) 66%, transparent 100%);
+          mask-image:radial-gradient(118% 92% at 50% 18%, #000 30%, rgba(0,0,0,.4) 66%, transparent 100%);
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+  -webkit-mask-size:100% 100%;   mask-size:100% 100%;
+}
+
+/* Die getoente Leiste ist auf das alte --page hartkodiert und
+   stuende sonst als grauer Balken auf dem hellen Hero-Kopf. */
+.home .nav.is-stuck { background:rgba(248,247,253,.85); }
+
+/* Auf schmalen Schirmen wirkt das 44er Raster unruhig. */
+@media (max-width:640px) {
+  .home .hero::after { background-size:32px 32px; }
+}
